@@ -18,7 +18,7 @@
     "code-runner.saveFileBeforeRun": true,
     "editor.fontVariations": false,
     "emmet.includeLanguages": {
-        "javascript": "javascriptreact"       
+        "javascript": "javascriptreact"
     },
     "emmet.triggerExpansionOnTab": true,
     "github.copilot.enable": {
@@ -37,4 +37,6 @@
     "workbench.colorTheme": "Catppuccin Mocha",
     "workbench.iconTheme": "catppuccin-macchiato",
     "settingsSync.ignoredSettings": [],
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.defaultProfile.linux": "Git Bash",
 }
