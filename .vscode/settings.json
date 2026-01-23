@@ -1,0 +1,40 @@
+{
+    "workbench.colorCustomizations": {
+        },
+    "editor.cursorBlinking": "phase",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "animations.Install-Method": "Custom UI Style",
+    "animations.Enabled": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.fontWeight": "bold",
+    "editor.fontLigatures": false,
+    "workbench.editor.empty.hint": "hidden",
+    "emmet.preferences": {
+    },
+    "python.analysis.completeFunctionParens": true,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.saveFileBeforeRun": true,
+    "editor.fontVariations": false,
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"       
+    },
+    "emmet.triggerExpansionOnTab": true,
+    "github.copilot.enable": {
+        "plaintext": true,
+        "markdown": true,
+        "scminput": true
+    },
+    "editor.quickSuggestions": {
+        "comments": "on",
+        "strings": "inline",
+    },
+    "workbench.activityBar.location": "top",
+    "workbench.sideBar.location": "right",
+    "window.menuBarVisibility": "compact",
+    "window.commandCenter": false,
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.iconTheme": "catppuccin-macchiato",
+    "settingsSync.ignoredSettings": [],
+}
