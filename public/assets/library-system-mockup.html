@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpustakaan SMKN 1 Sumedang - Mockup Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Version B - Optimized Color Palette */
+            --primary: #2B7A78;        /* Teal - warm, trustworthy */
+            --primary-light: #3AAFA9;  /* Lighter teal for hover */
+            --primary-dark: #17505E;   /* Darker teal for depth */
+            --accent: #DEF2F1;         /* Very light teal for cards */
+            --accent-warm: #FEFFDF;    /* Warm yellow for highlights */
+            --text-primary: #1A1A1A;   /* Almost black */
+            --text-secondary: #5A5A5A; /* Gray */
+            --background: #FAFAFA;     /* Off-white */
+            --card-bg: #FFFFFF;        /* Pure white for cards */
+            --success: #2ECC71;
+            --warning: #F39C12;
+            --danger: #E74C3C;
+            --shadow: rgba(43, 122, 120, 0.1);
+            --shadow-hover: rgba(43, 122, 120, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .mockup-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .mockup-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .mockup-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .mockup-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .color-palette {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .color-palette h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .color-item {
+            text-align: center;
+        }
+
+        .color-box {
+            height: 100px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .color-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .color-code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .comparison-note {
+            background: var(--accent);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .comparison-note h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .comparison-note ul {
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        .comparison-note li {
+            margin-bottom: 5px;
+        }
+
+        /* Screen Mockups */
+        .screen-section {
+            margin-bottom: 80px;
+        }
+
+        .screen-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .screen-description {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+        }
+
+        .screen-mockup {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px var(--shadow);
+            border: 1px solid #E8E8E8;
+        }
+
+        .screen-content {
+            min-height: 600px;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Landing Page */
+        .landing-content {
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .app-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 4px 20px var(--shadow-hover);
+        }
+
+        .app-logo svg {
+            width: 45px;
+            height: 45px;
+            fill: white;
+        }
+
+        .landing-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .landing-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .role-button {
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 40px 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 240px;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .role-button:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .role-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            transition: all 0.3s ease;
+        }
+
+        .role-button:hover .role-icon {
+            background: var(--primary);
+        }
+
+        .role-icon svg {
+            width: 35px;
+            height: 35px;
+            fill: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .role-button:hover .role-icon svg {
+            fill: white;
+        }
+
+        .role-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Main Menu (Siswa) */
+        .menu-content {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .menu-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 50px;
+        }
+
+        .menu-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 50px 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .menu-card-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover .menu-card-icon {
+            background: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .menu-card-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover .menu-card-icon svg {
+            fill: white;
+        }
+
+        .menu-card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .menu-card-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Peminjaman Flow */
+        .flow-content {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .flow-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .flow-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Step 1: Pilih Tingkat */
+        .grade-selection {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .grade-button {
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 35px 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .grade-button:hover,
+        .grade-button.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-hover);
+        }
+
+        .grade-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .grade-button:hover .grade-label,
+        .grade-button.active .grade-label {
+            color: white;
+        }
+
+        /* Step 2: Pilih Jurusan */
+        .major-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .major-button {
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            padding: 25px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px var(--shadow);
+            text-align: center;
+        }
+
+        .major-button:hover,
+        .major-button.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px var(--shadow-hover);
+        }
+
+        .major-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .major-button:hover .major-name,
+        .major-button.active .major-name {
+            color: white;
+        }
+
+        .major-code {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .major-button:hover .major-code,
+        .major-button.active .major-code {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Step 3: Semester */
+        .semester-selection {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .semester-button {
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            padding: 30px 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .semester-button:hover,
+        .semester-button.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px var(--shadow-hover);
+        }
+
+        .semester-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .semester-button:hover .semester-label,
+        .semester-button.active .semester-label {
+            color: white;
+        }
+
+        /* Book List */
+        .book-list {
+            background: var(--accent);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .book-list-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .book-item {
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .book-item:hover,
+        .book-item.selected {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--shadow-hover);
+        }
+
+        .book-item.selected {
+            background: var(--primary);
+        }
+
+        .book-code {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .book-item.selected .book-code {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .book-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.3;
+            transition: all 0.3s ease;
+        }
+
+        .book-item.selected .book-title {
+            color: white;
+        }
+
+        .book-stock {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .stock-available {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .book-item.selected .stock-available {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Student Table */
+        .student-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .student-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .student-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-button.select-all {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-button.select-all:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .action-button.clear-all {
+            background: var(--accent);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .action-button.clear-all:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .student-counter {
+            background: var(--accent-warm);
+            border-left: 4px solid var(--warning);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .counter-item {
+            font-size: 0.95rem;
+        }
+
+        .counter-label {
+            color: var(--text-secondary);
+            margin-right: 8px;
+        }
+
+        .counter-value {
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+        }
+
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .student-table thead {
+            background: var(--accent);
+        }
+
+        .student-table th {
+            padding: 15px;
+            text-align: left;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .student-table td {
+            padding: 15px;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .student-table tr:hover {
+            background: var(--accent);
+        }
+
+        .student-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .student-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow-hover);
+        }
+
+        .submit-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--shadow-hover);
+        }
+
+        .submit-button:disabled {
+            background: #CCCCCC;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success Modal */
+        .success-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+        }
+
+        .success-icon svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+
+        .success-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .success-details {
+            background: var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(43, 122, 120, 0.2);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .detail-value {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .back-button {
+            padding: 15px 40px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+
+            .menu-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .grade-selection {
+                flex-direction: column;
+            }
+
+            .semester-selection {
+                flex-direction: column;
+            }
+        }
+
+        .note-box {
+            background: var(--accent-warm);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .note-box h4 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .note-box ul {
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        .note-box li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-container">
+        <!-- Header -->
+        <div class="mockup-header">
+            <h1>📚 Mockup Design - Sistem Perpustakaan</h1>
+            <p>Aplikasi Peminjaman & Pengembalian Buku Paket SMKN 1 Sumedang</p>
+        </div>
+
+        <!-- Color Palette Section -->
+        <div class="color-palette">
+            <h2>🎨 Version B - Color Palette (Recommended)</h2>
+            <div class="color-grid">
+                <div class="color-item">
+                    <div class="color-box" style="background: #2B7A78;"></div>
+                    <div class="color-name">Primary</div>
+                    <div class="color-code">#2B7A78</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-box" style="background: #3AAFA9;"></div>
+                    <div class="color-name">Primary Light</div>
+                    <div class="color-code">#3AAFA9</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-box" style="background: #17505E;"></div>
+                    <div class="color-name">Primary Dark</div>
+                    <div class="color-code">#17505E</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-box" style="background: #DEF2F1;"></div>
+                    <div class="color-name">Accent</div>
+                    <div class="color-code">#DEF2F1</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-box" style="background: #FEFFDF;"></div>
+                    <div class="color-name">Accent Warm</div>
+                    <div class="color-code">#FEFFDF</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-box" style="background: #FAFAFA;"></div>
+                    <div class="color-name">Background</div>
+                    <div class="color-code">#FAFAFA</div>
+                </div>
+            </div>
+
+            <div class="comparison-note">
+                <h3>✨ Kenapa Version B Lebih Baik?</h3>
+                <ul>
+                    <li><strong>Kontras lebih optimal:</strong> Text hitam (#1A1A1A) di background putih (#FAFAFA) = ratio 19.5:1 (excellent!)</li>
+                    <li><strong>Primary yang lebih hidup:</strong> Teal (#2B7A78) terasa warm, trustworthy, dan cocok untuk institusi pendidikan</li>
+                    <li><strong>Accent yang fungsional:</strong> Light teal (#DEF2F1) untuk card & section, warm yellow (#FEFFDF) untuk highlight</li>
+                    <li><strong>Hierarki yang jelas:</strong> 3 level primary (dark, normal, light) untuk depth & hover states</li>
+                    <li><strong>Background terang:</strong> Off-white (#FAFAFA) lebih nyaman untuk self-service di perpustakaan</li>
+                    <li><strong>Profesional tapi approachable:</strong> Tidak terlalu formal, cocok untuk siswa SMK</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Screen 1: Landing Page -->
+        <div class="screen-section">
+            <h2 class="screen-title">1️⃣ Landing Page</h2>
+            <p class="screen-description">Halaman pertama ketika aplikasi dibuka - pilih role: Siswa atau Petugas</p>
+            
+            <div class="screen-mockup">
+                <div class="screen-content">
+                    <div class="landing-content">
+                        <div class="app-logo">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+                            </svg>
+                        </div>
+                        <h1 class="landing-title">PERPUSTAKAAN<br>SMKN 1 SUMEDANG</h1>
+                        <p class="landing-subtitle">Silahkan pilih untuk melanjutkan sebagai Siswa atau Petugas</p>
+                        
+                        <div class="button-group">
+                            <div class="role-button">
+                                <div class="role-icon">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                        <path d="M16.5 12.5l-1.09 2.41L13 16l2.41 1.09L16.5 19.5l1.09-2.41L20 16l-2.41-1.09z"/>
+                                    </svg>
+                                </div>
+                                <div class="role-label">Siswa</div>
+                            </div>
+                            
+                            <div class="role-button">
+                                <div class="role-icon">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                        <circle cx="17.5" cy="17.5" r="2.5"/>
+                                        <path d="M17.5 13c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                    </svg>
+                                </div>
+                                <div class="role-label">Petugas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <h4>💡 Design Notes:</h4>
+                <ul>
+                    <li>Clean & minimal untuk menghindari confusion</li>
+                    <li>Icon yang jelas membedakan Siswa vs Petugas</li>
+                    <li>Large touch target (240px) untuk kemudahan klik</li>
+                    <li>Hover effect dengan elevation untuk feedback</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Screen 2: Main Menu Siswa -->
+        <div class="screen-section">
+            <h2 class="screen-title">2️⃣ Halaman Utama Siswa</h2>
+            <p class="screen-description">Pilih aksi: Peminjaman atau Pengembalian buku</p>
+            
+            <div class="screen-mockup">
+                <div class="screen-content">
+                    <div class="menu-content">
+                        <h1 class="menu-title">Perpustakaan</h1>
+                        
+                        <div class="menu-buttons">
+                            <div class="menu-card">
+                                <div class="menu-card-icon">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="menu-card-title">Peminjaman</h3>
+                                <p class="menu-card-desc">Pinjam buku paket sesuai kelas</p>
+                            </div>
+                            
+                            <div class="menu-card">
+                                <div class="menu-card-icon">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="menu-card-title">Pengembalian</h3>
+                                <p class="menu-card-desc">Kembalikan buku yang dipinjam</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <h4>💡 Design Notes:</h4>
+                <ul>
+                    <li>2-column grid untuk balance visual</li>
+                    <li>Top bar accent (gradient line) muncul saat hover untuk visual interest</li>
+                    <li>Icon + text untuk clarity</li>
+                    <li>Description membantu user yang baru pertama kali pakai</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Screen 3: Peminjaman - Step 1 (Pilih Tingkat) -->
+        <div class="screen-section">
+            <h2 class="screen-title">3️⃣ Halaman Peminjaman - Step 1</h2>
+            <p class="screen-description">Pilih tingkat kelas (X, XI, XII)</p>
+            
+            <div class="screen-mockup">
+                <div class="screen-content">
+                    <div class="flow-content">
+                        <div class="flow-header">
+                            <div class="flow-step">Step 1 of 4</div>
+                            <h2 class="flow-title">Pilih Tingkat</h2>
+                        </div>
+                        
+                        <div class="grade-selection">
+                            <div class="grade-button">
+                                <div class="grade-label">X</div>
+                            </div>
+                            <div class="grade-button active">
+                                <div class="grade-label">XI</div>
+                            </div>
+                            <div class="grade-button">
+                                <div class="grade-label">XII</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <h4>💡 Design Notes:</h4>
+                <ul>
+                    <li>Large buttons dengan clear typography (Outfit font, 2.5rem)</li>
+                    <li>Active state dengan background color change + elevation</li>
+                    <li>Step indicator membantu user tracking progress</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Screen 4: Peminjaman - Step 2 (Pilih Jurusan) -->
+        <div class="screen-section">
+            <h2 class="screen-title">4️⃣ Halaman Peminjaman - Step 2</h2>
+            <p class="screen-description">Pilih jurusan setelah memilih tingkat</p>
+            
+            <div class="screen-mockup">
+                <div class="screen-content">
+                    <div class="flow-content">
+                        <div class="flow-header">
+                            <div class="flow-step">Step 2 of 4</div>
+                            <h2 class="flow-title">Pilih Jurusan</h2>
+                        </div>
+                        
+                        <div class="major-selection">
+                            <div class="major-button">
+                                <div class="major-name">DPIB I</div>
+                                <div class="major-code">Kuning</div>
+                            </div>
+                            <div class="major-button">
+                                <div class="major-name">DPIB II</div>
+                                <div class="major-code">Kuning</div>
+                            </div>
+                            <div class="major-button active">
+                                <div class="major-name">DPIB III</div>
+                                <div class="major-code">Kuning</div>
+                            </div>
+                            <div class="major-button">
+                                <div class="major-name">TEI I</div>
+                                <div class="major-code">Merah</div>
+                            </div>
+                            <div class="major-button">
+                                <div class="major-name">TEI II</div>
+                                <div class="major-code">Merah</div>
+                            </div>
+                            <div class="major-button">
+                                <div class="major-name">TEI III</div>
+                                <div class="major-code">Merah</div>
+                            </div>
+                            <div class="major-button">
+                                <div class="major-name">TITL I</div>
+                                <div class="major-code">Oranye</div>
+                            </div>
+                            <div class="major-button">
+                                <div class="major-name">TITL II</div>
+                                <div class="major-code">Oranye</div>
+                            </div>
+                            <div class="major-button">
+                                <div class="major-name">TITL III</div>
+                                <div class="major-code">Oranye</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <h4>💡 Design Notes:</h4>
+                <ul>
+                    <li>Grid layout yang responsive (auto-fit, minmax)</li>
+                    <li>Color code membantu identifikasi visual (bisa diganti dengan actual colors nanti)</li>
+                    <li>Consistent hover & active states</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Screen 5: Peminjaman - Step 3 (Pilih Semester) -->
+        <div class="screen-section">
+            <h2 class="screen-title">5️⃣ Halaman Peminjaman - Step 3</h2>
+            <p class="screen-description">Pilih semester (Ganjil/Genap)</p>
+            
+            <div class="screen-mockup">
+                <div class="screen-content">
+                    <div class="flow-content">
+                        <div class="flow-header">
+                            <div class="flow-step">Step 3 of 4</div>
+                            <h2 class="flow-title">Pilih Semester</h2>
+                        </div>
+                        
+                        <div class="semester-selection">
+                            <div class="semester-button active">
+                                <div class="semester-label">Ganjil</div>
+                            </div>
+                            <div class="semester-button">
+                                <div class="semester-label">Genap</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 6: Peminjaman - Step 4 (Daftar Buku & Siswa) -->
+        <div class="screen-section">
+            <h2 class="screen-title">6️⃣ Halaman Peminjaman - Step 4</h2>
+            <p class="screen-description">Pilih buku, lalu pilih siswa yang akan meminjam</p>
+            
+            <div class="screen-mockup">
+                <div class="screen-content" style="padding: 40px;">
+                    <div class="flow-content">
+                        <div class="flow-header">
+                            <div class="flow-step">Step 4 of 4</div>
+                            <h2 class="flow-title">Pilih Buku & Siswa</h2>
+                        </div>
+                        
+                        <!-- Book List -->
+                        <div class="book-list">
+                            <div class="book-list-header">📚 Daftar Buku Tersedia</div>
+                            <div class="book-grid">
+                                <div class="book-item">
+                                    <div class="book-code">MAT-XI-G</div>
+                                    <div class="book-title">Matematika Kelas XI Semester Ganjil</div>
+                                    <div class="book-stock">
+                                        <span class="stock-available">✓ Tersedia</span>
+                                        <span>28 buku</span>
+                                    </div>
+                                </div>
+                                <div class="book-item selected">
+                                    <div class="book-code">FIS-XI-G</div>
+                                    <div class="book-title">Fisika Kelas XI Semester Ganjil</div>
+                                    <div class="book-stock">
+                                        <span class="stock-available">✓ Tersedia</span>
+                                        <span>32 buku</span>
+                                    </div>
+                                </div>
+                                <div class="book-item">
+                                    <div class="book-code">BHS-XI-G</div>
+                                    <div class="book-title">Bahasa Indonesia Kelas XI</div>
+                                    <div class="book-stock">
+                                        <span class="stock-available">✓ Tersedia</span>
+                                        <span>25 buku</span>
+                                    </div>
+                                </div>
+                                <div class="book-item">
+                                    <div class="book-code">ENG-XI-G</div>
+                                    <div class="book-title">English for SMK Grade XI</div>
+                                    <div class="book-stock">
+                                        <span class="stock-available">✓ Tersedia</span>
+                                        <span>30 buku</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Student Table -->
+                        <div class="student-section">
+                            <div class="student-header">
+                                <div class="student-title">Daftar Siswa - DPIB III Kelas XI</div>
+                                <div class="table-actions">
+                                    <button class="action-button select-all">Pilih Semua</button>
+                                    <button class="action-button clear-all">Batalkan Semua</button>
+                                </div>
+                            </div>
+                            
+                            <div class="student-counter">
+                                <div class="counter-item">
+                                    <span class="counter-label">Dipilih:</span>
+                                    <span class="counter-value">3 Siswa</span>
+                                </div>
+                                <div class="counter-item">
+                                    <span class="counter-label">Sisa Stok:</span>
+                                    <span class="counter-value">29 buku</span>
+                                </div>
+                            </div>
+                            
+                            <table class="student-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50px;"></th>
+                                        <th style="width: 70px;">No</th>
+                                        <th>Nama Siswa</th>
+                                        <th style="width: 150px;">NIS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" class="student-checkbox" checked></td>
+                                        <td>1</td>
+                                        <td class="student-name">Ahmad Fauzi</td>
+                                        <td>2023001</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="student-checkbox" checked></td>
+                                        <td>2</td>
+                                        <td class="student-name">Siti Nurhaliza</td>
+                                        <td>2023002</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="student-checkbox" checked></td>
+                                        <td>3</td>
+                                        <td class="student-name">Budi Santoso</td>
+                                        <td>2023003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="student-checkbox"></td>
+                                        <td>4</td>
+                                        <td class="student-name">Dewi Anggraini</td>
+                                        <td>2023004</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="student-checkbox"></td>
+                                        <td>5</td>
+                                        <td class="student-name">Rizky Ramadhan</td>
+                                        <td>2023005</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <button class="submit-button">Konfirmasi Peminjaman</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <h4>💡 Design Notes:</h4>
+                <ul>
+                    <li>Book grid dengan selected state yang clear (background color change)</li>
+                    <li>Counter real-time untuk tracking jumlah siswa & stok</li>
+                    <li>Table dengan hover state untuk better readability</li>
+                    <li>Bulk actions (Pilih Semua / Batalkan Semua) untuk efficiency</li>
+                    <li>Large submit button di bottom untuk clear CTA</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Screen 7: Success Modal -->
+        <div class="screen-section">
+            <h2 class="screen-title">7️⃣ Modal Sukses Peminjaman</h2>
+            <p class="screen-description">Konfirmasi setelah peminjaman berhasil</p>
+            
+            <div class="screen-mockup">
+                <div class="screen-content" style="background: rgba(0,0,0,0.3);">
+                    <div class="success-modal">
+                        <div class="success-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                        </div>
+                        <h2 class="success-title">Peminjaman Berhasil!</h2>
+                        <p class="success-message">Buku telah berhasil dipinjamkan kepada siswa yang dipilih.</p>
+                        
+                        <div class="success-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Buku</span>
+                                <span class="detail-value">Fisika Kelas XI</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Kelas</span>
+                                <span class="detail-value">DPIB III - XI</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Jumlah Siswa</span>
+                                <span class="detail-value">3 Siswa</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Tanggal</span>
+                                <span class="detail-value">23 Januari 2026</span>
+                            </div>
+                        </div>
+                        
+                        <button class="back-button">Kembali ke Menu</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <h4>💡 Design Notes:</h4>
+                <ul>
+                    <li>Success icon dengan green color untuk positive feedback</li>
+                    <li>Summary details untuk konfirmasi aksi</li>
+                    <li>Modal dengan overlay untuk focus</li>
+                    <li>Single CTA button untuk next action</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Final Notes -->
+        <div class="color-palette" style="margin-top: 60px;">
+            <h2>📝 Catatan Akhir untuk Implementasi</h2>
+            <div class="comparison-note">
+                <h3>🎯 Hal-hal Penting:</h3>
+                <ul>
+                    <li><strong>Font:</strong> Outfit (headings) + Inter (body) - kedua font gratis dari Google Fonts</li>
+                    <li><strong>Spacing:</strong> Consistent 8px grid system (8, 16, 24, 32, 40px)</li>
+                    <li><strong>Border Radius:</strong> 12-20px untuk cards, 8-10px untuk buttons</li>
+                    <li><strong>Shadow:</strong> Subtle elevation dengan teal-tinted shadow (rgba(43, 122, 120, 0.1))</li>
+                    <li><strong>Accessibility:</strong> Semua text contrast ratio > 4.5:1 (WCAG AA compliant)</li>
+                    <li><strong>Hover States:</strong> translateY(-4px to -8px) + increased shadow untuk feedback</li>
+                    <li><strong>Animations:</strong> transition: all 0.3s ease untuk smooth interactions</li>
+                </ul>
+                
+                <h3 style="margin-top: 20px;">🚀 Next Steps:</h3>
+                <ul>
+                    <li>Halaman Pengembalian (mirip flow Peminjaman, tapi filter siswa yang belum return)</li>
+                    <li>Halaman Admin/Petugas (dashboard, data siswa, data buku, laporan)</li>
+                    <li>Error states (stok habis, connection error, dll)</li>
+                    <li>Loading states (skeleton screens, spinners)</li>
+                    <li>Responsive breakpoints untuk tablet jika diperlukan</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
