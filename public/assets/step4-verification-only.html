@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 4 - Verifikasi NIS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Color Palette */
+            --primary: #2B7A78;
+            --primary-light: #3AAFA9;
+            --primary-dark: #17505E;
+            --accent: #DEF2F1;
+            --text-primary: #1A1A1A;
+            --text-secondary: #5A5A5A;
+            --background: #FAFAFA;
+            --card-bg: #FFFFFF;
+            --danger: #E74C3C;
+            --shadow: rgba(43, 122, 120, 0.1);
+            --shadow-hover: rgba(43, 122, 120, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Flow Container */
+        .flow-content {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        /* Flow Header */
+        .flow-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .flow-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        /* Verification Form */
+        .verification-form {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 4px 25px var(--shadow);
+        }
+
+        .verification-info {
+            background: var(--accent);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            width: 32px;
+            height: 32px;
+            fill: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .verification-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .verification-text strong {
+            color: var(--primary-dark);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            display: block;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .required {
+            color: var(--danger);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 1.05rem;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            background: var(--background);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(43, 122, 120, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #999;
+        }
+
+        .verify-button {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow-hover);
+            margin-top: 10px;
+        }
+
+        .verify-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--shadow-hover);
+        }
+
+        .verify-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Error States */
+        .error-alert {
+            background: #FFF5F5;
+            border: 2px solid var(--danger);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .error-icon {
+            width: 28px;
+            height: 28px;
+            fill: var(--danger);
+            flex-shrink: 0;
+        }
+
+        .error-content {
+            flex: 1;
+        }
+
+        .error-content strong {
+            display: block;
+            color: var(--danger);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .error-content p {
+            color: #C53030;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .error-input {
+            border-color: var(--danger);
+            background: #FFF5F5;
+        }
+
+        .error-input:focus {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .verification-form {
+                padding: 30px 25px;
+            }
+
+            .flow-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Hidden class for toggling error state */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="flow-content">
+        <div class="flow-header">
+            <div class="flow-step">Step 4 of 5</div>
+            <h2 class="flow-title">Verifikasi Siswa</h2>
+        </div>
+        
+        <!-- ============================================ -->
+        <!-- NORMAL STATE (Default) -->
+        <!-- ============================================ -->
+        <div class="verification-form" id="normalForm">
+            <div class="verification-info">
+                <svg class="info-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+                <p class="verification-text">
+                    Untuk melanjutkan, silahkan masukkan <strong>2 Nomor Induk Siswa (NIS)</strong> dari kelas <strong>DPIB III - Kelas XI - Semester Ganjil</strong>
+                </p>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">NIS Siswa Pertama <span class="required">*</span></label>
+                <input type="text" class="form-input" id="nis1" placeholder="Masukkan NIS (10-12 digit)" maxlength="12">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">NIS Siswa Kedua <span class="required">*</span></label>
+                <input type="text" class="form-input" id="nis2" placeholder="Masukkan NIS (10-12 digit)" maxlength="12">
+            </div>
+            
+            <button class="verify-button" onclick="showError()">Verifikasi & Lanjutkan</button>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ERROR STATE (with error alert) -->
+        <!-- ============================================ -->
+        <div class="verification-form hidden" id="errorForm">
+            <div class="verification-info">
+                <svg class="info-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+                <p class="verification-text">
+                    Untuk melanjutkan, silahkan masukkan <strong>2 Nomor Induk Siswa (NIS)</strong> dari kelas <strong>DPIB III - Kelas XI - Semester Ganjil</strong>
+                </p>
+            </div>
+            
+            <!-- Error Alert -->
+            <div class="error-alert">
+                <svg class="error-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <div class="error-content">
+                    <strong>Data siswa tidak ditemukan</strong>
+                    <p>Data siswa tidak ditemukan di kelas XI - DPIB III, silahkan masukkan data yang sesuai.</p>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">NIS Siswa Pertama <span class="required">*</span></label>
+                <input type="text" class="form-input error-input" id="nis1Error" value="20230999" maxlength="12">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">NIS Siswa Kedua <span class="required">*</span></label>
+                <input type="text" class="form-input error-input" id="nis2Error" value="20231234" maxlength="12">
+            </div>
+            
+            <button class="verify-button" onclick="showNormal()">Verifikasi & Lanjutkan</button>
+        </div>
+    </div>
+
+    <script>
+        // Simple toggle function untuk demo (kamu bisa hapus ini nanti saat implementasi)
+        function showError() {
+            document.getElementById('normalForm').classList.add('hidden');
+            document.getElementById('errorForm').classList.remove('hidden');
+        }
+
+        function showNormal() {
+            document.getElementById('errorForm').classList.add('hidden');
+            document.getElementById('normalForm').classList.remove('hidden');
+        }
+
+        // Optional: Input validation untuk hanya accept angka
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+    </script>
+</body>
+</html>
