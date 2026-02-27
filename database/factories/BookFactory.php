@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Major;
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,15 +18,16 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
+        $totalStock = fake()->numberBetween(10, 100);
         return [
-            'book_code',
-            'title',
-            'subject_id',
-            'major_id',
-            'grade',
-            'semester',
-            'total_stock',
-            'remaining_stock'
+            'book_code'       => null,
+            'title'           => fake()->sentence(4),
+            'subject_id'      => Subject::factory(),
+            'major_id'        => Major::factory(),
+            'grade'           => fake()->randomElement(['10', '11', '12']),
+            'semester'        => fake()->randomElement(['odd', 'even']),
+            'total_stock'     => $totalStock,
+            'remaining_stock' => fake()->numberBetween(0, $totalStock),
         ];
     }
 }
