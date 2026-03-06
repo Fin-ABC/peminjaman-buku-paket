@@ -22,6 +22,8 @@ class BookSeeder extends Seeder
             ->recycle($subjects)
             ->recycle($majors)
             ->afterCreating(function (Book $book) {
+                $book->load('subject', 'major');
+
                 $subjectCode = $book->subject->subject_code;
                 $majorCode   = $book->major->major_code;
                 $semester    = $book->semester === 'odd' ? '1' : '2';

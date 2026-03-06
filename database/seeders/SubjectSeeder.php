@@ -15,13 +15,15 @@ class SubjectSeeder extends Seeder
     {
         DB::table('subjects')->insert(
             [
-                'subject_code' => 'SEJ',
-                'subject_name' => 'Sejarah'
-            ],
-            [
-                'subject_code' => 'MAT',
-                'subject_name' => 'Matematika'
-            ],
+                [
+                    'subject_code' => 'SEJ',
+                    'subject_name' => 'Sejarah'
+                ],
+                [
+                    'subject_code' => 'MAT',
+                    'subject_name' => 'Matematika'
+                ],
+            ]
         );
     }
 }

@@ -15,16 +15,18 @@ class MajorSeeder extends Seeder
     {
         DB::table('majors')->insert(
             [
-                'major_code' => 'RPL',
-                'major_name' => 'Rekayasa Perangkat Lunak'
-            ],
-            [
-                'major_code' => 'TKJ',
-                'major_name' => 'Teknik Komputer dan Jaringan'
-            ],
-            [
-                'major_code' => 'SK',
-                'major_name' => 'Seni Karawitan'
+                [
+                    'major_code' => 'RPL',
+                    'major_name' => 'Rekayasa Perangkat Lunak'
+                ],
+                [
+                    'major_code' => 'TKJ',
+                    'major_name' => 'Teknik Komputer dan Jaringan'
+                ],
+                [
+                    'major_code' => 'SK',
+                    'major_name' => 'Seni Karawitan'
+                ]
             ]
         );
     }
