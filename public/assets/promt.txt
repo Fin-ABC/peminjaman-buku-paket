@@ -1,0 +1,38 @@
+TABEL: siswa
+
+STRUKTUR DATABASE:
+- id (INT, PK, AUTO_INCREMENT)
+- nis (VARCHAR(12), UNIQUE)
+- nama_siswa (VARCHAR(255))
+- id_kelas (INT, FK ke kelas.id_kelas)
+- angkatan (INT)
+- status (ENUM: aktif, lulus, pindah, dropout)
+- created_at, updated_at
+
+MODEL: Siswa (sudah dibuat / belum dibuat)
+
+RELASI:
+- belongsTo Kelas (via id_kelas)
+
+FITUR CRUD:
+CREATE:
+- Form: nis, nama_siswa, pilih kelas (dropdown), angkatan, status (dropdown)
+- Validasi: NIS harus unik, 10-12 digit
+
+READ:
+- Tabel kolom: No, NIS, Nama, Kelas, Angkatan, Status, Aksi
+- Filter: berdasarkan kelas, status, angkatan
+- Search: nama dan NIS
+- Pagination: 25 per halaman
+
+UPDATE:
+- Bisa edit semua field kecuali NIS (read-only)
+
+DELETE:
+- Soft delete (data tidak benar-benar dihapus, cuma status jadi deleted_at)
+
+FITUR TAMBAHAN:
+- Import dari Excel
+- Export ke Excel dan PDF
+- Bulk delete
+- Badge warna: aktif (hijau), lulus (biru), pindah (kuning), dropout (merah)
