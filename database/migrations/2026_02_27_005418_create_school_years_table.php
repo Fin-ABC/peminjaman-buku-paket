@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('school_years', function (Blueprint $table) {
             $table->id();
-            $table->string('year_name')->comment('2025/2026');
+            $table->string('year_name')->unique()->comment('2025/2026');
             $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
