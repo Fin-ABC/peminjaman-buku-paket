@@ -29,7 +29,23 @@ class SchoolYear extends Model
         });
     }
 
-    public function hasRelatedData(): bool{
-        return false;
+    public function hasRelatedData(): bool
+    {
+        return $this->classes()->exists() ||
+            $this->transaction()->exists() ||
+            $this->student()->exists();
+    }
+
+    public function classes()
+    {
+        return $this->hasMany(Classes::class, 'year_id');
+    }
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'year_id');
+    }
+    public function student()
+    {
+        return $this->hasMany(Student::class, 'year_id');
     }
 }
