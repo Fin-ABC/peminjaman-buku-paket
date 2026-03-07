@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('majors', function (Blueprint $table) {
             $table->id();
-            $table->string('major_code')->comment('RPL');
-            $table->string('major_name')->comment('Rekayasa Perangkat Lunak');
+            $table->string('major_code')->unique()->comment('RPL');
+            $table->string('major_name')->unique()->comment('Rekayasa Perangkat Lunak');
             $table->timestamps();
         });
     }
