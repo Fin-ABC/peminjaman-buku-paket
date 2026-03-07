@@ -36,3 +36,44 @@ FITUR TAMBAHAN:
 - Export ke Excel dan PDF
 - Bulk delete
 - Badge warna: aktif (hijau), lulus (biru), pindah (kuning), dropout (merah)
+
+
+Kelola Tahun Ajaran (tahun_ajaran)
+Kelola Jurusan (jurusan)
+Kelola Mata Pelajaran (mata_pelajaran)
+Kelola Kelas (kelas)
+Kelola Siswa (siswa) - ini yang paling kompleks karena ada relasi
+Kelola Buku (buku)
+
+
+Oke sekarang kita lanjut ke halaman selanjutnya
+
+Tabel : school_years
+
+Struktur tabel:
+
+Model : SchoolYear
+
+Fitur CRUD:
+CREATE:
+Form: year_name, formatnya itu 2025/2026, bisa gk dibuatkan 2 textbox, satu untuk 2025(tahun awal), satu lagi 2026(tahun akhir), lalu diantara kedua textbox tersebut ada simbol "/" garis miring.
+Validasi: year_name harus unik, kedua textbox wajib diisi.
+
+READ:
+ - Tabel Kolom: No, Nama Tahun (year_name), Active (is_active), untuk is_active tolong dibuatkan toggle buat ngatur tahun mana yg bakal active. Cuman ada 1 tahun/data yg is_active = true. Kalo mau set 'true' record lain disaat sudah ada yg active/true, maka akan muncul card/pop-up notification untuk konfirmasi apakah yakin mau mengubah tahun yg aktif, jika user setuju, tahun aktif yg lama diubah statusnya jadi false, sedangkan tahun yg baru diubah statusnya jadi true.
+ - Filter: berdasarkan year_name dan status
+ - Search: year_name
+ - Pagination: 10 per halaman
+
+UPDATE:
+ - Bisa edit semua field, ganti year_name dan is_active. Untuk is_active sama yg udh aku jelasin di bgian Read:Tabel Kolom, Kalo mau set 'true' record lain disaat sudah ada yg active/true, maka akan muncul card/pop-up notification untuk konfirmasi apakah yakin mau mengubah tahun yg aktif, jika user setuju, tahun aktif yg lama diubah statusnya jadi false, sedangkan tahun yg baru diubah statusnya jadi true.
+Delete:
+ - Delete ya, langsung ilang.
+ - Sebelum menghapus harus ada validasi, 2 KALI, karena kalo data ini dihaps bakal ngaruh ke tabel lain yg kemungkinan data di tabel lain bakal terhapus.
+ - Validasi 1: Cuman konfirmasi iya/tidak, dengan teks, "Apakah anda yakin ingin menghapus data tersebut?" Kalo bisa teksnya sesuain lagi, sama ditambah teks peringatan apa yg bakal terjadi kalo data ini dihapus.
+ - Validasi 2: Agar bisa melanjutkan penghapusan data penting ini, user harus memasukan email dan password lagi, kalo sesuai, ini bakal langsung terhapus, biar gk ada orang iseng yg nyoba2 ngehapus data ini
+ - Jika memungkinkan, validasi kedua cuman akan muncul jika memang ada data dari tabel lain yg terhubung dengan tahun yg dipilih. Tapi kalo tahun yg dipilih emang gk dipake, Validasi 2 gk bakal muncul. Ini biar kalo admin gk sengaja bikin tahun yg salah, bisa langsung dihapus, gk perlu repot  validasi 2 kalo, toh datanya juga kosong.
+
+Fitur tambahan:
+ - Jangan ada 'Bulk Delete' wajib satu2
+ - Badge warna: Hijau dengan simbol centang jika status true, jika false Merah dengan simbol silang
