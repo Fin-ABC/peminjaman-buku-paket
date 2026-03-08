@@ -18,7 +18,6 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
-        $totalStock = fake()->numberBetween(10, 100);
         return [
             'book_code'       => null,
             'title'           => fake()->sentence(4),
@@ -26,7 +25,7 @@ class BookFactory extends Factory
             'major_id'        => Major::factory(),
             'grade'           => fake()->randomElement(['10', '11', '12']),
             'semester'        => fake()->randomElement(['odd', 'even']),
-            'total_stock'     => $totalStock,
+            'total_stock'     => $totalStock = fake()->numberBetween(10, 100),
             'remaining_stock' => fake()->numberBetween(0, $totalStock),
         ];
     }
