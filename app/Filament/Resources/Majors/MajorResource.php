@@ -181,13 +181,13 @@ class MajorResource extends Resource
                             }
                         }
 
-                        $yearName = $record->year_name;
+                        $majorName = $record->major_name;
                         $record->delete();
 
                         Notification::make()
                             ->success()
-                            ->title('Tahun Ajaran Dihapus')
-                            ->body("Tahun ajaran {$yearName} berhasil dihapus.")
+                            ->title('Jurusan Dihapus')
+                            ->body("Jurusan {$majorName} berhasil dihapus.")
                             ->send();
                     }),
             ])
