@@ -10,6 +10,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Log;
 
 class BookForm
 {
@@ -55,6 +56,8 @@ class BookForm
                                     $set('grade_10', false);
                                     $set('grade_12', false);
                                     $set('grade', '11');
+
+                                    Log::info("Grade 11 clicked, setting grade to: 11");
                                 }
                             }),
 
@@ -70,9 +73,11 @@ class BookForm
                             }),
 
                         TextInput::make('grade')
-                            ->label('Tingkat (Hidden)')
-                            ->hidden()
+                            // ->label('Tingkat (hidden)')
+                            ->hiddenLabel()
+                             ->extraAttributes(['class' => 'hidden'])
                             ->dehydrated()
+                            ->disabled()
                             ->required(),
                     ]),
                 Grid::make(3)
@@ -99,7 +104,7 @@ class BookForm
 
                         TextInput::make('semester')
                             ->label('Semester (Hidden)')
-                            ->hidden()
+                            ->disabled()
                             ->dehydrated()
                             ->required(),
                     ]),
