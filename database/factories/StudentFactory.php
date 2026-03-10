@@ -22,7 +22,6 @@ class StudentFactory extends Factory
             'nis'           => fake()->unique()->nik(),
             'student_name'  => fake()->name(),
             'class_id'      => Classes::factory(),
-            'entry_year_id' => SchoolYear::factory(),
             'status'        => 'active',
         ];
     }

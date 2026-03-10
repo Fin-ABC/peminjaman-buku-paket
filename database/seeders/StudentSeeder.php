@@ -21,13 +21,11 @@ class StudentSeeder extends Seeder
         Student::factory(34)
             ->state(['status' => 'active'])
             ->recycle($classes)
-            ->recycle($schoolYears)
             ->create();
 
         Student::factory(34)
             ->state(['status' => 'graduated'])
             ->recycle($classes)
-            ->recycle($schoolYears)
             ->create();
     }
 }

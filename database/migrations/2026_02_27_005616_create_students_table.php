@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nis')->unique();
             $table->string('student_name');
             $table->foreignId("class_id")->constrained('classes', 'id')->cascadeOnDelete()->cascadeOnUpdate();
-            // $table->foreignId("entry_year_id")->constrained('school_years', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('status', ['active', 'graduated', 'move', 'dropout'])->default('active');
             $table->timestamps();
         });
