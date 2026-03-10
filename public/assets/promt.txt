@@ -77,3 +77,137 @@ Delete:
 Fitur tambahan:
  -  Untuk Bulk Delete, sistem hapusnya sama kayak Delete biasa, harus ada validasi 2 kali.
  - Badge warna: Hijau dengan simbol centang jika status true, jika false Merah dengan simbol silang
+
+Bisaaa, crudnya jalan semua. Mari kita lanjut ke halaman selanjutnya.
+
+
+
+Tabel: transactions
+
+
+
+Stuktur Tabel:
+
+
+
+```php
+
+Schema::create('transactions', function (Blueprint $table) {
+
+            $table->id();
+
+            $table->foreignId('book_id')->constrained('books', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->foreignId('class_id')->constrained('classes', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->foreignId('year_id')->constrained('school_years', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->enum('semester', ['even', 'odd']);
+
+            $table->date('transaction_date');
+
+            $table->boolean('is_all_returned')->default(0);
+
+            $table->timestamps();
+
+        });
+
+```
+
+
+
+Model: Transaction
+
+
+
+Fitur CRUD:
+
+CREATE:
+
+* Form: Buku (book_id), Kelas (class_id), Tahun Ajaran (year_id, deafult: tahun yg aktif), semester, Tanggal Transaksi (transaction_date, default: Waktu sekarang), Kembali Semua (is_all_returned, default sudah).
+
+* Buku, Kelas, dan Tahun Ajaran isi datanya sama, yaitu ngambil dari tabel lain. books untuk Buku, classes untuk Kelas, school_years untuk Tahun Ajaran. Ini dalam bentuk drop down.
+
+* Khusus untuk Buku, pilihannya baru akan muncul jika admin sudah memilih Kelas, ini agar hanya buku-buku khusus kelas yg dipilih yg bisa dipinjam oleh para siswa dari kelas tersebut.
+
+* Untuk Kembali Semua, ini maksudnya apakah buku yg dipinjam kelas ini sudah dikembalian semua, soalnya yg pinjem 1 kelas, jadi ada kemungkinan beberapa murid belum mengembalikan bukunya.
+
+* Untuk transaksi ini sebenarnya ada 2 tabel, yaitu transactions (yg sedang aku bahas sekarang) ini gunanya untuk mencatat peminjaman per kelas, lalu ada satu lagi yaitu transaction_details (yg akan dibahas nanti) yg gunanya untuk mencatan peminjaman per siswa. Jika semua data siswa di transaction_details dari kelas Ayam sudah mengembalikan buku, maka 'is_all_returned' di tabel transactions akan otomatis jadi true. Jika 'is_all_returned' yg awalnya true diubah jadi false, maka semua data siswa kelas Ayam di transaction_details status peminjamannya jadi belum dikembalikan(borrowed).
+
+* Saat admin menambahkan data di halaman ini, sistem tidak bisa langsung memilih siswa mana saja yg meminjam buku dari kelas tersebut. Makanya nilai 'is_all_returned' akan secara default bernilai true dan tak bisa diubah(pas create doang).
+
+
+
+READ:
+
+* Tabel Kolom: Buku (book_id), Kelas (class_id), Tahun (year_id), Semester, Waktu Peminjaman (transaction_date), Sudah Kembali (is_all_returned),
+
+* Filter: Mata Pelajaran (ini mungkin gk kira2? soalnya kan buku itu memiliki relasi dengan tabel mapel/subejcts), Kelas, Semester, Tahun Ajaran, 'is_all_returned'.
+
+* Search: Berdasarkan Nama buku
+
+* Pagination: 10, 25, 50, 100
+
+
+
+UPDATE:
+
+* Bisa edit semua data.
+
+* Admin tidak bisa asal mengganti buku, harus sesuai dengan Tingkat dan Jurusan. Jadi buku2 yg tidak sesuai dengan Tingkat dan Jurusan dari kelas yg dipilih, maka buku tersebut tidak bisa dipilih.
+
+* Jika admin mengganti kelas yang tingkat kelas dan jurusannya berbeda, maka buku yg dipilihpun langsung menghilang atau jadi null.
+
+* Jika nilai 'is_all_returned' pada awalnya true, dan admin mengubah menjadi false, maka kolom status dari tabel transaction_details yg awalnya 'Returned' berubah jadi 'Borrowed'.
+
+* Begitupun sebalikanya Jika nilai 'is_all_returned' pada awalnya false, lalu admin mengubah nilainya jadi false, maka semua data status dari tabel transaction_details yg awalnya 'Borrowed' berubah jadi 'Returned'.
+
+
+
+DELETE:
+
+* Sebelum menghapus harus ada validasi, 2 KALI, karena kalo data ini dihaps bakal ngaruh ke tabel lain yg kemungkinan data di tabel lain bakal terhapus.
+
+* Validasi 1: Cuman konfirmasi iya/tidak, dengan teks, "Apakah anda yakin ingin menghapus data tersebut?" Kalo bisa teksnya sesuain lagi, sama ditambah teks peringatan apa yg bakal terjadi kalo data ini dihapus.
+
+* Validasi 2: Agar bisa melanjutkan penghapusan data penting ini, user harus memasukan email dan password lagi, kalo sesuai, ini bakal langsung terhapus, biar gk ada orang iseng yg nyoba2 ngehapus data ini
+
+* Jika memungkinkan, validasi kedua cuman akan muncul jika memang ada data dari tabel lain yg terhubung dengan data transaksi yg dipilih. Tapi kalo data transaksi yg dipilih emang gk dipake, Validasi 2 gk bakal muncul. Ini biar kalo admin gk sengaja bikin data transaksi yg salah, bisa langsung dihapus, gk perlu repot  validasi 2 kalo, toh datanya juga kosong.
+
+
+
+Fitur Tambahan:
+
+* Untuk Bulk Delete, sistem hapusnya sama kayak Delete biasa, harus ada validasi 2 kali.
+
+
+
+Informasi tambahan:
+
+
+
+```php
+
+ Schema::create('transaction_details', function (Blueprint $table) {
+
+            $table->id();
+
+            $table->foreignId('transaction_id')->constrained('transactions', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->foreignId('student_id')->constrained('students', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->enum('status', ['Borrowed', 'Returned', 'Overdue']);
+
+            $table->date('return_date');
+
+            $table->text('note')->nullable();
+
+            $table->timestamps();
+
+        });
+
+```
+
+
+
+Schema dari tabel transaction_details
