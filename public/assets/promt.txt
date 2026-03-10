@@ -75,5 +75,5 @@ Delete:
  - Jika memungkinkan, validasi kedua cuman akan muncul jika memang ada data dari tabel lain yg terhubung dengan tahun yg dipilih. Tapi kalo tahun yg dipilih emang gk dipake, Validasi 2 gk bakal muncul. Ini biar kalo admin gk sengaja bikin tahun yg salah, bisa langsung dihapus, gk perlu repot  validasi 2 kalo, toh datanya juga kosong.
 
 Fitur tambahan:
- - Jangan ada 'Bulk Delete' wajib satu2
+ -  Untuk Bulk Delete, sistem hapusnya sama kayak Delete biasa, harus ada validasi 2 kali.
  - Badge warna: Hijau dengan simbol centang jika status true, jika false Merah dengan simbol silang
