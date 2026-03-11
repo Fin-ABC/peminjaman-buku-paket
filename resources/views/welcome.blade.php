@@ -1,3 +1,3 @@
 <x-app>
-    <h1>Tes tes</h1>
+    <h1>PERPUSTAKAAN SMKN 1 SUMEDANG</h1>
 </x-app>
