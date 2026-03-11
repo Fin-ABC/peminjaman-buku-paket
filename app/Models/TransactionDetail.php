@@ -39,4 +39,21 @@ class TransactionDetail extends Model
             $detail->transaction->checkAndUpdateAllReturned();
         });
     }
+
+    public static function getStatusColor(string $status): string
+    {
+        return match ($status) {
+            'Borrowed' => 'warning',
+            'Returned' => 'success',
+            'Overdue' => 'danger',
+            default => 'gray',
+        };
+    }
+
+    public function scopeCheckOverdue($query)
+    {
+        return $query->where('status', 'Borrowed')
+            ->whereDate('return_date', '<', now())
+            ->update(['status' => 'Overdue']);
+    }
 }
