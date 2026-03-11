@@ -67,6 +67,7 @@ READ:
 
 UPDATE:
  - Bisa edit semua field, ganti year_name dan is_active. Untuk is_active sama yg udh aku jelasin di bgian Read:Tabel Kolom, Kalo mau set 'true' record lain disaat sudah ada yg active/true, maka akan muncul card/pop-up notification untuk konfirmasi apakah yakin mau mengubah tahun yg aktif, jika user setuju, tahun aktif yg lama diubah statusnya jadi false, sedangkan tahun yg baru diubah statusnya jadi true.
+
 Delete:
  - Delete ya, langsung ilang.
  - Sebelum menghapus harus ada validasi, 2 KALI, karena kalo data ini dihaps bakal ngaruh ke tabel lain yg kemungkinan data di tabel lain bakal terhapus.
