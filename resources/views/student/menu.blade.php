@@ -1,4 +1,4 @@
-<x-layouts.app title="Menu Siswa — Perpustakaan">
+<x-app title="Menu Siswa — Perpustakaan">
     <div class="min-h-screen flex items-center justify-center p-6">
 
         <div class="w-full max-w-340 bg-white border border-accent rounded-[20px]
@@ -28,7 +28,7 @@
                     </x-menu-card>
 
                     <x-menu-card
-                        href="{{ route('return.step1') }}"
+                        {{-- href="{{ route('return.step1') }}" --}}
                         label="Pengembalian"
                         description="Kembalikan buku yang dipinjam">
                         <x-slot name="icon">
@@ -44,4 +44,4 @@
             </div>
         </div>
     </div>
-</x-layouts.app>
+</x-app>
