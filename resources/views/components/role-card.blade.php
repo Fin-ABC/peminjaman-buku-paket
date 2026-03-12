@@ -1,7 +1,7 @@
 @props(['href' => '#', 'icon' => null, 'label' => ''])
 
 <a href="{{ $href }}"
-    class="group flex flex-col items-center justify-center gap-5 w-60 h-[213px]
+    class="group flex flex-col items-center justify-center gap-5 w-60 h-53.25
           bg-white border-2 border-accent rounded-2xl
           shadow-[0px_4px_15px_0px_rgba(43,122,120,0.1)]
           transition-all duration-200
