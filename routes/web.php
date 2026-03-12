@@ -14,5 +14,6 @@ Route::prefix('borrow')->name('borrow.')->group(function () {
     Route::get('/step/3', [BorrowController::class, 'step3'])->name('step3');
     Route::get('/step/4', [BorrowController::class, 'step4'])->name('step4');
     Route::get('/step/5', [BorrowController::class, 'step5'])->name('step5');
+    Route::post('/step/5/verify', [BorrowController::class, 'verifyStep5'])->name('step5.verify');
     Route::get('/step/6', [BorrowController::class, 'step6'])->name('step6');
 });

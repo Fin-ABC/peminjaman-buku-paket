@@ -6,7 +6,7 @@
         <a href="{{ route('borrow.step5', [
                 'grade'    => $grade,
                 'major_id' => $majorId,
-                'class_id' => $class->id,
+                'class_id' => $classId,
                 'semester' => 'odd',
             ]) }}"
            @click="selected = 'odd'"
@@ -25,7 +25,7 @@
         <a href="{{ route('borrow.step5', [
                 'grade'    => $grade,
                 'major_id' => $majorId,
-                'class_id' => $class->id,
+                'class_id' => $classId,
                 'semester' => 'even',
             ]) }}"
            @click="selected = 'even'"

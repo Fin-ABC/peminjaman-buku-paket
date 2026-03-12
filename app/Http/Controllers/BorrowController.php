@@ -63,6 +63,66 @@ class BorrowController extends Controller
 
         $class = Classes::findOrFail($classId);
 
-        return view('borrow.step4', compact('grade', 'majorId', 'class'));
+        return view('borrow.step4', compact('grade', 'majorId', 'classId', 'class'));
+    }
+
+    public function step5(Request $request)
+    {
+        $grade    = $request->query('grade');
+        $majorId  = $request->query('major_id');
+        $classId  = $request->query('class_id');
+        $semester = $request->query('semester');
+
+        if (!in_array($grade, $this->gradeMap) || !$majorId || !$classId || !in_array($semester, ['odd', 'even'])) {
+            dd($grade);
+            // dd($majorId);
+            dd($classId);
+            dd($semester);
+            return redirect()->route('borrow.step1');
+        }
+
+        $major = Major::findOrFail($majorId);
+        $class = Classes::findOrFail($classId);
+
+        return view('borrow.step5', compact('grade', 'majorId', 'classId', 'semester', 'major', 'class'));
+    }
+
+    public function verifyStep5(Request $request)
+    {
+        $request->validate([
+            'nis_1'    => ['required', 'digits_between:10,16'],
+            'nis_2'    => ['required', 'digits_between:10,16', 'different:nis_1'],
+            'grade'    => ['required'],
+            'major_id' => ['required'],
+            'class_id' => ['required'],
+            'semester' => ['required', 'in:odd,even'],
+        ], [
+            'nis_2.different'        => 'Kedua NIS tidak boleh sama.',
+            'nis_1.digits_between'   => 'NIS harus 10-12 digit angka.',
+            'nis_2.digits_between'   => 'NIS harus 10-12 digit angka.',
+        ]);
+
+        $classId = $request->input('class_id');
+        $nis1    = $request->input('nis_1');
+        $nis2    = $request->input('nis_2');
+
+        // Cek apakah kedua NIS ada di kelas yang dipilih
+        $validCount = \App\Models\Student::where('class_id', $classId)
+            ->whereIn('nis', [$nis1, $nis2])
+            ->count();
+
+        if ($validCount < 2) {
+            return back()
+                ->withInput()
+                ->with('verification_error', 'Salah satu NIS tidak ditemukan di kelas ini.');
+        }
+
+        // Lanjut ke Step 6
+        return redirect()->route('borrow.step6', [
+            'grade'    => $request->input('grade'),
+            'major_id' => $request->input('major_id'),
+            'class_id' => $classId,
+            'semester' => $request->input('semester'),
+        ]);
     }
 }
