@@ -12,5 +12,7 @@ Route::prefix('borrow')->name('borrow.')->group(function () {
     Route::get('/step/1', [BorrowController::class, 'step1'])->name('step1');
     Route::get('/step/2', [BorrowController::class, 'step2'])->name('step2');
     Route::get('/step/3', [BorrowController::class, 'step3'])->name('step3');
-    // Step 4-6 akan ditambah nanti
+    Route::get('/step/4', [BorrowController::class, 'step4'])->name('step4');
+    Route::get('/step/5', [BorrowController::class, 'step5'])->name('step5');
+    Route::get('/step/6', [BorrowController::class, 'step6'])->name('step6');
 });
