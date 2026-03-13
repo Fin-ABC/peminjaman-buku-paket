@@ -19,6 +19,8 @@ class Book extends Model
         'semester',
         'total_stock',
         'remaining_stock',
+        'damaged_count',
+        'lost_count',
     ];
 
     public function subject(): BelongsTo
@@ -33,8 +35,14 @@ class Book extends Model
     public function hasRelatedData(): bool
     {
         return $this->transaction()->exists();
+        return $this->bookItems()->exists();
     }
-    public function transaction(){
+    public function bookItems()
+    {
+        return $this->hasMany(BookItem::class);
+    }
+    public function transaction()
+    {
         return $this->hasMany(Transaction::class, 'book_id');
     }
 
@@ -55,25 +63,75 @@ class Book extends Model
         $majorCode = strtoupper($major->major_code);
         $semesterCode = $this->semester === 'odd' ? '1' : '2';
 
-        // Hitung buku dengan jenis yang sama
-        $sameTypeCount = self::where('subject_id', $this->subject_id)
-            ->where('major_id', $this->major_id)
-            ->where('grade', $this->grade)
-            ->where('semester', $this->semester)
-            ->where('id', '<=', $this->id) // Hitung sampai ID ini
-            ->count() +1;
-
-        // Format: [ID KESELURUHAN]-[KODE MAPEL]-[TINGKAT]-[KODE JURUSAN]-[SEMESTER]-[ID JENIS SAMA]
+        // Format: [ID KESELURUHAN]-[KODE MAPEL]-[TINGKAT]-[KODE JURUSAN]-[SEMESTER]
         $bookCode =  sprintf(
-            '%02d-%s-%s-%s-%s-%02d',
+            '%02d-%s-%s-%s-%s',
             $this->id,
             $subjectCode,
             $this->grade,
             $majorCode,
             $semesterCode,
-            $sameTypeCount
         );
 
         $this->updateQuietly(['book_code' => $bookCode]);
+    }
+
+    public function updateConditionCounts(): void
+    {
+        $this->updateQuietly([
+            'total_stock' => $this->bookItems()->count(),
+            'remaining_stock' => $this->bookItems()->where('condition', 'good')->count(),
+            'damaged_count' => $this->bookItems()->where('condition', 'damaged')->count(),
+            'lost_count' => $this->bookItems()->where('condition', 'lost')->count(),
+        ]);
+    }
+
+    // Method untuk auto-create book_items saat total_stock bertambah
+    public function syncBookItems(int $newTotalStock): void
+    {
+        $currentCount = $this->bookItems()->count();
+        $difference = $newTotalStock - $currentCount;
+
+        if ($difference > 0) {
+            // Tambah book_items baru
+            for ($i = 0; $i < $difference; $i++) {
+                $this->bookItems()->create([
+                    'condition' => 'good',
+                ]);
+            }
+        } elseif ($difference < 0) {
+            // Hapus book_items (prioritas: good dulu, baru damaged, baru lost)
+            $toDelete = abs($difference);
+
+            // Hapus yang good dulu
+            $goodItems = $this->bookItems()->where('condition', 'good')->limit($toDelete)->get();
+            foreach ($goodItems as $item) {
+                $item->delete();
+                $toDelete--;
+                if ($toDelete <= 0) break;
+            }
+
+            // Kalau masih kurang, hapus damaged
+            if ($toDelete > 0) {
+                $damagedItems = $this->bookItems()->where('condition', 'damaged')->limit($toDelete)->get();
+                foreach ($damagedItems as $item) {
+                    $item->delete();
+                    $toDelete--;
+                    if ($toDelete <= 0) break;
+                }
+            }
+
+            // Kalau masih kurang, hapus lost
+            if ($toDelete > 0) {
+                $lostItems = $this->bookItems()->where('condition', 'lost')->limit($toDelete)->get();
+                foreach ($lostItems as $item) {
+                    $item->delete();
+                    $toDelete--;
+                    if ($toDelete <= 0) break;
+                }
+            }
+        }
+
+        $this->updateConditionCounts();
     }
 }

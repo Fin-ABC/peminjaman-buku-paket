@@ -172,6 +172,15 @@ class BooksTable
                     ->sortable()
                     ->alignCenter()
                     ->color(fn($state, $record) => $state === 0 ? 'danger' : ($state < ($record->total_stock / 2) ? 'warning' : 'success')),
+                TextColumn::make('damaged_count')
+                    ->label('Rusak')
+                    ->alignCenter()
+                    ->color('warning'),
+
+                TextColumn::make('lost_count')
+                    ->label('Hilang')
+                    ->alignCenter()
+                    ->color('danger'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -211,67 +220,67 @@ class BooksTable
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make()
-                ->requiresConfirmation()
-                ->modalHeading(fn($record) => 'Hapus Buku: ' . $record->title)
-                ->modalDescription(
-                    fn($record) =>
-                    $record->hasRelatedData()
-                        ? "⚠️ PERINGATAN: Menghapus buku '{$record->title}' akan menghapus SEMUA data peminjaman terkait buku ini. Tindakan ini TIDAK DAPAT DIBATALKAN!"
-                        : "Apakah Anda yakin ingin menghapus buku '{$record->title}'?"
-                )
-                ->modalSubmitActionLabel('Ya, Hapus')
-                ->form(fn($record) => $record->hasRelatedData() ? [
-                    Section::make('Verifikasi Penghapusan')
-                        ->description('⚠️ Data ini memiliki data terkait. Untuk keamanan, masukkan email dan password Anda.')
-                        ->schema([
-                            TextInput::make('email')
-                                ->label('Email Anda')
-                                ->email()
-                                ->required()
-                                ->placeholder(Auth::user()->email ?? ''),
+                    ->requiresConfirmation()
+                    ->modalHeading(fn($record) => 'Hapus Buku: ' . $record->title)
+                    ->modalDescription(
+                        fn($record) =>
+                        $record->hasRelatedData()
+                            ? "⚠️ PERINGATAN: Menghapus buku '{$record->title}' akan menghapus SEMUA data peminjaman terkait buku ini. Tindakan ini TIDAK DAPAT DIBATALKAN!"
+                            : "Apakah Anda yakin ingin menghapus buku '{$record->title}'?"
+                    )
+                    ->modalSubmitActionLabel('Ya, Hapus')
+                    ->form(fn($record) => $record->hasRelatedData() ? [
+                        Section::make('Verifikasi Penghapusan')
+                            ->description('⚠️ Data ini memiliki data terkait. Untuk keamanan, masukkan email dan password Anda.')
+                            ->schema([
+                                TextInput::make('email')
+                                    ->label('Email Anda')
+                                    ->email()
+                                    ->required()
+                                    ->placeholder(Auth::user()->email ?? ''),
 
-                            TextInput::make('password')
-                                ->label('Password Anda')
-                                ->password()
-                                ->revealable()
-                                ->required(),
-                        ])
-                        ->columns(1),
-                ] : [])
-                ->action(function ($record, array $data) {
-                    $user = Auth::user();
+                                TextInput::make('password')
+                                    ->label('Password Anda')
+                                    ->password()
+                                    ->revealable()
+                                    ->required(),
+                            ])
+                            ->columns(1),
+                    ] : [])
+                    ->action(function ($record, array $data) {
+                        $user = Auth::user();
 
-                    if ($record->hasRelatedData()) {
-                        if (!isset($data['email']) || !isset($data['password'])) {
-                            Notification::make()
-                                ->danger()
-                                ->title('Validasi Diperlukan')
-                                ->body('Email dan password wajib diisi.')
-                                ->persistent()
-                                ->send();
-                            return;
+                        if ($record->hasRelatedData()) {
+                            if (!isset($data['email']) || !isset($data['password'])) {
+                                Notification::make()
+                                    ->danger()
+                                    ->title('Validasi Diperlukan')
+                                    ->body('Email dan password wajib diisi.')
+                                    ->persistent()
+                                    ->send();
+                                return;
+                            }
+
+                            if ($data['email'] !== $user->email || !Hash::check($data['password'], $user->password)) {
+                                Notification::make()
+                                    ->danger()
+                                    ->title('Verifikasi Gagal')
+                                    ->body('Email atau password tidak sesuai.')
+                                    ->persistent()
+                                    ->send();
+                                return;
+                            }
                         }
 
-                        if ($data['email'] !== $user->email || !Hash::check($data['password'], $user->password)) {
-                            Notification::make()
-                                ->danger()
-                                ->title('Verifikasi Gagal')
-                                ->body('Email atau password tidak sesuai.')
-                                ->persistent()
-                                ->send();
-                            return;
-                        }
-                    }
+                        $title = $record->title;
+                        $record->delete();
 
-                    $title = $record->title;
-                    $record->delete();
-
-                    Notification::make()
-                        ->success()
-                        ->title('Buku Dihapus')
-                        ->body("Buku '{$title}' berhasil dihapus.")
-                        ->send();
-                }),
+                        Notification::make()
+                            ->success()
+                            ->title('Buku Dihapus')
+                            ->body("Buku '{$title}' berhasil dihapus.")
+                            ->send();
+                    }),
             ])
             ->bulkActions(self::getTableBulkActions())
             ->defaultSort('created_at', 'desc')

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('book_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('book_id')->constrained('books')->cascadeOnDelete();
+            $table->string('item_code')->unique()->nullable();
             $table->enum('condition', ['good', 'damaged', 'lost'])->default('good');
             $table->timestamps();
         });

@@ -53,6 +53,7 @@ class CreateBook extends CreateRecord
         // Generate book_code setelah record dibuat (sudah punya ID)
         $this->record->load('subject', 'major');
         $this->record->generateBookCode();
+         $this->record->syncBookItems($this->record->total_stock);
     }
 
     protected function getRedirectUrl(): string

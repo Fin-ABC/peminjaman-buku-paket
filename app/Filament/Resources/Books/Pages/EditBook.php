@@ -44,6 +44,10 @@ class EditBook extends EditRecord
         // Re-generate book_code jika ada perubahan subject, major, grade, atau semester
         $this->record->load('subject', 'major');
         $this->record->generateBookCode();
+
+        if ($this->record->isDirty('total_stock')) {
+            $this->record->syncBookItems($this->record->total_stock);
+        }
     }
 
     protected function getHeaderActions(): array
