@@ -1,0 +1,54 @@
+function step6() {
+    return {
+        selectedBook: null,
+       selectedStudents: [],
+
+        selectAll() {
+            const checkboxes = document.querySelectorAll('input[name="student_ids[]"]:not(:disabled)');
+            this.selectedStudents = Array.from(checkboxes).map(c => parseInt(c.value));
+        },
+
+        deselectAll() {
+            this.selectedStudents = [];
+        },
+    }
+}
+
+{{-- Info bar: dipilih & sisa stok --}}
+            <div
+                class="flex items-center justify-between bg-[#FEFFDF] border-l-4 border-primary
+                        rounded-r-[10px] px-6 py-3 mb-2">
+                <span class="font-inter text-sm text-gray-700">
+                    Dipilih: <span class="font-bold text-primary" x-text="selectedStudents.length + ' Siswa'"></span>
+                </span>
+                <span class="font-inter text-sm text-gray-700">
+                    Sisa Stok:
+                    <span class="font-bold text-primary" {{-- x-text="({{ $books->firstWhere('id', 0)?->remaining_stock ?? 0 }} - selectedStudents.length) + ' buku'"> --}} <span
+                        x-text="(books.find(b => b.id == selectedBookId)?.remaining_stock ?? 0) - selectedStudents.length">
+                    </span>
+                </span>
+            </div>
+
+ {{-- Checkbox --}}
+                        <div class="flex items-center">
+                            @if ($alreadyBorrowed)
+                                <input type="checkbox" disabled
+                                    class="w-5 h-5 rounded border-gray-300 opacity-40 cursor-not-allowed" />
+                            @else
+                                <input type="checkbox" name="student_ids[]" value="{{ $student->id }}"
+                                    x-model="selectedStudents" :value="{{ $student->id }}"
+                                    class="w-5 h-5 rounded border-accent text-primary
+                                              focus:ring-primary focus:ring-2 cursor-pointer" />
+                            @endif
+                        </div>
+
+{{-- Tombol konfirmasi --}}
+            <button type="submit" :disabled="selectedStudents.length === 0 || !selectedBook"
+                class="w-full mt-6 font-outfit font-bold text-lg text-white
+                           bg-primary hover:bg-primary-dark
+                           disabled:opacity-40 disabled:cursor-not-allowed
+                           py-4.5 rounded-xl
+                           transition-colors duration-200
+                           shadow-[0px_4px_15px_0px_rgba(43,122,120,0.3)]">
+                Konfirmasi Peminjaman
+            </button>

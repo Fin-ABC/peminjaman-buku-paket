@@ -8,6 +8,7 @@ class TransactionDetail extends Model
 {
     protected $fillable = [
         'transaction_id',
+        'book_item_id',
         'student_id',
         'status',
         'return_date',
@@ -22,7 +23,9 @@ class TransactionDetail extends Model
     {
         return $this->belongsTo(Transaction::class);
     }
-
+    public function book_item(){
+        return $this->belongsTo(BookItem::class);
+    }
     public function student()
     {
         return $this->belongsTo(Student::class);

@@ -19,7 +19,7 @@
 
                 {{-- Judul --}}
                 <div class="text-center">
-                    <h1 class="font-outfit font-extrabold text-[2.8rem] leading-tight text-gray-900 uppercase">
+                    <h1 class="font-inter font-extrabold text-[2.8rem] leading-tight text-gray-900 uppercase">
                         Perpustakaan<br>SMKN 1 Sumedang
                     </h1>
                 </div>

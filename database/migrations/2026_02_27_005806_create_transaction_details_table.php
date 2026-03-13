@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('transaction_id')->constrained('transactions', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('book_item_id')->constrained('book_items', 'id')->cacadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('student_id')->constrained('students', 'id')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('status', ['Borrowed', 'Returned', 'Overdue']);
+            $table->enum('status', ['Borrowed', 'Returned', 'Overdue', 'lost']);
             $table->date('return_date');
             $table->text('note')->nullable();
             $table->timestamps();

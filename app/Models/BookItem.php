@@ -22,6 +22,11 @@ class BookItem extends Model
         return $this->belongsTo(Book::class);
     }
 
+    public function transactionDetails()
+    {
+        return $this->hasMany(TransactionDetail::class, 'book_item_id');
+    }
+
     // Event untuk auto-generate item_code dan update counts
     protected static function booted()
     {
@@ -66,7 +71,7 @@ class BookItem extends Model
     // Helper untuk get condition label
     public static function getConditionLabel(string $condition): string
     {
-        return match($condition) {
+        return match ($condition) {
             'good' => 'Baik',
             'damaged' => 'Rusak',
             'lost' => 'Hilang',
@@ -77,7 +82,7 @@ class BookItem extends Model
     // Helper untuk get condition color
     public static function getConditionColor(string $condition): string
     {
-        return match($condition) {
+        return match ($condition) {
             'good' => 'success',    // Hijau
             'damaged' => 'warning', // Kuning
             'lost' => 'danger',     // Merah

@@ -8,10 +8,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;500&display=swap");
 
 @theme {
-    --font-outfit: "Outfit", sans-serif;
-    --font-inter: "Inter", sans-serif;
-    --color-primary: '#2B7A78';
-    --color-primary-light: '#3AAFA9';
-    --color-primary-dark: '#17505E';
-    --color-accent: '#DEF2F1';
+    --font-outfit: Outfit, sans-serif;
+    --font-inter: Inter, sans-serif;
+    --color-primary: #2B7A78;
+    --color-primary-light: #3AAFA9;
+    --color-primary-dark: #17505E;
+    --color-accent: #DEF2F1;
 }

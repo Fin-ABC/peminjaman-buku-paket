@@ -26,6 +26,10 @@ class MajorSeeder extends Seeder
                 [
                     'major_code' => 'SK',
                     'major_name' => 'Seni Karawitan'
+                ],
+                [
+                    'major_code' => 'UM',
+                    'major_name' => 'Umum'
                 ]
             ]
         );

@@ -16,4 +16,6 @@ Route::prefix('borrow')->name('borrow.')->group(function () {
     Route::get('/step/5', [BorrowController::class, 'step5'])->name('step5');
     Route::post('/step/5/verify', [BorrowController::class, 'verifyStep5'])->name('step5.verify');
     Route::get('/step/6', [BorrowController::class, 'step6'])->name('step6');
+    Route::post('/confirm', [BorrowController::class, 'confirm'])->name('confirm');
+    Route::get('/success', fn() => view('borrow.success'))->name('success');
 });

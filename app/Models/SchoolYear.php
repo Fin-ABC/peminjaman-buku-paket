@@ -48,4 +48,9 @@ class SchoolYear extends Model
     {
         return $this->hasMany(Student::class, 'year_id');
     }
+
+    public static function getActive()
+    {
+        return static::where('is_active', true)->firstOrFail();
+    }
 }

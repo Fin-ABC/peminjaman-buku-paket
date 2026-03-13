@@ -75,6 +75,7 @@ class TransactionForm
                         return Book::with('subject')
                             ->where('grade', $class->grade)
                             ->where('major_id', $class->major_id)
+                            ->orWhere('major_id', '4')
                             ->get()
                             ->mapWithKeys(function ($book) {
                                 $label = "{$book->title} - {$book->subject->subject_name} (Stok: {$book->remaining_stock})";
