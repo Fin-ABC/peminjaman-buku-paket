@@ -28,7 +28,7 @@
                     </x-menu-card>
 
                     <x-menu-card
-                        {{-- href="{{ route('return.step1') }}" --}}
+                        href="{{ route('return.step1') }}"
                         label="Pengembalian"
                         description="Kembalikan buku yang dipinjam">
                         <x-slot name="icon">

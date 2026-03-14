@@ -45,6 +45,7 @@ class BookItemsTable
                         'good' => 'Baik',
                         'damaged' => 'Rusak',
                         'lost' => 'Hilang',
+                        'borrowed' => 'Dipinjam',
                     ])
                     ->sortable()
                     ->selectablePlaceholder(false),
@@ -69,6 +70,7 @@ class BookItemsTable
                         'good' => 'Baik',
                         'damaged' => 'Rusak',
                         'lost' => 'Hilang',
+                        'borrowed' => 'Dipinjam',
                     ])
                     ->multiple(),
             ])

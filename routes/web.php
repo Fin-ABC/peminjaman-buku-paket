@@ -19,3 +19,18 @@ Route::prefix('borrow')->name('borrow.')->group(function () {
     Route::post('/confirm', [BorrowController::class, 'confirm'])->name('confirm');
     Route::get('/success', fn() => view('borrow.success'))->name('success');
 });
+
+use App\Http\Controllers\ReturnController;
+
+Route::prefix('return')->name('return.')->group(function () {
+    Route::get('/step/1',         [ReturnController::class, 'step1'])->name('step1');
+    Route::get('/step/2',         [ReturnController::class, 'step2'])->name('step2');
+    Route::get('/step/3',         [ReturnController::class, 'step3'])->name('step3');
+    Route::get('/step/4',         [ReturnController::class, 'step4'])->name('step4');
+    Route::get('/step/5',         [ReturnController::class, 'step5'])->name('step5');
+    Route::post('/step/5/verify', [ReturnController::class, 'verifyStep5'])->name('step5.verify');
+    Route::get('/step/6',         [ReturnController::class, 'step6'])->name('step6');
+    Route::get('/students',       [ReturnController::class, 'loadStudents'])->name('students');
+    Route::post('/confirm',       [ReturnController::class, 'confirmReturn'])->name('confirm');
+    Route::get('/success',          fn() => view('return.success'))->name('success');
+});

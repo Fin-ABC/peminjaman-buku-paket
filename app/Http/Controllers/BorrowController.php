@@ -105,8 +105,8 @@ class BorrowController extends Controller
             'semester' => ['required', 'in:odd,even'],
         ], [
             'nis_2.different'        => 'Kedua NIS tidak boleh sama.',
-            'nis_1.digits_between'   => 'NIS harus 10-12 digit angka.',
-            'nis_2.digits_between'   => 'NIS harus 10-12 digit angka.',
+            'nis_1.digits_between'   => 'NIS harus 10-16 digit angka.',
+            'nis_2.digits_between'   => 'NIS harus 10-16 digit angka.',
         ]);
 
         $classId = $request->input('class_id');
@@ -334,13 +334,6 @@ class BorrowController extends Controller
         $today      = now();
         $returnDate = $today->copy()->addMonths(6); // 6 bulan dari sekarang
 
-        // ============ CARI BOOK_ITEMS YANG SEDANG DIPINJAM ============
-        // Ambil ID book_items yang sedang dipinjam (status Borrowed/Overdue)
-        // $borrowedItemIds = TransactionDetail::whereIn('status', ['Borrowed', 'Overdue'])
-        //     ->whereNotNull('book_item_id')
-        //     ->pluck('book_item_id')
-        //     ->toArray();
-
         // ============ CARI BOOK_ITEMS YANG TERSEDIA ============
         $availableItemsQuery = BookItem::where('book_id', $bookId)
             ->whereIn('condition', ['good', 'damaged']) // Exclude 'lost'
@@ -352,14 +345,6 @@ class BorrowController extends Controller
         if ($availableItems->count() < count($studentIds)) {
             return back()->with('error', "Stok buku tidak cukup! Tersedia: {$availableItems->count()}, Dibutuhkan: " . count($studentIds));
         }
-
-        // dd([
-        //     // 'Borrowed Item IDs' => $borrowedItemIds,
-        //     'Available Items' => $availableItems->pluck('id', 'condition'),
-        //     'Available Count' => $availableItems->count(),
-        //     'Needed' => count($studentIds),
-        //     'Sufficient' => $availableItems->count() >= count($studentIds),
-        // ]);
 
         // ============ PROSES PEMINJAMAN ============
         DB::transaction(function () use (
@@ -417,8 +402,9 @@ class BorrowController extends Controller
         // ============ REDIRECT KE SUCCESS ============
         return redirect()->route('borrow.success')->with([
             'book_title'    => $book->title,
-            'student_count' => count($studentIds),
             'class_name'    => Classes::find($classId)->class_name,
+            'student_count' => count($studentIds),
+            'borrow_date' => $today,
         ]);
     }
 }

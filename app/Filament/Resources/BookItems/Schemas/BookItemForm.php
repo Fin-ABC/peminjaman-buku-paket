@@ -17,7 +17,7 @@ class BookItemForm
                     ->numeric(),
                 TextInput::make('item_code'),
                 Select::make('condition')
-                    ->options(['good' => 'Good', 'damaged' => 'Damaged', 'lost' => 'Lost'])
+                    ->options(['good' => 'Good', 'damaged' => 'Damaged', 'lost' => 'Lost', 'borrowed' => 'Borrowed'])
                     ->default('good')
                     ->required(),
             ]);
