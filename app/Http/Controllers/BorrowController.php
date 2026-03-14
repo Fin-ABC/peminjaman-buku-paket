@@ -388,6 +388,8 @@ class BorrowController extends Controller
                     'return_date'    => $returnDate->toDateString(),
                     'note'           => null,
                 ]);
+
+                BookItem::where('id', $bookItem->id)->update(['condition' => 'borrowed']);
             }
 
             // 3. Update remaining_stock di tabel books
