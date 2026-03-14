@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookItem;
 use App\Models\Classes;
 use App\Models\Major;
 use App\Models\Student;
@@ -9,6 +10,8 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
+use function PHPUnit\Framework\matches;
 
 class ReturnController extends Controller
 {
@@ -220,10 +223,23 @@ class ReturnController extends Controller
 
         // dd($request);
 
+
         DB::transaction(function () use ($transactionId, $details) {
+            $conditionMap = [
+                'Borrowed' => 'borrowed',
+                'Returned' => 'good',
+                'Overdue' => 'borrowed',
+                'lost' => 'lost'
+            ];
+
             foreach ($details as $item) {
                 TransactionDetail::where('id', $item['detail_id'])
                     ->update(['status' => $item['status']]);
+
+                $book = TransactionDetail::where('id', $item['detail_id'])->first();
+                $condition = $conditionMap[$item['status']];
+
+                BookItem::where('id', $book->id)->update(['condition' => $condition]);
             }
 
             // Cek apakah semua sudah dikembalikan / lost
@@ -233,6 +249,7 @@ class ReturnController extends Controller
 
             Transaction::where('id', $transactionId)
                 ->update(['is_all_returned' => $stillBorrowed === 0]);
+
         });
 
         // Hitung jumlah yang dikembalikan untuk success page
