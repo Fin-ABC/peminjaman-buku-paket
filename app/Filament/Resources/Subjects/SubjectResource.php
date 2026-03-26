@@ -21,14 +21,19 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use UnitEnum;
 
 class SubjectResource extends Resource
 {
     protected static ?string $model = Subject::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBeaker;
+    protected static string|UnitEnum|null $navigationGroup = 'Manajemen Data';
 
     protected static ?string $recordTitleAttribute = 'Mata Pelajaran';
+    protected static ?string $pluralModelLabel = 'Mata Pelajaran';
+    protected static ?string $modelLabel = 'Mata Pelajaran';
+    protected static ?int $navigationSort = 7;
 
     public static function form(Schema $schema): Schema
     {

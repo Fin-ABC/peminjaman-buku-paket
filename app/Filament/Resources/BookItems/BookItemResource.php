@@ -15,14 +15,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class BookItemResource extends Resource
 {
     protected static ?string $model = BookItem::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
+    protected static string|UnitEnum|null $navigationGroup = 'Manajemen Data';
 
     protected static ?string $recordTitleAttribute = 'Item Buku';
+    protected static ?string $pluralModelLabel = 'Item Buku';
+    protected static ?string $modelLabel = 'Item Buku';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {

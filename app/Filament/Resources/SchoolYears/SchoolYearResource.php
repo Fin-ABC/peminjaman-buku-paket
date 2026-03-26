@@ -23,15 +23,19 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use UnitEnum;
 
 class SchoolYearResource extends Resource
 {
     protected static ?string $model = SchoolYear::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDateRange;
+    protected static string|UnitEnum|null $navigationGroup = 'Manajemen Data';
 
     protected static ?string $recordTitleAttribute = 'Tahun Ajaran';
-    protected static ?string $navigationLabel = 'Tahun Ajaran';
+    protected static ?string $pluralModelLabel = 'Tahun Ajaran';
+    protected static ?string $modelLabel = 'Tahun Ajaran';
+    protected static ?int $navigationSort = 6;
 
     public static function form(Schema $schema): Schema
     {

@@ -176,7 +176,6 @@ class BooksTable
                     ->label('Rusak')
                     ->alignCenter()
                     ->color('warning'),
-
                 TextColumn::make('lost_count')
                     ->label('Hilang')
                     ->alignCenter()

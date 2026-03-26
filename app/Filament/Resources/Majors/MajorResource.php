@@ -21,14 +21,19 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use UnitEnum;
 
 class MajorResource extends Resource
 {
     protected static ?string $model = Major::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
+    protected static string|UnitEnum|null $navigationGroup = 'Manajemen Data';
 
     protected static ?string $recordTitleAttribute = 'Jurusan';
+    protected static ?string $pluralModelLabel = 'Jurusan';
+    protected static ?string $modelLabel = 'Jurusan';
+    protected static ?int $navigationSort = 5;
 
     public static function form(Schema $schema): Schema
     {

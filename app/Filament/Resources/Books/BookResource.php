@@ -11,6 +11,7 @@ use App\Filament\Resources\Books\Schemas\BookInfolist;
 use App\Filament\Resources\Books\Tables\BooksTable;
 use App\Models\Book;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -20,10 +21,13 @@ class BookResource extends Resource
 {
     protected static ?string $model = Book::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
+    protected static string|UnitEnum|null $navigationGroup = 'Manajemen Data';
 
-    protected static ?string $recordTitleAttribute = 'Buku';
-    protected static ?string $navigationLabel = 'Buku';
+    protected static ?string $recordTitleAttribute = 'Buku Paket';
+    protected static ?string $pluralModelLabel = 'Buku Paket';
+    protected static ?string $modelLabel = 'Buku Paket';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {
