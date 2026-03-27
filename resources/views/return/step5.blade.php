@@ -11,7 +11,7 @@
                       d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
             </svg>
             <p class="font-inter text-sm text-gray-700 leading-relaxed">
-                Untuk melanjutkan, silahkan masukkan <span class="font-semibold text-primary">2 NISN)</span>
+                Untuk melanjutkan, silahkan masukkan <span class="font-semibold text-primary">2 NISN</span>
                 dari kelas <span class="font-semibold text-primary">{{ $level }} - {{ $major->major_code }}</span>
             </p>
         </div>
