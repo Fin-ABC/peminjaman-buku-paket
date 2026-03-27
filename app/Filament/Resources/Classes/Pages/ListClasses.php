@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Classes\Pages;
 
+use App\Filament\Imports\ClassesImporter;
 use App\Filament\Resources\Classes\ClassesResource;
 use Filament\Actions\CreateAction;
+use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListClasses extends ListRecords
@@ -13,7 +15,8 @@ class ListClasses extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()->label('Tambah Kelas'),
+            ImportAction::make()->importer(ClassesImporter::class)->label('Import Data Kelas'),
         ];
     }
 }
