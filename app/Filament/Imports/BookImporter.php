@@ -3,6 +3,8 @@
 namespace App\Filament\Imports;
 
 use App\Models\Book;
+use App\Models\Major;
+use App\Models\Subject;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
@@ -18,30 +20,57 @@ class BookImporter extends Importer
             // ImportColumn::make('book_code')
             //     ->rules(['max:255']),
             ImportColumn::make('title')
+                ->label('Judul Buku')
                 ->requiredMapping()
-                ->rules(['required', 'max:255']),
-            ImportColumn::make('subject')
+                ->rules(['required', 'max:255', 'string'])
+                ->example('Matematika Wajib Kelas 10'),
+            ImportColumn::make('subject_code')
+                ->label('Kode Mapel')
                 ->requiredMapping()
-                ->relationship(resolveUsing: 'subject_code')
-                ->rules(['required']),
-            ImportColumn::make('major')
+                ->rules(['required', 'string'])
+                ->example('MAT')
+                ->castStateUsing(function (string $state): ?int {
+                    $subject = Subject::where('subject_code', strtoupper(trim($state)))->first();
+                    return $subject?->id;
+                }),
+            ImportColumn::make('major_code')
+                ->label('Kode Jurusan')
                 ->requiredMapping()
-                ->relationship(resolveUsing: 'major_code')
-                ->rules(['required']),
+                ->rules(['required', 'string'])
+                ->example('RPL')
+                ->castStateUsing(function (string $state): ?int {
+                    $major = Major::where('major_code', strtoupper(trim($state)))->first();
+                    return $major?->id;
+                }),
             ImportColumn::make('grade')
+                ->label('Tingkat')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['in:10,11,12', 'required'])
+                ->example('10'),
             ImportColumn::make('semester')
+                ->label('Semester')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['required', 'in:odd,even,ganjil,genap'])
+                ->example('ganjil')
+                ->castStateUsing(function (string $state): string {
+                    $state = strtolower(trim($state));
+                    return match ($state) {
+                        'ganjil', 'odd', '1' => 'odd',
+                        'genap', 'even', '2' => 'even',
+                        default => $state,
+                    };
+                }),
             ImportColumn::make('total_stock')
+                ->label('Total Stok')
                 ->requiredMapping()
                 ->numeric()
-                ->rules(['required', 'integer']),
+                ->rules(['required', 'integer', 'min:0'])
+                ->example('100'),
             ImportColumn::make('remaining_stock')
-                ->requiredMapping()
+                ->label('Sisa Stok')
                 ->numeric()
-                ->rules(['required', 'integer']),
+                ->rules(['required', 'integer', 'min:0'])
+                ->example('100'),
         ];
     }
 
@@ -52,12 +81,26 @@ class BookImporter extends Importer
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Your book import has completed and ' . Number::format($import->successful_rows) . ' ' . str('row')->plural($import->successful_rows) . ' imported.';
+        $body = 'Import buku selesai! ' . number_format($import->successful_rows) . ' buku berhasil diimport.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' ' . Number::format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' failed to import.';
+            $body .= ' ' . number_format($failedRowsCount) . ' buku gagal diimport.';
         }
 
         return $body;
+    }
+
+    protected function afterSave(): void
+    {
+        // Auto-generate book_code dan book_items
+        $book = $this->record;
+
+        $book->load('subject', 'major');
+        $book->generateBookCode();
+
+        // Create book_items sesuai total_stock
+        if ($book->total_stock > 0) {
+            $book->syncBookItems($book->total_stock);
+        }
     }
 }

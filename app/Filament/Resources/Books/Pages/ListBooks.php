@@ -7,6 +7,7 @@ use App\Filament\Resources\Books\BookResource;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Icons\Heroicon;
 
 class ListBooks extends ListRecords
 {
@@ -16,7 +17,11 @@ class ListBooks extends ListRecords
     {
         return [
             CreateAction::make()->label('Tambah Buku'),
-            ImportAction::make()->importer(BookImporter::class)->label('Import Data Siswa'),
+            ImportAction::make()
+                ->importer(BookImporter::class)
+                ->label('Import Siswa')
+                ->color('success')
+                ->icon(Heroicon::ArrowUpTray),
         ];
     }
 }

@@ -17,13 +17,18 @@ class StudentImporter extends Importer
     {
         return [
             ImportColumn::make('nisn')
+                ->label('NISN')
                 ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->rules(['required', 'max:20', 'unique:student,nisn', 'string'])
+                ->example('0072537281'),
             ImportColumn::make('student_name')
+                ->label('Nama Siswa')
                 ->requiredMapping()
-                ->rules(['required', 'max:255']),
-            ImportColumn::make('class_id')
-                ->label('Mis. 10-RPL2 11-SK2 12-DPIB3')
+                ->rules(['required', 'max:255', 'string']),
+            ImportColumn::make('class')
+                ->label('Kelas')
+                ->rules(['required', 'string'])
+                ->example('10-RPL1 11-SK2 12-DPIB3')
                 // Disini kita manipulasi data "12-RPL2" menjadi class_id
                 ->fillRecordUsing(function ($record, string $state): void {
                     $parts = explode('-', $state);
@@ -39,22 +44,27 @@ class StudentImporter extends Importer
                 })
                 ->requiredMapping(),
             ImportColumn::make('status')
-                ->requiredMapping()
+                ->label('Status')
+                ->default('active')
+                ->example('active')
                 ->rules(['in:active,graduated,move,dropout']),
         ];
     }
 
-    public function resolveRecord(): Student
+    public function resolveRecord(): ?Student
     {
-        return new Student();
+        // Cari siswa berdasarkan NISN (update kalau ada, create kalau belum)
+        return Student::firstOrNew([
+            'nisn' => $this->data['nisn'],
+        ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Your student import has completed and ' . Number::format($import->successful_rows) . ' ' . str('row')->plural($import->successful_rows) . ' imported.';
+        $body = 'Import siswa selesai! ' . Number::format($import->successful_rows) . ' siswa berhasil diimport';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' ' . Number::format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' failed to import.';
+            $body .= ' ' . Number::format($failedRowsCount) . ' siswa gagal diimport.';
         }
 
         return $body;

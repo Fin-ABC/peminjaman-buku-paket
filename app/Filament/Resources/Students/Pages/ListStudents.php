@@ -7,6 +7,7 @@ use App\Filament\Resources\Students\StudentResource;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Icons\Heroicon;
 
 class ListStudents extends ListRecords
 {
@@ -16,7 +17,11 @@ class ListStudents extends ListRecords
     {
         return [
             CreateAction::make()->label('Tambah Siswa'),
-            ImportAction::make()->importer(StudentImporter::class)->label('Import Data Siswa'),
+            ImportAction::make()
+                ->importer(StudentImporter::class)
+                ->label('Import Siswa')
+                ->color('success')
+                ->icon(Heroicon::ArrowUpTray),
         ];
     }
 }
