@@ -22,7 +22,7 @@ class ClassesFactory extends Factory
             'grade' => fake()->randomElement(['10', '11', '12']),
             'major_id' => Major::factory(),
             'year_id' => SchoolYear::factory(),
-            'class_name' => fake()->word(2)
+            'class_name' => fake()->randomDigitNotNull()
         ];
     }
 }
