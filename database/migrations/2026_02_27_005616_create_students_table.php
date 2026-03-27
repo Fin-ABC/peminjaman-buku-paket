@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('nis')->unique();
+            $table->string('nisn')->unique();
             $table->string('student_name');
             $table->foreignId("class_id")->constrained('classes', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('status', ['active', 'graduated', 'move', 'dropout'])->default('active');

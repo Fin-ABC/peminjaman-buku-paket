@@ -33,7 +33,7 @@ class ClassesForm
 
                 TextInput::make('class_name')
                     ->label('Nama Kelas')
-                    ->placeholder('Contoh: RPL 1')
+                    ->placeholder('Contoh: RPL2')
                     ->required()
                     ->maxLength(50),
 

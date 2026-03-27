@@ -11,7 +11,7 @@ class StudentInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('nis'),
+                TextEntry::make('nisn'),
                 TextEntry::make('student_name'),
                 TextEntry::make('class_id')
                     ->numeric(),

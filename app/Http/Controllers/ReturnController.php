@@ -94,30 +94,30 @@ class ReturnController extends Controller
     public function verifyStep5(Request $request)
     {
         $request->validate([
-            'nis_1'    => ['required', 'digits_between:10,16'],
-            'nis_2'    => ['required', 'digits_between:10,16', 'different:nis_1'],
+            'nisn_1'    => ['required', 'digits_between:10,16'],
+            'nisn_2'    => ['required', 'digits_between:10,16', 'different:nisn_1'],
             'level'    => ['required'],
             'major_id' => ['required'],
             'class_id' => ['required'],
             'semester' => ['required', 'in:odd,even'],
         ], [
-            'nis_2.different'      => 'Kedua NIS tidak boleh sama.',
-            'nis_1.digits_between' => 'NIS harus 10-16 digit angka.',
-            'nis_2.digits_between' => 'NIS harus 10-16 digit angka.',
+            'nisn_2.different'      => 'Kedua NISN tidak boleh sama.',
+            'nisn_1.digits_between' => 'NISN harus 10-16 digit angka.',
+            'nisn_2.digits_between' => 'NISN harus 10-16 digit angka.',
         ]);
 
         $classId = $request->input('class_id');
-        $nis1    = $request->input('nis_1');
-        $nis2    = $request->input('nis_2');
+        $nisn1    = $request->input('nisn_1');
+        $nisn2    = $request->input('nisn_2');
 
         $validCount = Student::where('class_id', $classId)
-            ->whereIn('nis', [$nis1, $nis2])
+            ->whereIn('nisn', [$nisn1, $nisn2])
             ->count();
 
         if ($validCount < 2) {
             return back()
                 ->withInput()
-                ->with('verification_error', 'Salah satu NIS tidak ditemukan di kelas ini.');
+                ->with('verification_error', 'Salah satu NISN tidak ditemukan di kelas ini.');
         }
 
         return redirect()->route('return.step6', [
@@ -199,7 +199,7 @@ class ReturnController extends Controller
                     'detail_id'    => $detail->id,
                     'student_id'   => $detail->student->id,
                     'student_name' => $detail->student->student_name,
-                    'nis'          => $detail->student->nis,
+                    'nisn'          => $detail->student->nisn,
                     'status'       => $detail->status,
                     'is_overdue'   => $detail->status === 'Overdue',
                 ];

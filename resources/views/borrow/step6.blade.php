@@ -94,7 +94,7 @@
                     <div></div>
                     <span class="font-inter font-semibold text-sm text-gray-700">No</span>
                     <span class="font-inter font-semibold text-sm text-gray-700">Nama Siswa</span>
-                    <span class="font-inter font-semibold text-sm text-gray-700 text-right">NIS</span>
+                    <span class="font-inter font-semibold text-sm text-gray-700 text-right">NISN</span>
                 </div>
 
                 {{-- Body --}}
@@ -137,8 +137,8 @@
                             @endif
                         </div>
 
-                        {{-- NIS --}}
-                        <span class="font-inter text-sm text-gray-600 text-right">{{ $student->nis }}</span>
+                        {{-- NISN --}}
+                        <span class="font-inter text-sm text-gray-600 text-right">{{ $student->nisn }}</span>
                     </div>
                 @endforeach
             </div>

@@ -58,7 +58,7 @@ class TransactionDetailsTable
                     ->label('Siswa')
                     ->searchable()
                     ->sortable()
-                    ->description(fn($record) => "NIS: {$record->student->nis}"),
+                    ->description(fn($record) => "NISN: {$record->student->nisn}"),
 
                 TextColumn::make('transaction.class.class_name')
                     ->label('Kelas')

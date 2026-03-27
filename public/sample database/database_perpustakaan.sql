@@ -60,7 +60,7 @@ CREATE TABLE kelas (
 -- ============================================
 CREATE TABLE siswa (
     id_siswa INT AUTO_INCREMENT PRIMARY KEY,
-    nis VARCHAR(255) UNIQUE NOT NULL,
+    nisn VARCHAR(255) UNIQUE NOT NULL,
     nama_siswa VARCHAR(255) NOT NULL,
     id_kelas INT NOT NULL,
     id_tahun_masuk INT NOT NULL,
@@ -148,19 +148,19 @@ CREATE INDEX idx_detail_status ON detail_peminjaman(status);
 -- ============================================
 
 -- Insert sample tahun ajaran
-INSERT INTO tahun_ajaran (nama_tahun, aktif) VALUES 
+INSERT INTO tahun_ajaran (nama_tahun, aktif) VALUES
 ('2024/2025', TRUE),
 ('2025/2026', FALSE);
 
 -- Insert sample jurusan
-INSERT INTO jurusan (kode_jurusan, nama_jurusan) VALUES 
+INSERT INTO jurusan (kode_jurusan, nama_jurusan) VALUES
 ('RPL', 'Rekayasa Perangkat Lunak'),
 ('TKJ', 'Teknik Komputer dan Jaringan'),
 ('MM', 'Multimedia'),
 ('TJKT', 'Teknik Jaringan Komputer dan Telekomunikasi');
 
 -- Insert sample mata pelajaran
-INSERT INTO mata_pelajaran (kode_mapel, nama_mapel) VALUES 
+INSERT INTO mata_pelajaran (kode_mapel, nama_mapel) VALUES
 ('MTK', 'Matematika'),
 ('BIN', 'Bahasa Indonesia'),
 ('BING', 'Bahasa Inggris'),
@@ -170,7 +170,7 @@ INSERT INTO mata_pelajaran (kode_mapel, nama_mapel) VALUES
 ('BD', 'Basis Data');
 
 -- Insert sample akun admin
-INSERT INTO akun (username, password, role) VALUES 
+INSERT INTO akun (username, password, role) VALUES
 ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
 -- Password di atas adalah hash dari 'password', ganti dengan hash yang sebenarnya
 

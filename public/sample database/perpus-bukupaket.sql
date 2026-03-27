@@ -119,13 +119,13 @@ CREATE TABLE IF NOT EXISTS `peminjaman` (
 -- Dumping structure for table peminjaman_buku_paket.siswa
 CREATE TABLE IF NOT EXISTS `siswa` (
   `id_siswa` int NOT NULL AUTO_INCREMENT,
-  `nis` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nisn` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nama_siswa` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_kelas` int NOT NULL,
   `id_tahun_masuk` int NOT NULL,
   `status` enum('aktif','lulus','pindah','dropout') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'aktif',
   PRIMARY KEY (`id_siswa`),
-  UNIQUE KEY `nis` (`nis`),
+  UNIQUE KEY `nisn` (`nisn`),
   KEY `fk_siswa_kelas` (`id_kelas`),
   KEY `fk_tahun_masuk` (`id_tahun_masuk`),
   CONSTRAINT `fk_siswa_kelas` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`) ON DELETE RESTRICT ON UPDATE CASCADE,

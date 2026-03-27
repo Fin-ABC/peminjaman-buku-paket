@@ -13,7 +13,7 @@ id, book_code (unique, nullable), title, subject_id → subjects, major_id → m
 book_items
 id, book_id → books, item_code (unique, nullable), condition (enum: good/damaged/lost/borrowed, default good), timestamps
 students
-id, nis (unique), student_name, class_id → classes, status (enum: active/graduated/move/dropout, default active), timestamps
+id, nisn (unique), student_name, class_id → classes, status (enum: active/graduated/move/dropout, default active), timestamps
 transactions
 id, book_id → books, class_id → classes, year_id → school_years, semester (enum: odd/even), transaction_date, is_all_returned (default false), timestamps
 transaction_details

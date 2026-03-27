@@ -104,9 +104,9 @@ class BorrowController extends Controller
             'class_id' => ['required'],
             'semester' => ['required', 'in:odd,even'],
         ], [
-            'nis_2.different'        => 'Kedua NIS tidak boleh sama.',
-            'nis_1.digits_between'   => 'NIS harus 10-16 digit angka.',
-            'nis_2.digits_between'   => 'NIS harus 10-16 digit angka.',
+            'nis_2.different'        => 'Kedua NISN tidak boleh sama.',
+            'nis_1.digits_between'   => 'NISN harus 10-16 digit angka.',
+            'nis_2.digits_between'   => 'NISN harus 10-16 digit angka.',
         ]);
 
         $classId = $request->input('class_id');

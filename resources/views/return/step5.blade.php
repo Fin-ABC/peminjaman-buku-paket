@@ -11,7 +11,7 @@
                       d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
             </svg>
             <p class="font-inter text-sm text-gray-700 leading-relaxed">
-                Untuk melanjutkan, silahkan masukkan <span class="font-semibold text-primary">2 Nomor Induk Siswa (NIS)</span>
+                Untuk melanjutkan, silahkan masukkan <span class="font-semibold text-primary">2 NISN)</span>
                 dari kelas <span class="font-semibold text-primary">{{ $level }} - {{ $major->major_code }}</span>
             </p>
         </div>
@@ -37,15 +37,15 @@
             <input type="hidden" name="class_id" value="{{ $classId }}">
             <input type="hidden" name="semester" value="{{ $semester }}">
 
-            {{-- NIS Pertama --}}
+            {{-- NISN Pertama --}}
             <div class="mb-5">
                 <label class="block font-inter font-medium text-sm text-gray-800 mb-2">
-                    NIS Siswa Pertama <span class="text-red-500">*</span>
+                    NISN Siswa Pertama <span class="text-red-500">*</span>
                 </label>
                 <input type="text"
-                       name="nis_1"
-                       value="{{ old('nis_1') }}"
-                       placeholder="Masukkan NIS (10-16 digit)"
+                       name="nisn_1"
+                       value="{{ old('nisn_1') }}"
+                       placeholder="Masukkan NISN (10-16 digit)"
                        maxlength="16"
                        autocomplete="off"
                        @class([
@@ -53,23 +53,23 @@
                            'border rounded-[12px] outline-none transition-all duration-200',
                            'placeholder:text-gray-400 text-gray-900',
                            'focus:border-primary focus:ring-2 focus:ring-primary/20',
-                           'border-red-300 bg-red-50' => $errors->has('nis_1'),
-                           'border-accent bg-white'   => !$errors->has('nis_1'),
+                           'border-red-300 bg-red-50' => $errors->has('nisn_1'),
+                           'border-accent bg-white'   => !$errors->has('nisn_1'),
                        ]) />
-                @error('nis_1')
+                @error('nisn_1')
                     <p class="mt-1.5 font-inter text-xs text-red-500">{{ $message }}</p>
                 @enderror
             </div>
 
-            {{-- NIS Kedua --}}
+            {{-- NISN Kedua --}}
             <div class="mb-8">
                 <label class="block font-inter font-medium text-sm text-gray-800 mb-2">
-                    NIS Siswa Kedua <span class="text-red-500">*</span>
+                    NISN Siswa Kedua <span class="text-red-500">*</span>
                 </label>
                 <input type="text"
-                       name="nis_2"
-                       value="{{ old('nis_2') }}"
-                       placeholder="Masukkan NIS (10-16 digit)"
+                       name="nisn_2"
+                       value="{{ old('nisn_2') }}"
+                       placeholder="Masukkan NISN (10-16 digit)"
                        maxlength="16"
                        autocomplete="off"
                        @class([
@@ -77,10 +77,10 @@
                            'border rounded-[12px] outline-none transition-all duration-200',
                            'placeholder:text-gray-400 text-gray-900',
                            'focus:border-primary focus:ring-2 focus:ring-primary/20',
-                           'border-red-300 bg-red-50' => $errors->has('nis_2'),
-                           'border-accent bg-white'   => !$errors->has('nis_2'),
+                           'border-red-300 bg-red-50' => $errors->has('nisn_2'),
+                           'border-accent bg-white'   => !$errors->has('nisn_2'),
                        ]) />
-                @error('nis_2')
+                @error('nisn_2')
                     <p class="mt-1.5 font-inter text-xs text-red-500">{{ $message }}</p>
                 @enderror
             </div>

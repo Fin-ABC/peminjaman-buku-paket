@@ -32,8 +32,8 @@ class EditStudent extends EditRecord
                 ->modalDescription(
                     fn($record) =>
                     $record->hasRelatedData()
-                        ? "⚠️ PERINGATAN: Menghapus siswa '{$record->student_name}' (NIS: {$record->nis}) akan menghapus SEMUA data peminjaman dan riwayat terkait siswa ini. Tindakan ini TIDAK DAPAT DIBATALKAN!"
-                        : "Apakah Anda yakin ingin menghapus siswa '{$record->student_name}' (NIS: {$record->nis})?"
+                        ? "⚠️ PERINGATAN: Menghapus siswa '{$record->student_name}' (NISN: {$record->nisn}) akan menghapus SEMUA data peminjaman dan riwayat terkait siswa ini. Tindakan ini TIDAK DAPAT DIBATALKAN!"
+                        : "Apakah Anda yakin ingin menghapus siswa '{$record->student_name}' (NISN: {$record->nisn})?"
                 )
                 ->modalSubmitActionLabel('Ya, Hapus')
                 ->form(fn($record) => $record->hasRelatedData() ? [
@@ -80,13 +80,13 @@ class EditStudent extends EditRecord
                     }
 
                     $studentName = $record->student_name;
-                    $nis = $record->nis;
+                    $nisn = $record->nisn;
                     $record->delete();
 
                     Notification::make()
                         ->success()
                         ->title('Siswa Dihapus')
-                        ->body("Siswa '{$studentName}' (NIS: {$nis}) berhasil dihapus.")
+                        ->body("Siswa '{$studentName}' (NISN: {$nisn}) berhasil dihapus.")
                         ->send();
                 }),
         ];

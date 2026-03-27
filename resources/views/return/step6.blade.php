@@ -98,7 +98,7 @@
                     <div></div>
                     <span class="font-inter font-semibold text-sm text-gray-700">No</span>
                     <span class="font-inter font-semibold text-sm text-gray-700">Nama Siswa</span>
-                    <span class="font-inter font-semibold text-sm text-gray-700">NIS</span>
+                    <span class="font-inter font-semibold text-sm text-gray-700">NISN</span>
                     <span class="font-inter font-semibold text-sm text-gray-700">Status</span>
                 </div>
 
@@ -129,8 +129,8 @@
                             </span>
                         </div>
 
-                        {{-- NIS --}}
-                        <span class="font-inter text-sm text-gray-600" x-text="student.nis"></span>
+                        {{-- NISN --}}
+                        <span class="font-inter text-sm text-gray-600" x-text="student.nisn"></span>
 
                         {{-- Dropdown status --}}
                         <select x-model="student.status" :disabled="!isSelected(student.detail_id)"

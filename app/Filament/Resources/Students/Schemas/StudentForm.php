@@ -13,20 +13,8 @@ class StudentForm
     {
         return $schema
             ->components([
-                // TextInput::make('nis')
-                //     ->required(),
-                // TextInput::make('student_name')
-                //     ->required(),
-                // TextInput::make('class_id')
-                //     ->required()
-                //     ->numeric(),
-                // Select::make('status')
-                //     ->options(['active' => 'Active', 'graduated' => 'Graduated', 'move' => 'Move', 'dropout' => 'Dropout'])
-                //     ->default('active')
-                //     ->required(),
-
-                TextInput::make('nis')
-                        ->label('NIS')
+                TextInput::make('nisn')
+                        ->label('NISN')
                         ->placeholder('Contoh: 2024001')
                         ->required()
                         ->unique(ignoreRecord: true)
@@ -35,8 +23,8 @@ class StudentForm
                         ->dehydrated()  // ✅ Tetap kirim data meski disabled
                         ->helperText(fn (string $operation): string =>
                             $operation === 'edit'
-                                ? 'NIS tidak dapat diubah setelah dibuat'
-                                : 'Nomor Induk Siswa (unik, tidak bisa diubah setelah dibuat)'
+                                ? 'NISN tidak dapat diubah setelah dibuat'
+                                : 'NISN (unik, tidak bisa diubah setelah dibuat)'
                         ),
 
                     TextInput::make('student_name')

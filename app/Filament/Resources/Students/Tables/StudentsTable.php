@@ -24,34 +24,16 @@ class StudentsTable
     {
         return $table
             ->columns([
-                // TextColumn::make('nis')
-                //     ->searchable(),
-                // TextColumn::make('student_name')
-                //     ->searchable(),
-                // TextColumn::make('class_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('status')
-                //     ->badge(),
-                // TextColumn::make('created_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-                // TextColumn::make('updated_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-
                 TextColumn::make('index')
                     ->label('No')
                     ->rowIndex(),
 
-                TextColumn::make('nis')
-                    ->label('NIS')
+                TextColumn::make('nisn')
+                    ->label('NISN')
                     ->searchable()
                     ->sortable()
                     ->copyable()
-                    ->copyMessage('NIS berhasil disalin!')
+                    ->copyMessage('NISN berhasil disalin!')
                     ->weight('bold'),
 
                 TextColumn::make('student_name')
@@ -109,8 +91,8 @@ class StudentsTable
                     ->modalDescription(
                         fn($record) =>
                         $record->hasRelatedData()
-                            ? "⚠️ PERINGATAN: Menghapus siswa '{$record->student_name}' (NIS: {$record->nis}) akan menghapus SEMUA data peminjaman dan riwayat terkait siswa ini. Tindakan ini TIDAK DAPAT DIBATALKAN!"
-                            : "Apakah Anda yakin ingin menghapus siswa '{$record->student_name}' (NIS: {$record->nis})?"
+                            ? "⚠️ PERINGATAN: Menghapus siswa '{$record->student_name}' (NISN: {$record->nisn}) akan menghapus SEMUA data peminjaman dan riwayat terkait siswa ini. Tindakan ini TIDAK DAPAT DIBATALKAN!"
+                            : "Apakah Anda yakin ingin menghapus siswa '{$record->student_name}' (NISN: {$record->nisn})?"
                     )
                     ->modalSubmitActionLabel('Ya, Hapus')
                     ->form(fn($record) => $record->hasRelatedData() ? [
@@ -157,13 +139,13 @@ class StudentsTable
                         }
 
                         $studentName = $record->student_name;
-                        $nis = $record->nis;
+                        $nisn = $record->nisn;
                         $record->delete();
 
                         Notification::make()
                             ->success()
                             ->title('Siswa Dihapus')
-                            ->body("Siswa '{$studentName}' (NIS: {$nis}) berhasil dihapus.")
+                            ->body("Siswa '{$studentName}' (NISN: {$nisn}) berhasil dihapus.")
                             ->send();
                     }),
             ])

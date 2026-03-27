@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step 4 - Verifikasi NIS</title>
+    <title>Step 4 - Verifikasi NISN</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -250,7 +250,7 @@
             <div class="flow-step">Step 4 of 5</div>
             <h2 class="flow-title">Verifikasi Siswa</h2>
         </div>
-        
+
         <!-- ============================================ -->
         <!-- NORMAL STATE (Default) -->
         <!-- ============================================ -->
@@ -263,17 +263,17 @@
                     Untuk melanjutkan, silahkan masukkan <strong>2 Nomor Induk Siswa (NIS)</strong> dari kelas <strong>DPIB III - Kelas XI - Semester Ganjil</strong>
                 </p>
             </div>
-            
+
             <div class="form-group">
                 <label class="form-label">NIS Siswa Pertama <span class="required">*</span></label>
                 <input type="text" class="form-input" id="nis1" placeholder="Masukkan NIS (10-12 digit)" maxlength="12">
             </div>
-            
+
             <div class="form-group">
                 <label class="form-label">NIS Siswa Kedua <span class="required">*</span></label>
                 <input type="text" class="form-input" id="nis2" placeholder="Masukkan NIS (10-12 digit)" maxlength="12">
             </div>
-            
+
             <button class="verify-button" onclick="showError()">Verifikasi & Lanjutkan</button>
         </div>
 
@@ -289,7 +289,7 @@
                     Untuk melanjutkan, silahkan masukkan <strong>2 Nomor Induk Siswa (NIS)</strong> dari kelas <strong>DPIB III - Kelas XI - Semester Ganjil</strong>
                 </p>
             </div>
-            
+
             <!-- Error Alert -->
             <div class="error-alert">
                 <svg class="error-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -300,17 +300,17 @@
                     <p>Data siswa tidak ditemukan di kelas XI - DPIB III, silahkan masukkan data yang sesuai.</p>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label class="form-label">NIS Siswa Pertama <span class="required">*</span></label>
                 <input type="text" class="form-input error-input" id="nis1Error" value="20230999" maxlength="12">
             </div>
-            
+
             <div class="form-group">
                 <label class="form-label">NIS Siswa Kedua <span class="required">*</span></label>
                 <input type="text" class="form-input error-input" id="nis2Error" value="20231234" maxlength="12">
             </div>
-            
+
             <button class="verify-button" onclick="showNormal()">Verifikasi & Lanjutkan</button>
         </div>
     </div>
