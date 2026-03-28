@@ -25,24 +25,46 @@ class StudentImporter extends Importer
                 ->label('Nama Siswa')
                 ->requiredMapping()
                 ->rules(['required', 'max:255', 'string']),
-            ImportColumn::make('class')
-                ->label('Kelas')
-                ->rules(['required', 'string'])
-                ->example('10-RPL1 11-SK2 12-DPIB3')
-                // Disini kita manipulasi data "12-RPL2" menjadi class_id
-                ->fillRecordUsing(function ($record, string $state): void {
-                    $parts = explode('-', $state);
-                    if (count($parts) === 2) {
-                        $class = Classes::where('grade', $parts[0])
-                            ->where('class_name', $parts[1])
-                            ->first();
+            // ImportColumn::make('class')
+            //     ->label('Kelas')
+            //     ->rules(['required', 'string'])
+            //     ->example('10-RPL1 11-SK2 12-DPIB3')
+            //     // Disini kita manipulasi data "12-RPL2" menjadi class_id
+            //     ->fillRecordUsing(function ($record, string $state): void {
+            //         $parts = explode('-', $state);
+            //         if (count($parts) === 2) {
+            //             $class = Classes::where('grade', $parts[0])
+            //                 ->where('class_name', $parts[1])
+            //                 ->first();
 
-                        if ($class) {
-                            $record->class_id = $class->id;
-                        }
+            //             if ($class) {
+            //                 $record->class_id = $class->id;
+            //             }
+            //         }
+            //     })
+            //     ->requiredMapping(),
+            ImportColumn::make('class_id')
+                ->label('Kelas')
+                ->requiredMapping()
+                ->rules(['required', 'string'])
+                ->example('10-RPL2')
+                ->castStateUsing(function (string $state): ?int {
+                    // Format: 10-RPL2
+                    $parts = explode('-', strtoupper(trim($state)));
+
+                    if (count($parts) !== 2) {
+                        return null;
                     }
-                })
-                ->requiredMapping(),
+
+                    [$grade, $className] = $parts;
+
+                    // ✅ Cari kelas berdasarkan grade dan class_name aja
+                    $class = Classes::where('grade', $grade)
+                        ->where('class_name', $className)
+                        ->first();
+
+                    return $class?->id;
+                }),
             ImportColumn::make('status')
                 ->label('Status')
                 ->default('active')
