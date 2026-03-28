@@ -22,7 +22,7 @@ class ClassesImporter extends Importer
                 ->rules(['required', 'in:10,11,12'])
                 ->example('10'),
 
-            ImportColumn::make('major_code')
+            ImportColumn::make('major_id')
                 ->label('Kode Jurusan')
                 ->requiredMapping()
                 ->rules(['required', 'string'])
@@ -32,7 +32,7 @@ class ClassesImporter extends Importer
                     return $major?->id;
                 }),
 
-            ImportColumn::make('year_name')
+            ImportColumn::make('year_id')
                 ->label('Tahun Ajaran')
                 ->requiredMapping()
                 ->rules(['required', 'string'])
@@ -46,7 +46,7 @@ class ClassesImporter extends Importer
                 ->label('Nama Kelas')
                 ->requiredMapping()
                 ->rules(['required', 'string', 'max:50'])
-                ->example('1'),
+                ->example('RPL1'),
         ];
     }
 

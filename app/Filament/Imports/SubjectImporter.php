@@ -18,13 +18,21 @@ class SubjectImporter extends Importer
             ImportColumn::make('subject_code')
                 ->label('Kode Mapel')
                 ->rules(['nullable', 'string', 'max:10', 'unique:subjects,subject_code'])
-                ->example('MAT'),
+                ->example('MAT')
+                ->castStateUsing(function (?string $state): string {
+                    if (blank($state)) {
+                        return 'active';
+                    }
+                    return strtolower(trim($state));
+                })
+                ,
 
             ImportColumn::make('subject_name')
                 ->label('Nama Mapel')
                 ->requiredMapping()
                 ->rules(['required', 'string', 'max:255', 'unique:subjects,subject_name'])
-                ->example('Matematika'),
+                ->example('Matematika')
+                ,
         ];
     }
 
@@ -37,7 +45,6 @@ class SubjectImporter extends Importer
 
     protected function beforeSave(): void
     {
-        // Auto-generate subject_code kalau kosong
         if (empty($this->data['subject_code'])) {
             $this->data['subject_code'] = Subject::generateCodeFromName($this->data['subject_name']);
         }

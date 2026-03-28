@@ -17,14 +17,12 @@ class BookImporter extends Importer
     public static function getColumns(): array
     {
         return [
-            // ImportColumn::make('book_code')
-            //     ->rules(['max:255']),
             ImportColumn::make('title')
                 ->label('Judul Buku')
                 ->requiredMapping()
                 ->rules(['required', 'max:255', 'string'])
                 ->example('Matematika Wajib Kelas 10'),
-            ImportColumn::make('subject_code')
+            ImportColumn::make('subject_id')
                 ->label('Kode Mapel')
                 ->requiredMapping()
                 ->rules(['required', 'string'])
@@ -33,7 +31,7 @@ class BookImporter extends Importer
                     $subject = Subject::where('subject_code', strtoupper(trim($state)))->first();
                     return $subject?->id;
                 }),
-            ImportColumn::make('major_code')
+            ImportColumn::make('major_id')
                 ->label('Kode Jurusan')
                 ->requiredMapping()
                 ->rules(['required', 'string'])
@@ -50,7 +48,7 @@ class BookImporter extends Importer
             ImportColumn::make('semester')
                 ->label('Semester')
                 ->requiredMapping()
-                ->rules(['required', 'in:odd,even,ganjil,genap'])
+                ->rules(['required', 'in:odd,even,ganjil,genap,1,2'])
                 ->example('ganjil')
                 ->castStateUsing(function (string $state): string {
                     $state = strtolower(trim($state));

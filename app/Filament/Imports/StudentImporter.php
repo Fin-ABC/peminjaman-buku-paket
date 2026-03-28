@@ -19,35 +19,16 @@ class StudentImporter extends Importer
             ImportColumn::make('nisn')
                 ->label('NISN')
                 ->requiredMapping()
-                ->rules(['required', 'max:20', 'unique:student,nisn', 'string'])
                 ->example('0072537281'),
             ImportColumn::make('student_name')
                 ->label('Nama Siswa')
                 ->example('Muhammad Himmel Abdul Rojak')
                 ->requiredMapping()
-                ->rules(['required', 'max:255', 'string']),
-            // ImportColumn::make('class')
-            //     ->label('Kelas')
-            //     ->rules(['required', 'string'])
-            //     ->example('10-RPL1 11-SK2 12-DPIB3')
-            //     // Disini kita manipulasi data "12-RPL2" menjadi class_id
-            //     ->fillRecordUsing(function ($record, string $state): void {
-            //         $parts = explode('-', $state);
-            //         if (count($parts) === 2) {
-            //             $class = Classes::where('grade', $parts[0])
-            //                 ->where('class_name', $parts[1])
-            //                 ->first();
-
-            //             if ($class) {
-            //                 $record->class_id = $class->id;
-            //             }
-            //         }
-            //     })
-            //     ->requiredMapping(),
+                ->rules(['required', 'max:255']),
             ImportColumn::make('class_id')
                 ->label('Kelas')
                 ->requiredMapping()
-                ->rules(['required', 'string'])
+                ->rules(['required'])
                 ->example('10-RPL2')
                 ->castStateUsing(function (string $state): ?int {
                     // Format: 10-RPL2
@@ -68,17 +49,29 @@ class StudentImporter extends Importer
                 }),
             ImportColumn::make('status')
                 ->label('Status')
+                ->requiredMapping()
                 ->example('active')
-                ->rules(['in:active,graduated,move,dropout']),
+                ->castStateUsing(function (?string $state): string {
+                    if (blank($state)) {
+                        return 'active';
+                    }
+                    return strtolower(trim($state));
+                }),
         ];
     }
 
     public function resolveRecord(): ?Student
     {
-        // Cari siswa berdasarkan NISN (update kalau ada, create kalau belum)
         return Student::firstOrNew([
             'nisn' => $this->data['nisn'],
         ]);
+    }
+
+    protected function beforeSave(): void
+    {
+        if (empty($this->data['status'])) {
+            $this->data['status'] = 'active';
+        }
     }
 
     public static function getCompletedNotificationBody(Import $import): string

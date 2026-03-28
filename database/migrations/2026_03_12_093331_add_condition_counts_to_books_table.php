@@ -9,8 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->integer('damaged_count')->default(0)->after('remaining_stock');
-            $table->integer('lost_count')->default(0)->after('damaged_count');
+            $table->integer('damaged_count')->default(0)->after('remaining_stock')->nullable();
+            $table->integer('lost_count')->default(0)->after('damaged_count')->nullable();
         });
     }
 
