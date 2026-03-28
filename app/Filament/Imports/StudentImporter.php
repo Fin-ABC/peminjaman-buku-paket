@@ -23,6 +23,7 @@ class StudentImporter extends Importer
                 ->example('0072537281'),
             ImportColumn::make('student_name')
                 ->label('Nama Siswa')
+                ->example('Muhammad Himmel Abdul Rojak')
                 ->requiredMapping()
                 ->rules(['required', 'max:255', 'string']),
             // ImportColumn::make('class')
@@ -67,7 +68,6 @@ class StudentImporter extends Importer
                 }),
             ImportColumn::make('status')
                 ->label('Status')
-                ->default('active')
                 ->example('active')
                 ->rules(['in:active,graduated,move,dropout']),
         ];

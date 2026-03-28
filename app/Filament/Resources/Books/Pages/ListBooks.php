@@ -19,7 +19,7 @@ class ListBooks extends ListRecords
             CreateAction::make()->label('Tambah Buku'),
             ImportAction::make()
                 ->importer(BookImporter::class)
-                ->label('Import Siswa')
+                ->label('Import Buku')
                 ->color('success')
                 ->icon(Heroicon::ArrowUpTray),
         ];
