@@ -4,12 +4,18 @@ namespace App\Filament\Resources\Students\Pages;
 
 use App\Filament\Imports\StudentImporter;
 use App\Filament\Resources\Students\StudentResource;
+use App\Imports\StudentImport;
+use App\Models\User;
+use App\Notifications\DuplicateStudentNotification;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListStudents extends ListRecords
 {
@@ -19,7 +25,7 @@ class ListStudents extends ListRecords
     {
         return [
             CreateAction::make()->label('Tambah Siswa'),
-             Action::make('download_template')
+            Action::make('download_template')
                 ->label('Download Template')
                 ->color('gray')
                 ->icon('heroicon-o-arrow-down-tray')
@@ -34,6 +40,46 @@ class ListStudents extends ListRecords
                 ->label('Import Siswa')
                 ->color('success')
                 ->icon(Heroicon::ArrowUpTray),
+
+            Action::make('import')
+                ->label('Import 2')
+                ->icon(Heroicon::ArrowUpTray)
+                ->form([
+                    FileUpload::make('file')
+                        ->label('File Excel / CSV')
+                        ->acceptedFileTypes([
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                            'application/vnd.ms-excel',
+                            'text/csv',
+                        ])
+                        ->storeFiles(false)
+                        ->required(),
+                ])
+                ->action(function (array $data) {
+                    $import = new StudentImport;
+                    Excel::import($import, $data['file']);
+
+                    $duplicates = $import->getDuplicates();
+
+                    if (count($duplicates) > 0) {
+                        // Kirim notifikasi ke semua user
+                        $users = User::all();
+                        foreach ($users as $user) {
+                            $user->notify(new DuplicateStudentNotification($duplicates, count($duplicates)));
+                        }
+
+                        Notification::make()
+                            ->title('Import selesai dengan peringatan')
+                            ->body(count($duplicates) . ' data duplikat/tidak valid ditemukan. Cek notifikasi untuk detailnya.')
+                            ->warning()
+                            ->send();
+                    } else {
+                        Notification::make()
+                            ->title('Import berhasil!')
+                            ->success()
+                            ->send();
+                    }
+                }),
         ];
     }
 }

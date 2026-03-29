@@ -4,10 +4,15 @@ namespace App\Filament\Resources\Classes\Pages;
 
 use App\Filament\Imports\ClassesImporter;
 use App\Filament\Resources\Classes\ClassesResource;
+use App\Imports\ClassesImport;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Icons\Heroicon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListClasses extends ListRecords
 {
@@ -17,11 +22,28 @@ class ListClasses extends ListRecords
     {
         return [
             CreateAction::make()->label('Tambah Kelas'),
-            ImportAction::make()
-                ->importer(ClassesImporter::class)
-                ->label('Import Kelas')
-                ->color('success')
-                ->icon(Heroicon::ArrowUpTray),
+            Action::make('import')
+                ->label('Import Excel')
+                ->icon('heroicon-o-arrow-up-tray')
+                ->form([
+                    FileUpload::make('file')
+                        ->label('File Excel / CSV')
+                        ->acceptedFileTypes([
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                            'application/vnd.ms-excel',
+                            'text/csv',
+                        ])
+                        ->storeFiles(false)
+                        ->required(),
+                ])
+                ->action(function (array $data) {
+                    Excel::import(new ClassesImport, $data['file']);
+
+                    Notification::make()
+                        ->title('Import kelas berhasil!')
+                        ->success()
+                        ->send();
+                }),
         ];
     }
 }

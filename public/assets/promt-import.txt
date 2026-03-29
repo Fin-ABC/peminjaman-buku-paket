@@ -1,80 +1,55 @@
-TABEL: siswa
+1. Struktur Tabel
 
-STRUKTUR DATABASE:
-- id (INT, PK, AUTO_INCREMENT)
-- nisn (VARCHAR(12), UNIQUE)
-- nama_siswa (VARCHAR(255))
-- id_kelas (INT, FK ke kelas.id_kelas)
-- angkatan (INT)
-- status (ENUM: aktif, lulus, pindah, dropout)
-- created_at, updated_at
+```php
+Schema::create('subjects', function (Blueprint $table) {
+            $table->id();
+            $table->string('subject_code')->comment('MAT');
+            $table->string('subject_name')->comment('Matematika');
+            $table->timestamps();
+        });
+```
 
-MODEL: Siswa (sudah dibuat / belum dibuat)
+2. Kode Model
 
-RELASI:
-- belongsTo Kelas (via id_kelas)
+```php
+protected $fillable = ['subject_code', 'subject_name'];
+```
 
-FITUR CRUD:
-CREATE:
-- Form: nisn, nama_siswa, pilih kelas (dropdown), angkatan, status (dropdown)
-- Validasi: NISN harus unik, 10-12 digit
+3. Untuk tabel ini gk ada relasinya.
+4. untuk subject_code ini bisa gk isi, jadi jika kolom bagian subject_code ini kosong maka akan dibuatkan kode secara otomatis. Sebenarnya aku udh buat fungsi untuk generate kodenya, akan aku lampirkan, kalo gk butuh juga gk msalah:
 
-READ:
-- Tabel kolom: No, NISN, Nama, Kelas, Angkatan, Status, Aksi
-- Filter: berdasarkan kelas, status, angkatan
-- Search: nama dan NISN
-- Pagination: 25 per halaman
+```php
+public static function generateCode(string $name): string
+    {
+        $words = explode(' ', $name);
 
-UPDATE:
-- Bisa edit semua field kecuali NISN (read-only)
+        if (count($words) === 1) {
+            return strtoupper(substr($name, 0, min(3, strlen($name))));
+        }
 
-DELETE:
-- Soft delete (data tidak benar-benar dihapus, cuma status jadi deleted_at)
+        $code = '';
+        // Jika lebih dari 1 kata
+        $code = '';
+        foreach ($words as $word) {
+            if (in_array(strtolower($word), ['dan', 'atau', 'serta', 'dengan', '&'])) {
+                continue;
+            }
+            $code .= strtoupper(substr($word, 0, 1));
+        }
 
-FITUR TAMBAHAN:
-- Import dari Excel
-- Export ke Excel dan PDF
-- Bulk delete
-- Badge warna: aktif (hijau), lulus (biru), pindah (kuning), dropout (merah)
+        return $code;
+    }
+```
 
+5. Menurutmu lebih baik yg mana? aku ngikut aja, btw ini untuk data Mata Pelajaran.
 
-Kelola Tahun Ajaran (tahun_ajaran)
-Kelola Jurusan (jurusan)
-Kelola Mata Pelajaran (mata_pelajaran)
-Kelola Kelas (kelas)
-Kelola Siswa (siswa) - ini yang paling kompleks karena ada relasi
-Kelola Buku (buku)
+Kira segitu informasi yg bisa aku berikan, apakah sudah cukup? jika kurang tinggal bilang aja
 
+Ringkasan Pertanyaan per Tabel
+Untuk setiap tabel yang mau dibuatkan import, cukup jawab:
 
-Oke sekarang kita lanjut ke halaman selanjutnya
-
-Tabel : school_years
-
-Struktur tabel:
-
-Model : SchoolYear
-
-Fitur CRUD:
-CREATE:
-Form: year_name, formatnya itu 2025/2026, bisa gk dibuatkan 2 textbox, satu untuk 2025(tahun awal), satu lagi 2026(tahun akhir), lalu diantara kedua textbox tersebut ada simbol "/" garis miring.
-Validasi: year_name harus unik, kedua textbox wajib diisi.
-
-READ:
- - Tabel Kolom: No, Nama Tahun (year_name), Active (is_active), untuk is_active tolong dibuatkan toggle buat ngatur tahun mana yg bakal active. Cuman ada 1 tahun/data yg is_active = true. Kalo mau set 'true' record lain disaat sudah ada yg active/true, maka akan muncul card/pop-up notification untuk konfirmasi apakah yakin mau mengubah tahun yg aktif, jika user setuju, tahun aktif yg lama diubah statusnya jadi false, sedangkan tahun yg baru diubah statusnya jadi true.
- - Filter: berdasarkan year_name dan status
- - Search: year_name
- - Pagination: 10 per halaman
-
-UPDATE:
- - Bisa edit semua field, ganti year_name dan is_active. Untuk is_active sama yg udh aku jelasin di bgian Read:Tabel Kolom, Kalo mau set 'true' record lain disaat sudah ada yg active/true, maka akan muncul card/pop-up notification untuk konfirmasi apakah yakin mau mengubah tahun yg aktif, jika user setuju, tahun aktif yg lama diubah statusnya jadi false, sedangkan tahun yg baru diubah statusnya jadi true.
-
-Delete:
- - Delete ya, langsung ilang.
- - Sebelum menghapus harus ada validasi, 2 KALI, karena kalo data ini dihaps bakal ngaruh ke tabel lain yg kemungkinan data di tabel lain bakal terhapus.
- - Validasi 1: Cuman konfirmasi iya/tidak, dengan teks, "Apakah anda yakin ingin menghapus data tersebut?" Kalo bisa teksnya sesuain lagi, sama ditambah teks peringatan apa yg bakal terjadi kalo data ini dihapus.
- - Validasi 2: Agar bisa melanjutkan penghapusan data penting ini, user harus memasukan email dan password lagi, kalo sesuai, ini bakal langsung terhapus, biar gk ada orang iseng yg nyoba2 ngehapus data ini
- - Jika memungkinkan, validasi kedua cuman akan muncul jika memang ada data dari tabel lain yg terhubung dengan tahun yg dipilih. Tapi kalo tahun yg dipilih emang gk dipake, Validasi 2 gk bakal muncul. Ini biar kalo admin gk sengaja bikin tahun yg salah, bisa langsung dihapus, gk perlu repot  validasi 2 kalo, toh datanya juga kosong.
-
-Fitur tambahan:
- -  Untuk Bulk Delete, sistem hapusnya sama kayak Delete biasa, harus ada validasi 2 kali.
- - Badge warna: Hijau dengan simbol centang jika status true, jika false Merah dengan simbol silang
+Nama tabel dan kolom-kolomnya (tipe + nullable/tidak)
+Kode Model-nya (bagian $fillable dan relasi)
+Kolom mana yang foreign key, dan user akan input nilai apa di Excel untuk kolom itu?
+Apakah ada kolom yang di-generate otomatis (tidak perlu diinput user), misalnya book_code, slug, dll.?
+Apakah boleh update data yang sudah ada (upsert), atau hanya insert saja?

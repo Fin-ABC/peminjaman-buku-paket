@@ -131,6 +131,6 @@ class Book extends Model
             }
         }
 
-        // $this->updateConditionCounts();
+        $this->updateConditionCounts();
     }
 }
