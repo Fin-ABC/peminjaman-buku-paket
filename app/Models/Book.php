@@ -34,8 +34,7 @@ class Book extends Model
 
     public function hasRelatedData(): bool
     {
-        return $this->transaction()->exists();
-        return $this->bookItems()->exists();
+        return $this->transaction()->exists() || $this->bookItems()->exists();
     }
     public function bookItems()
     {
@@ -132,6 +131,6 @@ class Book extends Model
             }
         }
 
-        $this->updateConditionCounts();
+        // $this->updateConditionCounts();
     }
 }

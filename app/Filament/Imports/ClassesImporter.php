@@ -28,7 +28,8 @@ class ClassesImporter extends Importer
                 ->rules(['required', 'string'])
                 ->example('RPL')
                 ->castStateUsing(function (string $state): ?int {
-                    $major = Major::where('major_code', strtoupper(trim($state)))->first();
+                    $major = Major::where('major_code', $state)
+                        ->first();
                     return $major?->id;
                 }),
 
@@ -38,7 +39,8 @@ class ClassesImporter extends Importer
                 ->rules(['required', 'string'])
                 ->example('2025/2026')
                 ->castStateUsing(function (string $state): ?int {
-                    $year = SchoolYear::where('year_name', trim($state))->first();
+                    $year = SchoolYear::where('year_name', $state)
+                        ->first();
                     return $year?->id;
                 }),
 

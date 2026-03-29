@@ -22,24 +22,64 @@ class BookImporter extends Importer
                 ->requiredMapping()
                 ->rules(['required', 'max:255', 'string'])
                 ->example('Matematika Wajib Kelas 10'),
+            // ImportColumn::make('subject_id')
+            //     ->label('Kode Mapel')
+            //     ->requiredMapping()
+            //     ->rules(['required'])
+            //     ->example('MAT')
+            //     ->castStateUsing(function (string $state): ?int {
+            //         if (!$state) return null;
+            //         $subject = Subject::where('subject_code', strtoupper(trim($state)))->first();
+            //         return $subject?->id;
+            //     }),
+            // ImportColumn::make('major_id')
+            //     ->label('Kode Jurusan')
+            //     ->requiredMapping()
+            //     ->rules(['required'])
+            //     ->example('RPL')
+            //     ->castStateUsing(function (string $state): ?int {
+            //         if (!$state) return null;
+            //         dd($state);
+            //         $major = Major::where('major_code', strtoupper(trim($state)))->first();
+            //         return $major?->id;
+            //     }),
+
+            // ImportColumn::make('subject')
+            //     ->label('Kode Mapel')
+            //     ->requiredMapping()
+            //     ->rules(['required'])
+            //     ->example('MAT')
+            //     ->relationship(resolveUsing: function (string $state): ?Subject {
+            //         return Subject::where('subject_code', strtoupper(trim($state)))->first();
+            //     }),
+
+            // ImportColumn::make('major')
+            //     ->label('Kode Jurusan')
+            //     ->requiredMapping()
+            //     ->rules(['required'])
+            //     ->example('RPL')
+            //     ->relationship(resolveUsing: function (string $state): ?Major {
+            //         return Major::where('major_code', strtoupper(trim($state)))->first();
+            //     }),
+
             ImportColumn::make('subject_id')
                 ->label('Kode Mapel')
                 ->requiredMapping()
-                ->rules(['required', 'string'])
                 ->example('MAT')
-                ->castStateUsing(function (string $state): ?int {
-                    $subject = Subject::where('subject_code', strtoupper(trim($state)))->first();
-                    return $subject?->id;
+                ->castStateUsing(function (?string $state): ?int {
+                    if (blank($state)) return null;
+                    return Subject::where('subject_code', strtoupper(trim($state)))->value('id');
                 }),
+
             ImportColumn::make('major_id')
                 ->label('Kode Jurusan')
                 ->requiredMapping()
-                ->rules(['required', 'string'])
                 ->example('RPL')
-                ->castStateUsing(function (string $state): ?int {
-                    $major = Major::where('major_code', strtoupper(trim($state)))->first();
-                    return $major?->id;
+                ->castStateUsing(function (?string $state): ?int {
+                    if (blank($state)) return null;
+                    return Major::where('major_code', strtoupper(trim($state)))->value('id');
                 }),
+
             ImportColumn::make('grade')
                 ->label('Tingkat')
                 ->requiredMapping()
