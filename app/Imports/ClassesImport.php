@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Classes;
 use App\Models\Major;
 use App\Models\SchoolYear;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -13,7 +14,7 @@ use Maatwebsite\Excel\Concerns\WithUpserts;
 
 class ClassesImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithUpserts
 {
-    public function model(array $row): ?array
+    public function model(array $row): ?Classes
     {
         $major = Major::where('major_code', strtoupper($row['major_code']))->first();
 
@@ -32,12 +33,12 @@ class ClassesImport implements ToModel, WithHeadingRow, WithValidation, WithChun
             return null;
         }
 
-        return [
+        return new Classes([
             'grade'      => (string) $row['grade'],
             'major_id'   => $major->id,
             'year_id'    => $schoolYear->id,
             'class_name' => $row['class_name'],
-        ];
+        ]);
     }
 
     public function uniqueBy(): array
