@@ -12,6 +12,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Response;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ListBooks extends ListRecords
@@ -22,16 +23,20 @@ class ListBooks extends ListRecords
     {
         return [
             CreateAction::make()->label('Tambah Buku'),
-            ImportAction::make()
-                ->importer(BookImporter::class)
-                ->label('Import Buku')
-                ->color('success')
-                ->icon(Heroicon::ArrowUpTray),
-
             Action::make('import')
-                ->label('Import Excel')
+                ->label('Import Buku')
                 ->icon('heroicon-o-arrow-up-tray')
                 ->form([
+                    Action::make('download_template')
+                        ->label('Download Template')
+                        ->color('gray')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->action(function () {
+                            return Response::download(
+                                storage_path('app/templates/template_buku.xlsx'),
+                                'Template_Import_Siswa.xlsx'
+                            );
+                        }),
                     FileUpload::make('file')
                         ->label('File Excel / CSV')
                         ->acceptedFileTypes([

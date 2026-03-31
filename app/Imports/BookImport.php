@@ -13,39 +13,51 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 
-class BookImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, SkipsOnError
+class BookImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts, SkipsOnError
 {
     use SkipsErrors;
 
     protected int $skippedCount = 0;
 
+    // 1. KITA DEFINISIKAN SEMUA NAMA KOLOM EXCEL DI SINI
+    const COL_TITLE    = 'judul_buku';
+    const COL_SUBJECT  = 'kode_mapel';
+    const COL_MAJOR    = 'kode_jurusan';
+    const COL_GRADE    = 'tingkat';
+    const COL_SEMESTER = 'semester';
+    const COL_STOCK    = 'total_stok';
+
     protected array $semesterMap = [
+        'odd' => 'odd',
+        'even'  => 'even',
         'ganjil' => 'odd',
         'genap'  => 'even',
+        '1' => 'odd',
+        '2' => 'even',
     ];
 
     public function model(array $row): ?Book
     {
-        $semester = $this->semesterMap[strtolower($row['semester'])] ?? null;
+        // 2. KITA PANGGIL MENGGUNAKAN self::NAMA_KONSTANTA
+        $semester = $this->semesterMap[strtolower($row[self::COL_SEMESTER])] ?? null;
 
         if (! $semester) {
             $this->skippedCount++;
             return null;
         }
 
-        $subject = Subject::where('subject_code', strtoupper($row['subject_code']))->first();
-        $major   = Major::where('major_code', strtoupper($row['major_code']))->first();
+        $subject = Subject::where('subject_code', strtoupper($row[self::COL_SUBJECT]))->first();
+        $major   = Major::where('major_code', strtoupper($row[self::COL_MAJOR]))->first();
 
         if (! $subject || ! $major) {
             $this->skippedCount++;
             return null;
         }
 
-        // Cek duplikat: title + subject_id + major_id + grade + semester
-        $exists = Book::where('title', $row['title'])
+        $exists = Book::where('title', $row[self::COL_TITLE])
             ->where('subject_id', $subject->id)
             ->where('major_id', $major->id)
-            ->where('grade', $row['grade'])
+            ->where('grade', $row[self::COL_GRADE])
             ->where('semester', $semester)
             ->exists();
 
@@ -54,46 +66,46 @@ class BookImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRe
             return null;
         }
 
-        $totalStock = (int) $row['total_stock'];
+        $totalStock = (int) $row[self::COL_STOCK];
 
-        $book = new Book([
-            'title'           => $row['title'],
+        return new Book([
+            'title'           => $row[self::COL_TITLE],
             'subject_id'      => $subject->id,
             'major_id'        => $major->id,
-            'grade'           => (string) $row['grade'],
+            'grade'           => (string) $row[self::COL_GRADE],
             'semester'        => $semester,
             'total_stock'     => $totalStock,
             'remaining_stock' => $totalStock,
             'damaged_count'   => 0,
             'lost_count'      => 0,
         ]);
-
-        return $book;
     }
 
     public function rules(): array
     {
+        // 3. GUNAKAN KONSTANTA SEBAGAI KEY ARRAY
         return [
-            'title'        => ['required', 'string'],
-            'subject_code' => ['required', 'string'],
-            'major_code'   => ['required', 'string'],
-            'grade'        => ['required', 'in:10,11,12'],
-            'semester'     => ['required', 'string'],
-            'total_stock'  => ['required', 'integer', 'min:0'],
+            self::COL_TITLE    => ['required', 'string'],
+            self::COL_SUBJECT  => ['required', 'string'],
+            self::COL_MAJOR    => ['required', 'string'],
+            self::COL_GRADE    => ['required', 'in:10,11,12'],
+            self::COL_SEMESTER => ['required'],
+            self::COL_STOCK    => ['required', 'integer', 'min:0'],
         ];
     }
 
     public function customValidationMessages(): array
     {
+        // 4. GABUNGKAN KONSTANTA DENGAN ATURAN VALIDASI (menggunakan titik / concatenation)
         return [
-            'title.required'        => 'Kolom title wajib diisi.',
-            'subject_code.required' => 'Kolom subject_code wajib diisi.',
-            'major_code.required'   => 'Kolom major_code wajib diisi.',
-            'grade.required'        => 'Kolom grade wajib diisi.',
-            'grade.in'              => 'Grade harus berupa 10, 11, atau 12.',
-            'semester.required'     => 'Kolom semester wajib diisi.',
-            'total_stock.required'  => 'Kolom total_stock wajib diisi.',
-            'total_stock.integer'   => 'Kolom total_stock harus berupa angka.',
+            self::COL_TITLE . '.required'    => 'Kolom ' . self::COL_TITLE . ' wajib diisi.',
+            self::COL_SUBJECT . '.required'  => 'Kolom ' . self::COL_SUBJECT . ' wajib diisi.',
+            self::COL_MAJOR . '.required'    => 'Kolom ' . self::COL_MAJOR . ' wajib diisi.',
+            self::COL_GRADE . '.required'    => 'Kolom ' . self::COL_GRADE . ' wajib diisi.',
+            self::COL_GRADE . '.in'          => 'Tingkat harus berupa 10, 11, atau 12.',
+            self::COL_SEMESTER . '.required' => 'Kolom ' . self::COL_SEMESTER . ' wajib diisi.',
+            self::COL_STOCK . '.required'    => 'Kolom ' . self::COL_STOCK . ' wajib diisi.',
+            self::COL_STOCK . '.integer'     => 'Kolom ' . self::COL_STOCK . ' harus berupa angka.',
         ];
     }
 

@@ -25,26 +25,20 @@ class ListStudents extends ListRecords
     {
         return [
             CreateAction::make()->label('Tambah Siswa'),
-            Action::make('download_template')
-                ->label('Download Template')
-                ->color('gray')
-                ->icon('heroicon-o-arrow-down-tray')
-                ->action(function () {
-                    return Response::download(
-                        storage_path('app/templates/template_siswa.xlsx'),
-                        'Template_Import_Siswa.xlsx'
-                    );
-                }),
-            ImportAction::make()
-                ->importer(StudentImporter::class)
-                ->label('Import Siswa')
-                ->color('success')
-                ->icon(Heroicon::ArrowUpTray),
-
             Action::make('import')
-                ->label('Import 2')
+                ->label('Import Siswa')
                 ->icon(Heroicon::ArrowUpTray)
                 ->form([
+                    Action::make('download_template')
+                        ->label('Download Template')
+                        ->color('gray')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->action(function () {
+                            return Response::download(
+                                storage_path('app/templates/template_siswa.xlsx'),
+                                'Template_Import_Siswa.xlsx'
+                            );
+                        }),
                     FileUpload::make('file')
                         ->label('File Excel / CSV')
                         ->acceptedFileTypes([
