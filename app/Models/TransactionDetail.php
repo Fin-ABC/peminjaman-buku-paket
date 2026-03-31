@@ -23,7 +23,8 @@ class TransactionDetail extends Model
     {
         return $this->belongsTo(Transaction::class);
     }
-    public function book_item(){
+    public function book_item()
+    {
         return $this->belongsTo(BookItem::class);
     }
     public function student()
@@ -53,9 +54,9 @@ class TransactionDetail extends Model
         };
     }
 
-    public function scopeCheckOverdue($query)
+    public static function updateOverdueStatus(): void
     {
-        return $query->where('status', 'Borrowed')
+        static::where('status', 'Borrowed')
             ->whereDate('return_date', '<', now())
             ->update(['status' => 'Overdue']);
     }
