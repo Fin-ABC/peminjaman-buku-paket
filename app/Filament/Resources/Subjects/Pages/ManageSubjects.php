@@ -13,6 +13,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRecords;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Response;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ManageSubjects extends ManageRecords
@@ -26,6 +27,16 @@ class ManageSubjects extends ManageRecords
             Action::make('subject_import')
                 ->label('Import Mapel')
                 ->form([
+                    Action::make('download_template')
+                        ->label('Download Template')
+                        ->color('gray')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->action(function () {
+                            return Response::download(
+                                storage_path('app/templates/template_mapel.xlsx'),
+                                'Template_Import_Mapel.xlsx'
+                            );
+                        }),
                     FileUpload::make('file')
                         ->acceptedFileTypes([
                             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

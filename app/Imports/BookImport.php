@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 
-class BookImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts, SkipsOnError
+class BookImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, SkipsOnError
 {
     use SkipsErrors;
 
@@ -107,11 +107,6 @@ class BookImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRe
             self::COL_STOCK . '.required'    => 'Kolom ' . self::COL_STOCK . ' wajib diisi.',
             self::COL_STOCK . '.integer'     => 'Kolom ' . self::COL_STOCK . ' harus berupa angka.',
         ];
-    }
-
-    public function batchSize(): int
-    {
-        return 100;
     }
 
     public function chunkSize(): int

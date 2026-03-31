@@ -4,7 +4,6 @@ namespace App\Imports;
 
 use App\Models\Subject;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\ToUpsert;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
@@ -13,15 +12,18 @@ use Maatwebsite\Excel\Concerns\WithUpserts;
 
 class SubjectImport implements ToModel, WithHeadingRow, WithValidation, WithBatchInserts, WithChunkReading, WithUpserts
 {
+    const COL_NAME = 'nama_mata_pelajaran';
+    const COL_CODE = 'kode_mapel';
+
     public function model(array $row): Subject
     {
-        $code = filled($row['subject_code'])
-            ? $row['subject_code']
-            : Subject::generateCode($row['subject_name']);
+        $code = filled($row[self::COL_CODE])
+            ? $row[self::COL_CODE]
+            : Subject::generateCode($row[self::COL_NAME]);
 
         return new Subject([
             'subject_code' => $code,
-            'subject_name' => $row['subject_name'],
+            'subject_name' => $row[self::COL_NAME],
         ]);
     }
 
@@ -33,15 +35,15 @@ class SubjectImport implements ToModel, WithHeadingRow, WithValidation, WithBatc
     public function rules(): array
     {
         return [
-            'subject_name' => ['required', 'string', 'max:255'],
-            'subject_code' => ['nullable', 'string', 'max:20'],
+            self::COL_NAME => ['required', 'string', 'max:255'],
+            self::COL_CODE => ['nullable', 'string', 'max:20'],
         ];
     }
 
     public function customValidationMessages(): array
     {
         return [
-            'subject_name.required' => 'Kolom subject_name wajib diisi.',
+            self::COL_NAME . '.required' => 'Kolom ' . self::COL_NAME . ' wajib diisi.',
         ];
     }
 

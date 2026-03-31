@@ -12,6 +12,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Response;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ListClasses extends ListRecords
@@ -26,6 +27,16 @@ class ListClasses extends ListRecords
                 ->label('Import Excel')
                 ->icon('heroicon-o-arrow-up-tray')
                 ->form([
+                     Action::make('download_template')
+                        ->label('Download Template')
+                        ->color('gray')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->action(function () {
+                            return Response::download(
+                                storage_path('app/templates/template_kelas.xlsx'),
+                                'Template_Import_Kelas.xlsx'
+                            );
+                        }),
                     FileUpload::make('file')
                         ->label('File Excel / CSV')
                         ->acceptedFileTypes([

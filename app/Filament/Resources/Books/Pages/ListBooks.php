@@ -34,7 +34,7 @@ class ListBooks extends ListRecords
                         ->action(function () {
                             return Response::download(
                                 storage_path('app/templates/template_buku.xlsx'),
-                                'Template_Import_Siswa.xlsx'
+                                'Template_Import_Buku.xlsx'
                             );
                         }),
                     FileUpload::make('file')
