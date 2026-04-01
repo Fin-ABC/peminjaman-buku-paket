@@ -134,6 +134,7 @@ class BorrowController extends Controller
         // Cek apakah kedua NISN ada di kelas yang dipilih
         $validCount = \App\Models\Student::where('class_id', $classId)
             ->whereIn('nisn', [$nisn1, $nisn2])
+            ->where('status', 'active')
             ->count();
 
         if ($validCount < 2) {

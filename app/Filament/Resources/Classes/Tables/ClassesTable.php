@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Classes\Tables;
 
 use App\Exports\ClassReportExport;
+use App\Filament\Resources\Students\StudentResource;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
@@ -111,6 +112,17 @@ class ClassesTable
 
                     // Notifikasi hijau sukses di pojok kanan atas
                     ->successNotificationTitle('Kelas berhasil diluluskan!'),
+                Action::make('lihat_siswa')
+                    ->label('Lihat Siswa')
+                    ->icon('heroicon-o-users')
+                    ->color('info')
+                    // Arahkan URL ke halaman index StudentResource dengan membawa parameter filter
+                    ->url(fn($record): string => StudentResource::getUrl('index', [
+                        'filters' => [
+                            // 'class_id' ini harus sama persis dengan nama filter di StudentResource
+                            'class_id' => ['values' => $record->id],
+                        ],
+                    ])),
                 EditAction::make(),
                 Action::make('export_class_report')
                     ->label('Export Laporan')
