@@ -3,10 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Classes;
-use App\Models\SchoolClass;
 use App\Models\Student;
-use App\Models\User;
-use App\Notifications\DuplicateStudentsNotification;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
