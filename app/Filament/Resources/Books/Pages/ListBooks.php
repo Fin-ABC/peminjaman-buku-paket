@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Books\Pages;
 
+use App\Exports\BookExport;
+use App\Exports\BooksExport;
 use App\Filament\Imports\BookImporter;
 use App\Filament\Resources\Books\BookResource;
 use App\Imports\BookImport;
@@ -65,6 +67,16 @@ class ListBooks extends ListRecords
                             ->success()
                             ->send();
                     }
+                }),
+            Action::make('export_all')
+                ->label('Export Semua')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('success')
+                ->action(function () {
+                    return Excel::download(
+                        new BookExport(),
+                        'Data_Buku_' . now()->format('d-m-Y') . '.xlsx'
+                    );
                 }),
         ];
     }

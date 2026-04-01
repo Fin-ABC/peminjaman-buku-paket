@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Books\Tables;
 
+use App\Exports\BookExport;
 use App\Models\Major;
 use App\Models\Subject;
 use Filament\Actions\BulkAction;
@@ -20,6 +21,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BooksTable
 {
@@ -100,6 +102,17 @@ class BooksTable
                             ->body("{$count} buku berhasil dihapus.")
                             ->send();
                     }),
+                BulkAction::make('export_selected')
+                    ->label('Export yang Dipilih')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success')
+                    ->action(function ($records) {
+                        return Excel::download(
+                            new BookExport($records),
+                            'Data_Buku_Pilihan_' . now()->format('d-m-Y') . '.xlsx'
+                        );
+                    })
+                    ->deselectRecordsAfterCompletion(),
             ]),
         ];
     }

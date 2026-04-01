@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Classes\Pages;
 
+use App\Exports\ClassesExport;
 use App\Filament\Imports\ClassesImporter;
 use App\Filament\Resources\Classes\ClassesResource;
 use App\Imports\ClassesImport;
@@ -54,6 +55,16 @@ class ListClasses extends ListRecords
                         ->title('Import kelas berhasil!')
                         ->success()
                         ->send();
+                }),
+                Action::make('export_all')
+                ->label('Export Semua')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('success')
+                ->action(function () {
+                    return Excel::download(
+                        new ClassesExport(),
+                        'Data_Kelas_' . now()->format('d-m-Y') . '.xlsx'
+                    );
                 }),
         ];
     }

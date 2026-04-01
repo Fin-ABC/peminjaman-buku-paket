@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Students\Pages;
 
+use App\Exports\BookExport;
+use App\Exports\StudentExport;
 use App\Filament\Imports\StudentImporter;
 use App\Filament\Resources\Students\StudentResource;
 use App\Imports\StudentImport;
@@ -73,6 +75,16 @@ class ListStudents extends ListRecords
                             ->success()
                             ->send();
                     }
+                }),
+                Action::make('export_all')
+                ->label('Export Semua')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('success')
+                ->action(function () {
+                    return Excel::download(
+                        new StudentExport(),
+                        'Data_Siswa_' . now()->format('d-m-Y') . '.xlsx'
+                    );
                 }),
         ];
     }
