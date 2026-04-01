@@ -32,108 +32,115 @@ class LaporanPage extends Page
 
     protected function getHeaderActions(): array
     {
-        return [
-            // Laporan Per Angkatan
-            Action::make('exportGradeLevel')
-                ->label('Export Laporan Per Angkatan')
-                ->icon('heroicon-o-arrow-down-tray')
-                ->color('success')
-                ->form([
-                    Select::make('year_id')
-                        ->label('Tahun Ajaran')
-                        ->options(SchoolYear::orderByDesc('year_name')->pluck('year_name', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-                ])
-                ->action(function (array $data) {
-                    $schoolYear = SchoolYear::find($data['year_id']);
+      return [];
+    }
 
-                    if (!$schoolYear) {
-                        Notification::make()
-                            ->danger()
-                            ->title('Tahun ajaran tidak ditemukan.')
-                            ->send();
-                        return;
-                    }
+    public function exportGradeLevelAction(): Action
+    {
+        return Action::make('exportGradeLevel')
+            ->label('Export Laporan Per Angkatan')
+            ->icon('heroicon-o-arrow-down-tray')
+            ->color('success')
+            ->form([
+                Select::make('year_id')
+                    ->label('Tahun Ajaran')
+                    ->options(SchoolYear::orderByDesc('year_name')->pluck('year_name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+            ])
+            ->action(function (array $data) {
+                $schoolYear = SchoolYear::find($data['year_id']);
 
-                    $fileName = 'Laporan_Angkatan_' . str_replace('/', '-', $schoolYear->year_name)
-                        . '_' . now()->format('d-m-Y') . '.xlsx';
+                if (!$schoolYear) {
+                    Notification::make()
+                        ->danger()
+                        ->title('Tahun ajaran tidak ditemukan.')
+                        ->send();
+                    return;
+                }
 
-                    return Excel::download(
-                        new GradeLevelReportExport($schoolYear),
-                        $fileName
-                    );
-                }),
-            // Laporan Per Semester
-            Action::make('exportSemester')
-                ->label('Export Laporan Per Semester')
-                ->icon('heroicon-o-arrow-down-tray')
-                ->color('success')
-                ->form([
-                    Select::make('year_id')
-                        ->label('Tahun Ajaran')
-                        ->options(SchoolYear::orderByDesc('year_name')->pluck('year_name', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-                    Select::make('semester')
-                        ->label('Semester')
-                        ->options([
-                            'odd'  => 'Ganjil',
-                            'even' => 'Genap',
-                        ])
-                        ->required(),
-                ])
-                ->action(function (array $data) {
-                    $schoolYear = SchoolYear::find($data['year_id']);
+                $fileName = 'Laporan_Angkatan_' . str_replace('/', '-', $schoolYear->year_name)
+                    . '_' . now()->format('d-m-Y') . '.xlsx';
 
-                    if (!$schoolYear) {
-                        Notification::make()->danger()->title('Tahun ajaran tidak ditemukan.')->send();
-                        return;
-                    }
+                return Excel::download(
+                    new GradeLevelReportExport($schoolYear),
+                    $fileName
+                );
+            });
+    }
 
-                    $semesterLabel = $data['semester'] === 'odd' ? 'Ganjil' : 'Genap';
-                    $fileName = 'Laporan_Semester_' . $semesterLabel
-                        . '_' . str_replace('/', '-', $schoolYear->year_name)
-                        . '_' . now()->format('d-m-Y') . '.xlsx';
+    public function exportSemesterAction(): Action
+    {
+        return Action::make('exportSemester')
+            ->label('Export Laporan Per Semester')
+            ->icon('heroicon-o-arrow-down-tray')
+            ->color('success')
+            ->form([
+                Select::make('year_id')
+                    ->label('Tahun Ajaran')
+                    ->options(SchoolYear::orderByDesc('year_name')->pluck('year_name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+                Select::make('semester')
+                    ->label('Semester')
+                    ->options([
+                        'odd'  => 'Ganjil',
+                        'even' => 'Genap',
+                    ])
+                    ->required(),
+            ])
+            ->action(function (array $data) {
+                $schoolYear = SchoolYear::find($data['year_id']);
 
-                    return Excel::download(
-                        new SemesterReportExport($schoolYear, $data['semester']),
-                        $fileName
-                    );
-                }),
+                if (!$schoolYear) {
+                    Notification::make()->danger()->title('Tahun ajaran tidak ditemukan.')->send();
+                    return;
+                }
 
-            // Laporan Per Tahun Ajaran
-            Action::make('exportSchoolYear')
-                ->label('Export Laporan Per Tahun Ajaran')
-                ->icon('heroicon-o-arrow-down-tray')
-                ->color('success')
-                ->form([
-                    Select::make('year_id')
-                        ->label('Tahun Ajaran')
-                        ->options(SchoolYear::orderByDesc('year_name')->pluck('year_name', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-                ])
-                ->action(function (array $data) {
-                    $schoolYear = SchoolYear::find($data['year_id']);
+                $semesterLabel = $data['semester'] === 'odd' ? 'Ganjil' : 'Genap';
+                $fileName = 'Laporan_Semester_' . $semesterLabel
+                    . '_' . str_replace('/', '-', $schoolYear->year_name)
+                    . '_' . now()->format('d-m-Y') . '.xlsx';
 
-                    if (!$schoolYear) {
-                        Notification::make()->danger()->title('Tahun ajaran tidak ditemukan.')->send();
-                        return;
-                    }
+                return Excel::download(
+                    new SemesterReportExport($schoolYear, $data['semester']),
+                    $fileName
+                );
+            });
+    }
 
-                    $fileName = 'Laporan_Tahunan_'
-                        . str_replace('/', '-', $schoolYear->year_name)
-                        . '_' . now()->format('d-m-Y') . '.xlsx';
+    public function exportSchoolYearAction(): Action
+    {
+        return Action::make('exportSchoolYear')
+            ->label('Export Laporan Per Tahun Ajaran')
+            ->icon('heroicon-o-arrow-down-tray')
+            ->color('success')
+            ->form([
+                Select::make('year_id')
+                    ->label('Tahun Ajaran')
+                    ->options(SchoolYear::orderByDesc('year_name')->pluck('year_name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+            ])
+            ->action(function (array $data) {
+                $schoolYear = SchoolYear::find($data['year_id']);
 
-                    return Excel::download(
-                        new SchoolYearReportExport($schoolYear),
-                        $fileName
-                    );
-                })
-        ];
+                if (!$schoolYear) {
+                    Notification::make()->danger()->title('Tahun ajaran tidak ditemukan.')->send();
+                    return;
+                }
+
+                $fileName = 'Laporan_Tahunan_'
+                    . str_replace('/', '-', $schoolYear->year_name)
+                    . '_' . now()->format('d-m-Y') . '.xlsx';
+
+                return Excel::download(
+                    new SchoolYearReportExport($schoolYear),
+                    $fileName
+                );
+            });
     }
 }

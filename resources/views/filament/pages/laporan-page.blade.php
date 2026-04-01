@@ -7,11 +7,17 @@
             <x-slot name="description">
                 Rekapitulasi data per tingkat kelas (10, 11, 12) untuk satu tahun ajaran.
             </x-slot>
-
             <div class="flex items-center justify-between">
-                <div class="text-sm text-gray-500 dark:text-gray-400">
+                <p class="text-sm text-gray-500 dark:text-gray-400">
                     Pilih tahun ajaran lalu klik Export untuk mengunduh laporan dalam format Excel.
-                </div>
+                </p>
+                <x-filament::button
+                    wire:click="mountAction('exportGradeLevel')"
+                    color="success"
+                    icon="heroicon-o-arrow-down-tray"
+                >
+                    Export Laporan Per Angkatan
+                </x-filament::button>
             </div>
         </x-filament::section>
 
@@ -25,6 +31,13 @@
                 <p class="text-sm text-gray-500 dark:text-gray-400">
                     Pilih tahun ajaran dan semester lalu klik Export untuk mengunduh laporan.
                 </p>
+                <x-filament::button
+                    wire:click="mountAction('exportSemester')"
+                    color="success"
+                    icon="heroicon-o-arrow-down-tray"
+                >
+                    Export Laporan Per Semester
+                </x-filament::button>
             </div>
         </x-filament::section>
 
@@ -38,8 +51,18 @@
                 <p class="text-sm text-gray-500 dark:text-gray-400">
                     Pilih tahun ajaran lalu klik Export untuk mengunduh laporan stock opname.
                 </p>
+                <x-filament::button
+                    wire:click="mountAction('exportSchoolYear')"
+                    color="success"
+                    icon="heroicon-o-arrow-down-tray"
+                >
+                    Export Laporan Per Tahun Ajaran
+                </x-filament::button>
             </div>
         </x-filament::section>
 
     </div>
+
+    {{-- Wajib ada agar modal form action bisa muncul --}}
+    <x-filament-actions::modals />
 </x-filament-panels::page>
