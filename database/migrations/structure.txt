@@ -18,3 +18,126 @@ transactions
 id, book_id → books, class_id → classes, year_id → school_years, semester (enum: odd/even), transaction_date, is_all_returned (default false), timestamps
 transaction_details
 id, transaction_id → transactions, book_item_id → book_items, student_id → students, status (enum: Borrowed/Returned/Overdue/lost), return_date, note (nullable), timestamps
+
+### `users`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| name | varchar | |
+| email | varchar | unique |
+| email_verified_at | timestamp | nullable |
+| password | varchar | |
+| remember_token | varchar | nullable |
+| timestamps | | |
+
+---
+
+### `school_years`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| year_name | varchar | unique |
+| is_active | boolean | default false |
+| timestamps | | |
+
+---
+
+### `majors`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| major_code | varchar | unique |
+| major_name | varchar | unique |
+| timestamps | | |
+
+---
+
+### `subjects`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| subject_code | varchar | |
+| subject_name | varchar | |
+| timestamps | | |
+
+---
+
+### `classes`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| grade | enum | 10/11/12 |
+| major_id | bigint | FK → majors.id |
+| year_id | bigint | FK → school_years.id |
+| class_name | varchar | |
+| timestamps | | |
+| | | unique: grade+major_id+year_id+class_name |
+
+---
+
+### `books`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| book_code | varchar | unique, nullable |
+| title | varchar | |
+| subject_id | bigint | FK → subjects.id |
+| major_id | bigint | FK → majors.id |
+| grade | enum | 10/11/12 |
+| semester | enum | odd/even |
+| total_stock | integer | default 0 |
+| remaining_stock | integer | default 0 |
+| damaged_count | integer | default 0, nullable |
+| lost_count | integer | default 0, nullable |
+| timestamps | | |
+
+---
+
+### `book_items`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| book_id | bigint | FK → books.id |
+| item_code | varchar | unique, nullable |
+| condition | enum | good/damaged/lost/borrowed, default good |
+| timestamps | | |
+
+---
+
+### `students`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| nisn | varchar | unique |
+| student_name | varchar | |
+| class_id | bigint | FK → classes.id |
+| status | enum | active/graduated/move/dropout, default active |
+| timestamps | | |
+
+---
+
+### `transactions`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| book_id | bigint | FK → books.id |
+| class_id | bigint | FK → classes.id |
+| year_id | bigint | FK → school_years.id |
+| semester | enum | odd/even |
+| transaction_date | date | |
+| is_all_returned | boolean | default false |
+| timestamps | | |
+
+---
+
+### `transaction_details`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | primary key |
+| transaction_id | bigint | FK → transactions.id |
+| book_item_id | bigint | FK → book_items.id |
+| student_id | bigint | FK → students.id |
+| status | enum | Borrowed/Returned/Overdue/lost |
+| return_date | date | |
+| note | text | nullable |
+| timestamps | | |
