@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Classes\Tables;
 
+use App\Exports\ClassReportExport;
+use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -16,6 +18,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClassesTable
 {
@@ -23,25 +26,6 @@ class ClassesTable
     {
         return $table
             ->columns([
-                // TextColumn::make('grade')
-                //     ->badge(),
-                // TextColumn::make('major_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('year_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('class_name')
-                //     ->searchable(),
-                // TextColumn::make('created_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-                // TextColumn::make('updated_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-
                 TextColumn::make('index')
                     ->label('No')
                     ->rowIndex(),
@@ -107,6 +91,19 @@ class ClassesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('export_class_report')
+                    ->label('Export Laporan')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success')
+                    ->action(function ($record) {
+                        $className = 'Kelas_' . $record->grade . '_' . $record->class_name;
+                        $fileName  = 'Laporan_' . $className . '_' . now()->format('d-m-Y') . '.xlsx';
+
+                        return Excel::download(
+                            new ClassReportExport($record),
+                            $fileName
+                        );
+                    }),
                 DeleteAction::make()
                     ->requiresConfirmation()
                     ->modalHeading(fn($record) => 'Hapus Kelas: ' . $record->class_name)

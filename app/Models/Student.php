@@ -22,13 +22,19 @@ class Student extends Model
         return $this->belongsTo(Classes::class, 'class_id');
     }
 
-    public function hasRelatedData(): bool{
+    public function transactionDetails()
+    {
+        return $this->hasMany(TransactionDetail::class);
+    }
+
+    public function hasRelatedData(): bool
+    {
         return false;
     }
 
     public static function getStatusLabel(string $status): string
     {
-        return match($status) {
+        return match ($status) {
             'active' => 'Aktif',
             'graduated' => 'Lulus',
             'move' => 'Pindah',
@@ -39,7 +45,7 @@ class Student extends Model
 
     public static function getStatusColor(string $status): string
     {
-        return match($status) {
+        return match ($status) {
             'active' => 'success',
             'graduated' => 'info',
             'move' => 'warning',

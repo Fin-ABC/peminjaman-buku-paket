@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Students\Tables;
 
+use App\Exports\StudentReportExport;
 use App\Models\Student;
+use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -17,6 +19,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentsTable
 {
@@ -85,6 +88,19 @@ class StudentsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('export_student_report')
+                    ->label('Export Laporan')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success')
+                    ->action(function ($record) {
+                        $fileName = 'Laporan_' . str_replace(' ', '_', $record->student_name)
+                            . '_' . now()->format('d-m-Y') . '.xlsx';
+
+                        return Excel::download(
+                            new StudentReportExport($record),
+                            $fileName
+                        );
+                    }),
                 DeleteAction::make()
                     ->requiresConfirmation()
                     ->modalHeading(fn($record) => 'Hapus Siswa: ' . $record->student_name)

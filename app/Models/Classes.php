@@ -25,6 +25,9 @@ class Classes extends Model
     public function students(){
         return $this->hasMany(Student::class, 'class_id');
     }
+    public function transactions(){
+        return $this->hasMany(Transaction::class, 'class_id');
+    }
 
     public function hasRelatedData(): bool{
         return $this->students()->exists();

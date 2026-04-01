@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\Books\Tables;
 
 use App\Exports\BookExport;
+use App\Exports\BookReportExport;
 use App\Models\Major;
 use App\Models\Subject;
+use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -231,6 +233,19 @@ class BooksTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('export_book_report')
+                    ->label('Export Laporan')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success')
+                    ->action(function ($record) {
+                        $fileName = 'Laporan_Buku_' . str_replace(' ', '_', $record->title)
+                            . '_' . now()->format('d-m-Y') . '.xlsx';
+
+                        return Excel::download(
+                            new BookReportExport($record),
+                            $fileName
+                        );
+                    }),
                 DeleteAction::make()
                     ->requiresConfirmation()
                     ->modalHeading(fn($record) => 'Hapus Buku: ' . $record->title)
