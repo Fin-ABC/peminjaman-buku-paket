@@ -33,7 +33,9 @@ class BorrowController extends Controller
             return redirect()->route('borrow.step1');
         }
 
-        $majors = Major::orderBy('major_name')->get();
+        $majors = Major::whereNot('major_code', 'UM')
+               ->orderBy('major_name')
+               ->get();
 
         return view('borrow.step2', compact('grade', 'majors'));
     }

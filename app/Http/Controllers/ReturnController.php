@@ -34,7 +34,9 @@ class ReturnController extends Controller
             return redirect()->route('return.step1');
         }
 
-        $majors = Major::orderBy('major_name')->get();
+        $majors = Major::whereNot('major_code', 'UM')
+               ->orderBy('major_name')
+               ->get();
 
         return view('return.step2', compact('level', 'majors'));
     }
