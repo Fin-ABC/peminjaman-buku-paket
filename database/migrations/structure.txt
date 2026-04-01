@@ -1,25 +1,4 @@
-users
-id, name, email (unique), email_verified_at, password, remember_token, timestamps
-school_years
-id, year_name (unique), is_active (default false), timestamps
-majors
-id, major_code (unique), major_name (unique), timestamps
-subjects
-id, subject_code, subject_name, timestamps
-classes
-id, grade (enum: 10/11/12), major_id → majors, year_id → school_years, class_name, timestamps
-books
-id, book_code (unique, nullable), title, subject_id → subjects, major_id → majors, grade (enum: 10/11/12), semester (enum: odd/even), total_stock, remaining_stock, damaged_count, lost_count, timestamps
-book_items
-id, book_id → books, item_code (unique, nullable), condition (enum: good/damaged/lost/borrowed, default good), timestamps
-students
-id, nisn (unique), student_name, class_id → classes, status (enum: active/graduated/move/dropout, default active), timestamps
-transactions
-id, book_id → books, class_id → classes, year_id → school_years, semester (enum: odd/even), transaction_date, is_all_returned (default false), timestamps
-transaction_details
-id, transaction_id → transactions, book_item_id → book_items, student_id → students, status (enum: Borrowed/Returned/Overdue/lost), return_date, note (nullable), timestamps
 
-### `users`
 | Kolom | Tipe | Keterangan |
 |---|---|---|
 | id | bigint | primary key |
