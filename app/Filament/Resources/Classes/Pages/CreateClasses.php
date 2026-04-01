@@ -11,7 +11,7 @@ class CreateClasses extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        unset($data['grade_10'], $data['grade_11'], $data['grade_12']);
+        unset($data['grade_10'], $data['grade_11'], $data['grade_12'], $data['lulus']);
 
         return $data;
     }

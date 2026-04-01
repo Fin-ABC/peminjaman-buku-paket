@@ -63,6 +63,7 @@ class ClassesForm
                                 if ($state) {
                                     $set('grade_11', false);
                                     $set('grade_12', false);
+                                    $set('lulus', false);
                                     $set('grade', '10');
                                 }
                             }),
@@ -74,6 +75,7 @@ class ClassesForm
                                 if ($state) {
                                     $set('grade_10', false);
                                     $set('grade_12', false);
+                                    $set('lulus', false);
                                     $set('grade', '11');
                                 }
                             }),
@@ -85,7 +87,20 @@ class ClassesForm
                                 if ($state) {
                                     $set('grade_10', false);
                                     $set('grade_11', false);
+                                    $set('lulus', false);
                                     $set('grade', '12');
+                                }
+                            }),
+
+                        Checkbox::make('lulus')
+                            ->label('Lulus')
+                            ->live()
+                            ->afterStateUpdated(function ($state, $set) {
+                                if ($state) {
+                                    $set('grade_10', false);
+                                    $set('grade_11', false);
+                                    $set('grade_12', false);
+                                    $set('grade', 'lulus');
                                 }
                             }),
 

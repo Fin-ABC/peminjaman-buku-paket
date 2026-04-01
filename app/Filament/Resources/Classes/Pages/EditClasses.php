@@ -22,6 +22,7 @@ class EditClasses extends EditRecord
         $data['grade_10'] = isset($data['grade']) && $data['grade'] === '10';
         $data['grade_11'] = isset($data['grade']) && $data['grade'] === '11';
         $data['grade_12'] = isset($data['grade']) && $data['grade'] === '12';
+        $data['lulus'] = isset($data['grade']) && $data['grade'] === 'lulus';
 
         return $data;
     }
@@ -29,7 +30,7 @@ class EditClasses extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         // Hapus checkbox helper fields
-        unset($data['grade_10'], $data['grade_11'], $data['grade_12']);
+        unset($data['grade_10'], $data['grade_11'], $data['grade_12'], $data['lulus']);
 
         return $data;
     }
