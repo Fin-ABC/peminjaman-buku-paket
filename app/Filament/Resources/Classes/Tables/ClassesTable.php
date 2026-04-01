@@ -40,7 +40,7 @@ class ClassesTable
                     ->label('Tingkat')
                     ->sortable()
                     ->badge()
-                    ->formatStateUsing(fn($state) => 'Kelas ' . $state)
+                    ->formatStateUsing(fn($state) => $state === 'lulus' ? $state : 'Kelas ' . $state)
                     ->color('primary'),
 
                 TextColumn::make('major.major_name')

@@ -19,6 +19,9 @@ class ReturnController extends Controller
         'X'   => '10',
         'XI'  => '11',
         'XII' => '12',
+        '10'   => '10',
+        '11'  => '11',
+        '12' => '12',
     ];
 
     public function step1()
@@ -28,69 +31,78 @@ class ReturnController extends Controller
 
     public function step2(Request $request)
     {
-        $level = $request->query('level');
+        $grade = $request->query('grade');
 
-        if (!array_key_exists($level, $this->gradeMap)) {
+        if (!array_key_exists($grade, $this->gradeMap)) {
             return redirect()->route('return.step1');
         }
 
         $majors = Major::whereNot('major_code', 'UM')
-               ->orderBy('major_name')
-               ->get();
+            ->orderBy('major_name')
+            ->get();
 
-        return view('return.step2', compact('level', 'majors'));
+        return view('return.step2', compact('grade', 'majors'));
     }
 
     public function step3(Request $request)
     {
-        $level   = $request->query('level');
+        $grade   = $request->query('grade');
         $majorId = $request->query('major_id');
 
-        if (!array_key_exists($level, $this->gradeMap) || !$majorId) {
+        if (!array_key_exists($grade, $this->gradeMap) || !$majorId) {
             return redirect()->route('return.step1');
         }
 
         $major   = Major::findOrFail($majorId);
-        $grade   = $this->gradeMap[$level];
+        $grade   = $this->gradeMap[$grade];
 
         $classes = Classes::where('major_id', $majorId)
             ->where('grade', $grade)
-            ->orderBy('class_name')
+            ->whereNot('grade', 'lulus')
             ->get();
 
-        return view('return.step3', compact('level', 'major', 'classes'));
+        // dd([
+        //     'major_id' => $majorId,
+        //     'grade'    => $grade,
+        //     'classes_count' => $classes->count(),
+        //     // Cek tanpa filter grade, apakah ada data untuk major ini?
+        //     'tanpa_grade' => Classes::where('major_id', $majorId)->get()->toArray(),
+        //     // Cek semua kelas yang ada di DB
+        //     'semua_kelas' => Classes::take(5)->get(['id', 'grade', 'major_id', 'year_id', 'class_name'])->toArray(),
+        // ]);
+        return view('return.step3', compact('grade', 'major', 'classes'));
     }
 
     public function step4(Request $request)
     {
-        $level   = $request->query('level');
+        $grade   = $request->query('grade');
         $majorId = $request->query('major_id');
         $classId = $request->query('class_id');
 
-        if (!array_key_exists($level, $this->gradeMap) || !$majorId || !$classId) {
+        if (!array_key_exists($grade, $this->gradeMap) || !$majorId || !$classId) {
             return redirect()->route('return.step1');
         }
 
         $class = Classes::findOrFail($classId);
 
-        return view('return.step4', compact('level', 'majorId', 'classId', 'class'));
+        return view('return.step4', compact('grade', 'majorId', 'classId', 'class'));
     }
 
     public function step5(Request $request)
     {
-        $level    = $request->query('level');
+        $grade    = $request->query('grade');
         $majorId  = $request->query('major_id');
         $classId  = $request->query('class_id');
         $semester = $request->query('semester');
 
-        if (!array_key_exists($level, $this->gradeMap) || !$majorId || !$classId || !in_array($semester, ['odd', 'even'])) {
+        if (!array_key_exists($grade, $this->gradeMap) || !$majorId || !$classId || !in_array($semester, ['odd', 'even'])) {
             return redirect()->route('return.step1');
         }
 
         $major = Major::findOrFail($majorId);
         $class = Classes::findOrFail($classId);
 
-        return view('return.step5', compact('level', 'majorId', 'classId', 'semester', 'major', 'class'));
+        return view('return.step5', compact('grade', 'majorId', 'classId', 'semester', 'major', 'class'));
     }
 
     public function verifyStep5(Request $request)
@@ -98,7 +110,7 @@ class ReturnController extends Controller
         $request->validate([
             'nisn_1'    => ['required', 'digits_between:10,16'],
             'nisn_2'    => ['required', 'digits_between:10,16', 'different:nisn_1'],
-            'level'    => ['required'],
+            'grade'    => ['required'],
             'major_id' => ['required'],
             'class_id' => ['required'],
             'semester' => ['required', 'in:odd,even'],
@@ -123,7 +135,7 @@ class ReturnController extends Controller
         }
 
         return redirect()->route('return.step6', [
-            'level'    => $request->input('level'),
+            'grade'    => $request->input('grade'),
             'major_id' => $request->input('major_id'),
             'class_id' => $classId,
             'semester' => $request->input('semester'),
@@ -132,16 +144,16 @@ class ReturnController extends Controller
 
     public function step6(Request $request)
     {
-        $level    = $request->query('level');
+        $grade    = $request->query('grade');
         $majorId  = $request->query('major_id');
         $classId  = $request->query('class_id');
         $semester = $request->query('semester');
 
-        if (!array_key_exists($level, $this->gradeMap) || !$majorId || !$classId || !in_array($semester, ['odd', 'even'])) {
+        if (!array_key_exists($grade, $this->gradeMap) || !$majorId || !$classId || !in_array($semester, ['odd', 'even'])) {
             return redirect()->route('return.step1');
         }
 
-        $grade = $this->gradeMap[$level];
+        $grade = $this->gradeMap[$grade];
         $major = Major::findOrFail($majorId);
         $class = Classes::findOrFail($classId);
 
@@ -175,7 +187,7 @@ class ReturnController extends Controller
             ->values();
 
         return view('return.step6', compact(
-            'level',
+            'grade',
             'majorId',
             'classId',
             'semester',
@@ -251,7 +263,6 @@ class ReturnController extends Controller
 
             Transaction::where('id', $transactionId)
                 ->update(['is_all_returned' => $stillBorrowed === 0]);
-
         });
 
         // Hitung jumlah yang dikembalikan untuk success page

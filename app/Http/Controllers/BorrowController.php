@@ -15,7 +15,14 @@ use Illuminate\Support\Facades\DB;
 
 class BorrowController extends Controller
 {
-    private array $gradeMap = ['10', '11', '12'];
+    private array $gradeMap = [
+        'X'   => '10',
+        'XI'  => '11',
+        'XII' => '12',
+        '10'   => '10',
+        '11'  => '11',
+        '12' => '12',
+    ];
 
     // Step 1 — Pilih Tingkat
     public function step1()
@@ -34,8 +41,7 @@ class BorrowController extends Controller
         }
 
         $majors = Major::whereNot('major_code', 'UM')
-               ->orderBy('major_name')
-               ->get();
+            ->get();
 
         return view('borrow.step2', compact('grade', 'majors'));
     }
@@ -54,9 +60,19 @@ class BorrowController extends Controller
 
         $classes = Classes::where('major_id', $majorId)
             ->where('grade', $grade)
+            ->whereNot('grade', 'lulus')
             ->orderBy('major_id')
             ->get();
 
+        // dd([
+        //     'major_id' => $majorId,
+        //     'grade'    => $grade,
+        //     'classes_count' => $classes->count(),
+        //     // Cek tanpa filter grade, apakah ada data untuk major ini?
+        //     'tanpa_grade' => Classes::where('major_id', $majorId)->get()->toArray(),
+        //     // Cek semua kelas yang ada di DB
+        //     'semua_kelas' => Classes::take(5)->get(['id', 'grade', 'major_id', 'year_id', 'class_name'])->toArray(),
+        // ]);
         return view('borrow.step3', compact('grade', 'major', 'classes'));
     }
 

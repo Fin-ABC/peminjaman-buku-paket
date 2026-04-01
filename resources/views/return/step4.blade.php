@@ -2,7 +2,7 @@
     <div class="flex gap-6 justify-center w-full" x-data="{ selected: null }">
 
         <a href="{{ route('return.step5', [
-                'level'    => $level,
+                'grade'    => $grade,
                 'major_id' => $majorId,
                 'class_id' => $classId,
                 'semester' => 'odd',
@@ -18,7 +18,7 @@
         </a>
 
         <a href="{{ route('return.step5', [
-                'level'    => $level,
+                'grade'    => $grade,
                 'major_id' => $majorId,
                 'class_id' => $classId,
                 'semester' => 'even',

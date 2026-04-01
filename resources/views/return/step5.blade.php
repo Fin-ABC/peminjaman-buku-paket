@@ -12,7 +12,7 @@
             </svg>
             <p class="font-inter text-sm text-gray-700 leading-relaxed">
                 Untuk melanjutkan, silahkan masukkan <span class="font-semibold text-primary">2 NISN</span>
-                dari kelas <span class="font-semibold text-primary">{{ $level }} - {{ $major->major_code }}</span>
+                dari kelas <span class="font-semibold text-primary">{{ $grade }} - {{ $major->major_code }}</span>
             </p>
         </div>
 
@@ -32,7 +32,7 @@
             @csrf
 
             {{-- Teruskan semua parameter step sebelumnya --}}
-            <input type="hidden" name="level"    value="{{ $level }}">
+            <input type="hidden" name="grade"    value="{{ $grade }}">
             <input type="hidden" name="major_id" value="{{ $majorId }}">
             <input type="hidden" name="class_id" value="{{ $classId }}">
             <input type="hidden" name="semester" value="{{ $semester }}">
