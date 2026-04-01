@@ -23,7 +23,7 @@ class ImportPage extends Page
     protected static ?string $navigationLabel = 'Import Data';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowUpTray;
     protected static string|UnitEnum|null $navigationGroup = 'Laporan & Export';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 12;
 
     // ── ACTION: Import Buku ───────────────────────────────────────
     public function downloadTemplateBukuAction(): Action

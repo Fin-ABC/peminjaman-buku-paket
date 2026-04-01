@@ -22,7 +22,7 @@ class LaporanPage extends Page
     protected static ?string $navigationLabel = 'Laporan';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentChartBar;
     protected static string|UnitEnum|null $navigationGroup = 'Laporan & Export';
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 11;
 
     // State untuk setiap form filter
     public ?int $gradeLevel_yearId = null;
