@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('transaction_id')->constrained('transactions', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('book_item_id')->constrained('book_items', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('student_id')->constrained('students', 'id')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('status', ['Borrowed', 'Returned', 'Overdue', 'lost']);
+            $table->enum('status', ['Borrowed', 'Returned', 'Overdue', 'Lost']);
             $table->date('return_date');
             $table->text('note')->nullable();
             $table->timestamps();

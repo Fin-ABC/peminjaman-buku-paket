@@ -244,7 +244,7 @@ class ReturnController extends Controller
                 'Borrowed' => 'borrowed',
                 'Returned' => 'good',
                 'Overdue' => 'borrowed',
-                'lost' => 'lost'
+                'Lost' => 'lost'
             ];
 
             foreach ($details as $item) {
@@ -259,7 +259,7 @@ class ReturnController extends Controller
 
             // Cek apakah semua sudah dikembalikan / lost
             $stillBorrowed = TransactionDetail::where('transaction_id', $transactionId)
-                ->whereNotIn('status', ['Returned', 'lost'])
+                ->whereNotIn('status', ['Returned', 'Lost'])
                 ->count();
 
             Transaction::where('id', $transactionId)

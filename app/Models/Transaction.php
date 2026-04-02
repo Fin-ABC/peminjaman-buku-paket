@@ -54,10 +54,14 @@ class Transaction extends Model
             if ($transaction->isDirty('is_all_returned')) {
                 // Jika is_all_returned diubah jadi true
                 if ($transaction->is_all_returned) {
-                    $transaction->transactionDetails()->update(['status' => 'Returned']);
+                    $transaction->transactionDetails()
+                        ->where('status', 'Borrowed')
+                        ->update(['status' => 'Returned']);
                 } else {
                     // Jika is_all_returned diubah jadi false
-                    $transaction->transactionDetails()->update(['status' => 'Borrowed']);
+                    $transaction->transactionDetails()
+                    ->where('status', 'Returned')
+                    ->update(['status' => 'Borrowed']);
                 }
             }
         });
