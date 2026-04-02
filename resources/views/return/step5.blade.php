@@ -1,4 +1,4 @@
-<x-step-layout title="Verifikasi Siswa" :currentStep="5">
+<x-step-layout title="Verifikasi Siswa" :currentStep="5" action="Pengembalian">
 
     {{-- Kartu form verifikasi --}}
     <div class="w-full max-w-175 bg-white border border-accent rounded-[20px]
@@ -45,7 +45,7 @@
                 <input type="text"
                        name="nisn_1"
                        value="{{ old('nisn_1') }}"
-                       placeholder="Masukkan NISN (10-16 digit)"
+                       placeholder="Masukkan NISN (10 digit)"
                        maxlength="16"
                        autocomplete="off"
                        @class([
@@ -69,7 +69,7 @@
                 <input type="text"
                        name="nisn_2"
                        value="{{ old('nisn_2') }}"
-                       placeholder="Masukkan NISN (10-16 digit)"
+                       placeholder="Masukkan NISN (10 digit)"
                        maxlength="16"
                        autocomplete="off"
                        @class([

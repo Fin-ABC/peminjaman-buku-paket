@@ -1,4 +1,4 @@
-<x-step-layout title="Pilih Buku & Siswa" :currentStep="6">
+<x-step-layout title="Pilih Buku & Siswa" :currentStep="6" action="Peminjaman">
 
     <form action="{{ route('borrow.confirm') }}" method="POST" class="w-full" x-data="step6()">
         @csrf

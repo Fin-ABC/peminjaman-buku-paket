@@ -1,4 +1,4 @@
-<x-step-layout title="Pilih Semester" :currentStep="4">
+<x-step-layout title="Pilih Semester" :currentStep="4" action="Peminjaman">
 
     <div class="flex gap-6 justify-center w-full" x-data="{ selected: null }">
 

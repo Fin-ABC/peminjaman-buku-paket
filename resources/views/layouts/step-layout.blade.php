@@ -2,6 +2,7 @@
     'title' => '',
     'currentStep' => 1,
     'totalSteps' => 6,
+    'action' => '',
 ])
 
 <x-app :title="$title . ' — Perpustakaan'">
@@ -30,7 +31,7 @@
                 <div
                     class="bg-accent text-primary font-inter font-semibold text-sm
                             px-5 py-1.5 rounded-full">
-                    Step {{ $currentStep }} of {{ $totalSteps }}
+                    {{ $currentStep }} dari {{ $totalSteps }} Langkah {{$action}}
                 </div>
 
                 {{-- Judul step --}}

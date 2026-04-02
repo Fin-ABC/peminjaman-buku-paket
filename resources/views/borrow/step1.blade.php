@@ -1,4 +1,4 @@
-<x-step-layout title="Pilih Tingkat" :currentStep="1">
+<x-step-layout title="Pilih Tingkat" :currentStep="1" action="Peminjaman" >
 
     <div class="flex gap-6 items-center justify-center w-full">
 

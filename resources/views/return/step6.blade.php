@@ -1,4 +1,4 @@
-<x-step-layout title="Pilih Buku & Siswa" :currentStep="6">
+<x-step-layout title="Pilih Buku & Siswa" :currentStep="6" action="Pengembalian">
 
     <div class="w-full" x-data="returnStep6()">
 

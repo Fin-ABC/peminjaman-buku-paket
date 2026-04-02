@@ -1,4 +1,4 @@
-<x-step-layout title="Pilih Kelas" :currentStep="3">
+<x-step-layout title="Pilih Kelas" :currentStep="3" action="Peminjaman">
     <div class="flex flex-wrap gap-5 justify-center w-full">
         @foreach ($classes as $class)
             <x-major-card :href="route('borrow.step4', [

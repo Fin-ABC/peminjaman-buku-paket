@@ -1,4 +1,4 @@
-<x-step-layout title="Pilih Jurusan" :currentStep="2">
+<x-step-layout title="Pilih Jurusan" :currentStep="2" action="Peminjaman">
 
     <div class="flex flex-wrap gap-5 justify-center w-full">
         @foreach ($majors as $major)

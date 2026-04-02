@@ -22,10 +22,20 @@ class SchoolYearForm
                             ->numeric()
                             ->length(4)
                             ->required()
-                            ->live()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                                 $yearEnd = $get('year_end');
                                 if ($state && $yearEnd) {
+                                    $set('year_name', $state . '/' . $yearEnd);
+                                }
+                            })
+                            ->afterStateUpdated(function ($state, $set, $get, $operation) {
+                                // Pastikan input tidak kosong dan panjangnya 4 karakter
+                                if ($state && strlen($state) === 4) {
+                                    $yearEnd = (int) $state + 1; // Tambah 1 tahun
+
+                                    // Isi otomatis form Tahun Akhir dan Tahun Ajaran
+                                    $set('year_end', $yearEnd);
                                     $set('year_name', $state . '/' . $yearEnd);
                                 }
                             })
