@@ -229,35 +229,36 @@ class ReturnController extends Controller
             'transaction_id'         => ['required', 'exists:transactions,id'],
             'details'                => ['required', 'array', 'min:1'],
             'details.*.detail_id'    => ['required', 'exists:transaction_details,id'],
-            'details.*.status'       => ['required', 'in:Borrowed,Returned,lost,Overdue'],
+            'details.*.status'       => ['required', 'in:Borrowed,Returned,Lost,Overdue'],
         ]);
 
         $transactionId = $request->input('transaction_id');
         $details       = $request->input('details');
         $classId       = $request->input('class_id');
 
-        // dd($request);
-
-
         DB::transaction(function () use ($transactionId, $details) {
             $conditionMap = [
                 'Borrowed' => 'borrowed',
                 'Returned' => 'good',
-                'Overdue' => 'borrowed',
-                'Lost' => 'lost'
+                'Overdue'  => 'borrowed',
+                'Lost'     => 'lost',
             ];
 
             foreach ($details as $item) {
+                // 1. Update status di transaction_details
                 TransactionDetail::where('id', $item['detail_id'])
                     ->update(['status' => $item['status']]);
 
-                $book = TransactionDetail::where('id', $item['detail_id'])->first();
+                // 2. Ambil transaction_detail untuk dapat book_item_id yang benar
+                $detail    = TransactionDetail::find($item['detail_id']);
                 $condition = $conditionMap[$item['status']];
 
-                BookItem::where('id', $book->id)->update(['condition' => $condition]);
+                // 3. Update condition di book_items pakai book_item_id, bukan id detail
+                BookItem::where('id', $detail->book_item_id)
+                    ->update(['condition' => $condition]);
             }
 
-            // Cek apakah semua sudah dikembalikan / lost
+            // 4. Cek apakah semua sudah dikembalikan / lost
             $stillBorrowed = TransactionDetail::where('transaction_id', $transactionId)
                 ->whereNotIn('status', ['Returned', 'Lost'])
                 ->count();

@@ -140,7 +140,7 @@
                                        cursor-pointer">
                             <option value="Borrowed">Dipinjam</option>
                             <option value="Returned">Dikembalikan</option>
-                            <option value="lost">Lost</option>
+                            <option value="Lost">Lost</option>
                             <option value="Overdue">Terlambat</option>
                         </select>
                     </div>
@@ -245,7 +245,7 @@
             },
 
             get notReturnedCount() {
-                return this.students.filter(s => s.status !== 'Returned' && s.status !== 'lost').length;
+                return this.students.filter(s => s.status !== 'Returned' && s.status !== 'Lost').length;
             },
 
             async selectBook(transactionId) {

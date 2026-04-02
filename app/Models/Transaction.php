@@ -55,13 +55,13 @@ class Transaction extends Model
                 // Jika is_all_returned diubah jadi true
                 if ($transaction->is_all_returned) {
                     $transaction->transactionDetails()
-                        ->where('status', 'Borrowed')
+                        ->whereIn('status', ['Borrowed'])
                         ->update(['status' => 'Returned']);
                 } else {
                     // Jika is_all_returned diubah jadi false
                     $transaction->transactionDetails()
-                    ->where('status', 'Returned')
-                    ->update(['status' => 'Borrowed']);
+                        ->where('status', 'Returned')
+                        ->update(['status' => 'Borrowed']);
                 }
             }
         });
@@ -71,7 +71,7 @@ class Transaction extends Model
     {
         // Cek apakah semua detail sudah 'Returned'
         $allReturned = $this->transactionDetails()
-            ->where('status', '!=', 'Returned')
+            ->whereNotIn('status', ['Returned'])
             ->doesntExist();
 
         $this->updateQuietly(['is_all_returned' => $allReturned]);
