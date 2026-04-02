@@ -24,31 +24,6 @@ class TransactionsTable
     {
         return $table
             ->columns([
-                // TextColumn::make('book_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('class_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('year_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('semester')
-                //     ->badge(),
-                // TextColumn::make('transaction_date')
-                //     ->date()
-                //     ->sortable(),
-                // IconColumn::make('is_all_returned')
-                //     ->boolean(),
-                // TextColumn::make('created_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-                // TextColumn::make('updated_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-
                 TextColumn::make('index')
                     ->label('No')
                     ->rowIndex(),
@@ -101,7 +76,7 @@ class TransactionsTable
                     ->falseColor('danger')
                     ->sortable(),
 
-                TextColumn::make('transactionDetails_count')
+                TextColumn::make('transaction_details_count')
                     ->label('Jumlah Peminjam')
                     ->counts('transactionDetails')
                     ->alignCenter()

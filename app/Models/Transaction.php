@@ -40,7 +40,7 @@ class Transaction extends Model
 
     public function transactionDetails()
     {
-        return $this->hasMany(TransactionDetail::class);
+        return $this->hasMany(TransactionDetail::class, 'transaction_id');
     }
 
     public function hasRelatedData(): bool
