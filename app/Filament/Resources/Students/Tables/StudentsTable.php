@@ -50,7 +50,7 @@ class StudentsTable
                     ->sortable()
                     ->searchable()
                     ->formatStateUsing(function ($record) {
-                        return "Kelas {$record->class->grade} - {$record->class->major->major_name} - {$record->class->class_name}";
+                        return "{$record->class->grade} - {$record->class->class_name}";
                     })
                     ->wrap(),
 

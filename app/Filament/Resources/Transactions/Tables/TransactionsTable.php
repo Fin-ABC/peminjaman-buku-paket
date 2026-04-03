@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Transactions\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
+use App\Filament\Resources\TransactionDetails\TransactionDetailResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -121,6 +123,20 @@ class TransactionsTable
                     ]),
             ])
             ->recordActions([
+                Action::make('lihat_detail')
+                    ->label('Lihat Detail')
+                    ->icon('heroicon-o-document-magnifying-glass') // Ikon kaca pembesar dokumen
+                    ->color('info')
+                    ->url(fn($record): string => TransactionDetailResource::getUrl('index', [
+                        // Di Filament v3, parameter URL untuk filter tabel menggunakan 'tableFilters'
+                        'filters' => [
+                            'transaction_id' => ['value' => $record->id],
+                        ],
+                    ])),
+
+// http://localhost:8000/admin/transaction-details?tableFilters[transaction_id][value]=4
+// http://localhost:8000/admin/transaction-details?filters[transaction_id][value]=4
+// http://localhost:8000/admin/transaction-details?tableFilters[transaction_id][value]=4&filters[transaction_id][value]=4
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make()
@@ -269,3 +285,4 @@ class TransactionsTable
             ->paginationPageOptions([10, 25, 50, 100]);
     }
 }
+

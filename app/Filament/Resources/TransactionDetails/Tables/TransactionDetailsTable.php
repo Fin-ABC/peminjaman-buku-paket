@@ -131,17 +131,17 @@ class TransactionDetailsTable
                     ])
                     ->attribute('transaction.class.grade')
                     // ->query(function ($query, $data) {
-                        // if ($data['value']) {
-                        //     $query->whereHas('transaction.class', function ($q) use ($data) {
-                        //         $q->where('grade', $data['value']);
-                        //     });
-                        // }
+                    // if ($data['value']) {
+                    //     $query->whereHas('transaction.class', function ($q) use ($data) {
+                    //         $q->where('grade', $data['value']);
+                    //     });
+                    // }
 
-                        // if (isset($data['values']) && !empty($data['values'])) {
-                        //     $query->whereHas('transaction.class', function ($q) use ($data) {
-                        //         $q->whereIn('grade', $data['values']);
-                        //     });
-                        // }
+                    // if (isset($data['values']) && !empty($data['values'])) {
+                    //     $query->whereHas('transaction.class', function ($q) use ($data) {
+                    //         $q->whereIn('grade', $data['values']);
+                    //     });
+                    // }
                     // })
                     ->multiple(),
 
@@ -164,6 +164,12 @@ class TransactionDetailsTable
                             ->when($data['return_from'], fn($q, $date) => $q->whereDate('return_date', '>=', $date))
                             ->when($data['return_until'], fn($q, $date) => $q->whereDate('return_date', '<=', $date));
                     }),
+                SelectFilter::make('transaction_id')
+                    ->label('Transaksi')
+                    // Ini akan mencari relasi 'transaction' dan menampilkan id-nya sebagai pilihan
+                    ->relationship('transaction', 'id')
+                    ->searchable()
+                    ->preload(),
             ])
             ->recordActions([
                 ViewAction::make(),
