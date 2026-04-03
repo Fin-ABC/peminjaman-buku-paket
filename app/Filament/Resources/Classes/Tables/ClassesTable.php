@@ -91,27 +91,60 @@ class ClassesTable
                     ->preload(),
             ])
             ->recordActions([
-                Action::make('luluskan')
-                    ->label('Luluskan')
-                    ->icon('heroicon-o-academic-cap') // Icon topi toga/kelulusan
-                    ->color('success')
+                // Action::make('luluskan')
+                //     ->label('Luluskan')
+                //     ->icon('heroicon-o-academic-cap') // Icon topi toga/kelulusan
+                //     ->color('success')
 
-                    // Tambahkan konfirmasi agar admin tidak kepencet tanpa sengaja
+                //     // Tambahkan konfirmasi agar admin tidak kepencet tanpa sengaja
+                //     ->requiresConfirmation()
+                //     ->modalHeading('Luluskan Kelas Ini?')
+                //     ->modalDescription('Apakah kamu yakin ingin mengubah tingkat kelas ini menjadi Lulus?')
+                //     ->modalSubmitActionLabel('Ya, Luluskan')
+
+                //     // Menyembunyikan tombol ini jika kelasnya sudah berstatus 'lulus'
+                //     ->hidden(fn($record): bool => $record->grade === 'lulus')
+
+                //     // Ini adalah inti logikanya: mengupdate database
+                //     ->action(function ($record) {
+                //         $record->update(['grade' => 'lulus']);
+                //     })
+
+                //     // Notifikasi hijau sukses di pojok kanan atas
+                //     ->successNotificationTitle('Kelas berhasil diluluskan!'),
+
+                Action::make('naik_kelas')
+                    // Tampilan tombol dinamis (Berubah jadi info biru untuk naik kelas, success hijau untuk lulus)
+                    ->label(fn($record) => $record->grade === '12' ? 'Luluskan' : 'Naik Kelas')
+                    ->icon(fn($record) => $record->grade === '12' ? 'heroicon-o-academic-cap' : 'heroicon-o-arrow-up-circle')
+                    ->color(fn($record) => $record->grade === '12' ? 'success' : 'info')
+
+                    // Konfirmasi dinamis
                     ->requiresConfirmation()
-                    ->modalHeading('Luluskan Kelas Ini?')
-                    ->modalDescription('Apakah kamu yakin ingin mengubah tingkat kelas ini menjadi Lulus?')
-                    ->modalSubmitActionLabel('Ya, Luluskan')
+                    ->modalHeading(fn($record) => $record->grade === '12' ? 'Luluskan Kelas Ini?' : 'Naikkan Tingkat Kelas?')
+                    ->modalDescription(fn($record) => $record->grade === '12'
+                        ? 'Apakah kamu yakin ingin meluluskan kelas ini ke angkatan alumni?'
+                        : "Apakah kamu yakin ingin menaikkan kelas ini menjadi tingkat " . ((int)$record->grade + 1) . "?")
+                    ->modalSubmitActionLabel(fn($record) => $record->grade === '12' ? 'Ya, Luluskan' : 'Ya, Naikkan')
 
-                    // Menyembunyikan tombol ini jika kelasnya sudah berstatus 'lulus'
-                    ->hidden(fn($record): bool => $record->grade === 'lulus')
+                    // Sembunyikan jika kelas sudah lulus
+                    ->hidden(fn($record): bool => strtolower($record->grade) === 'lulus')
 
-                    // Ini adalah inti logikanya: mengupdate database
+                    // Inti Logika: Menentukan tingkat selanjutnya
                     ->action(function ($record) {
-                        $record->update(['grade' => 'lulus']);
+                        $nextGrade = match ($record->grade) {
+                            '10' => '11',
+                            '11' => '12',
+                            '12' => 'lulus',
+                            default => $record->grade,
+                        };
+
+                        $record->update(['grade' => $nextGrade]);
                     })
 
-                    // Notifikasi hijau sukses di pojok kanan atas
-                    ->successNotificationTitle('Kelas berhasil diluluskan!'),
+                    // Notifikasi yang menyesuaikan hasil akhir
+                    ->successNotificationTitle(fn($record) => $record->grade === 'lulus' ? 'Kelas berhasil diluluskan!' : 'Tingkat kelas berhasil dinaikkan!'),
+
                 Action::make('lihat_siswa')
                     ->label('Lihat Siswa')
                     ->icon('heroicon-o-users')
