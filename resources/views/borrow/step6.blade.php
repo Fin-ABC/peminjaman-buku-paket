@@ -100,26 +100,23 @@
                 {{-- Body --}}
                 @foreach ($students as $i => $student)
                     @php
-                        $alreadyBorrowed = in_array($student->id, $borrowedMap[$books->first()?->id] ?? []);
+                        $alreadyBorrowed = false;
                     @endphp
+
                     <div class="grid grid-cols-[56px_80px_1fr_160px] items-center px-4 py-3
-                                border-b border-accent/60 last:border-b-0
-                                transition-colors duration-150"
+            border-b border-accent/60 last:border-b-0
+            transition-colors duration-150"
                         :class="selectedStudents.includes({{ $student->id }}) ? 'bg-primary/5' : 'hover:bg-gray-50'">
 
                         {{-- Checkbox --}}
                         <div class="flex items-center">
-                            @if ($alreadyBorrowed)
-                                <input type="checkbox" disabled
-                                    class="w-5 h-5 rounded border-gray-300 opacity-40 cursor-not-allowed" />
-                            @else
-                                <input type="checkbox" name="student_ids[]" value="{{ $student->id }}"
-                                    x-model="selectedStudents" :value="{{ $student->id }}" {{-- ✅ Disable kalau stok habis DAN siswa ini belum dipilih --}}
-                                    :disabled="remainingStock <= 0 && !selectedStudents.includes({{ $student->id }})"
-                                    class="w-5 h-5 rounded border-accent text-primary
+                            <input type="checkbox" name="student_ids[]" value="{{ $student->id }}"
+                                x-model="selectedStudents" :value="{{ $student->id }}"
+                                :disabled="isStudentBorrowed({{ $student->id }}) || (remainingStock <= 0 && !selectedStudents
+                                    .includes({{ $student->id }}))"
+                                class="w-5 h-5 rounded border-accent text-primary
                       focus:ring-primary focus:ring-2 cursor-pointer
                       disabled:opacity-40 disabled:cursor-not-allowed" />
-                            @endif
                         </div>
 
                         {{-- No --}}
@@ -128,16 +125,14 @@
                         {{-- Nama --}}
                         <div class="flex items-center gap-2">
                             <span class="font-inter text-sm text-gray-900">{{ $student->student_name }}</span>
-                            @if ($alreadyBorrowed)
-                                <span
-                                    class="font-inter text-xs text-amber-600 bg-amber-50
-                                             border border-amber-200 px-2 py-0.5 rounded-full">
-                                    Sudah meminjam
-                                </span>
-                            @endif
+                            <span x-show="isStudentBorrowed({{ $student->id }})"
+                                class="font-inter text-xs text-amber-600 bg-amber-50
+                     border border-amber-200 px-2 py-0.5 rounded-full">
+                                Sudah meminjam buku ini
+                            </span>
                         </div>
 
-                        {{-- NISN --}}
+                        {{-- NIS --}}
                         <span class="font-inter text-sm text-gray-600 text-right">{{ $student->nisn }}</span>
                     </div>
                 @endforeach
@@ -163,8 +158,8 @@
         return {
             selectedBook: null,
             selectedStudents: [],
+            borrowedMap: @json($borrowedMap), // ✅ Pass borrowedMap ke Alpine.js
 
-            // ✅ Tambahkan data books dari Laravel
             books: @json(
                 $books->map(function ($book) {
                     return [
@@ -173,14 +168,19 @@
                     ];
                 })),
 
-            // ✅ Computed property untuk sisa stok
             get remainingStock() {
                 if (!this.selectedBook) return 0;
 
                 const book = this.books.find(b => b.id == this.selectedBook);
-
-
                 return book ? Math.max(0, book.remaining_stock - this.selectedStudents.length) : 0;
+            },
+
+            // ✅ Method untuk cek apakah siswa sudah pinjam
+            isStudentBorrowed(studentId) {
+                if (!this.selectedBook) return false;
+
+                const borrowedIds = this.borrowedMap[this.selectedBook] || [];
+                return borrowedIds.includes(studentId);
             },
 
             selectAll() {

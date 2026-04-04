@@ -116,8 +116,8 @@ class ReturnController extends Controller
             'semester' => ['required', 'in:odd,even'],
         ], [
             'nisn_2.different'      => 'Kedua NISN tidak boleh sama.',
-            'nisn_1.digits_between' => 'NISN harus 10-16 digit angka.',
-            'nisn_2.digits_between' => 'NISN harus 10-16 digit angka.',
+            'nisn_1.digits_between' => 'NISN harus 10 digit angka.',
+            'nisn_2.digits_between' => 'NISN harus 10 digit angka.',
         ]);
 
         $classId = $request->input('class_id');

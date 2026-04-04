@@ -3,7 +3,7 @@
     <div class="w-full" x-data="returnStep6()">
 
         {{-- ===================== DAFTAR BUKU ===================== --}}
-        <div class="w-full bg-accent/40 rounded-[16px] p-6 mb-6">
+        <div class="w-full bg-accent/40 rounded-2xl p-6 mb-6">
             <h3 class="font-outfit font-bold text-primary text-lg mb-4">Daftar Buku yang Dipinjam</h3>
 
             @if ($books->isEmpty())
@@ -15,30 +15,37 @@
                     @foreach ($books as $book)
                         <div @click="selectBook({{ $book['transaction_id'] }})"
                             :class="selectedTransactionId == {{ $book['transaction_id'] }} ?
-                                'border-primary bg-primary/5' :
-                                'border-accent bg-white hover:-translate-y-0.5'"
-                            class="cursor-pointer flex flex-col gap-1 w-[248px] p-[22px]
-                                    border-2 rounded-[14px] transition-all duration-200
-                                    shadow-[0px_2px_10px_0px_rgba(43,122,120,0.1)]">
+                                'bg-primary border-primary text-white' :
+                                'bg-white border-accent text-gray-900 hover:-translate-y-0.5'"
+                            class="cursor-pointer flex flex-col gap-1 w-62 p-5.5
+                                border-2 rounded-[14px] transition-all duration-200
+                                shadow-[0px_2px_10px_0px_rgba(43,122,120,0.1)]">
 
                             {{-- Kode buku --}}
-                            <span class="font-inter text-xs text-gray-500">
+                            <span class="font-inter text-xs"
+                                :class="selectedBook == {{ $book['book_code'] }} ? 'text-white/70' : 'text-gray-500'">
                                 {{ $book['book_code'] }}
                             </span>
 
                             {{-- Judul --}}
-                            <span class="font-outfit font-bold text-sm text-gray-900 leading-snug">
+                            <span class="font-outfit font-bold text-sm leading-snug">
                                 {{ $book['title'] }}
                             </span>
 
                             {{-- Status --}}
                             <div class="flex items-center justify-between mt-2">
-                                <span class="font-inter text-xs text-primary">✓ Dikembalikan</span>
-                                <span class="font-inter text-xs text-gray-500">{{ $book['returned'] }} buku</span>
+                                <span class="font-inter text-xs flex items-center gap-1"
+                                    :class="selectedBook == {{ $book['book_code'] }} ? 'text-white/80' : 'text-primary'">
+                                    ✓ Dikembalikan</span>
+                                <span class="font-inter text-xs"
+                                :class="selectedBook == {{ $book['book_code'] }} ? 'text-white/80' : 'text-gray-500'">
+                                {{ $book['returned'] }} buku</span>
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="font-inter text-xs text-red-500">✗ Belum Kembali</span>
-                                <span class="font-inter text-xs text-gray-500">{{ $book['not_returned'] }} buku</span>
+                                <span class="font-inter text-xs"
+                                :class="selectedBook == {{ $book['book_code'] }} ? 'text-white/80' : 'text-gray-500'">
+                                    {{ $book['not_returned'] }} buku</span>
                             </div>
                         </div>
                     @endforeach

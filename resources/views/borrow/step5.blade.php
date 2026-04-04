@@ -46,7 +46,7 @@
                        name="nisn_1"
                        value="{{ old('nisn_1') }}"
                        placeholder="Masukkan NISN (10 digit)"
-                       maxlength="16"
+                       maxlength="12"
                        autocomplete="off"
                        @class([
                            'w-full font-inter text-base px-[22px] py-[18px]',
@@ -70,7 +70,7 @@
                        name="nisn_2"
                        value="{{ old('nisn_2') }}"
                        placeholder="Masukkan NISN (10 digit)"
-                       maxlength="16"
+                       maxlength="12"
                        autocomplete="off"
                        @class([
                            'w-full font-inter text-base px-[22px] py-[18px]',
